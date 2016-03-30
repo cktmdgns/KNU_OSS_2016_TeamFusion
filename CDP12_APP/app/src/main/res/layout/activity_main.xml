@@ -17,11 +17,10 @@
             android:orientation="vertical" >
 
             <FrameLayout
-                android:layout_marginTop="10dp"
                 android:id="@android:id/tabcontent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <LinearLayout
                     android:id="@+id/tab1"
@@ -39,18 +38,20 @@
                         <LinearLayout
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            >
 
                             <Spinner
                                 android:layout_width="150dp"
                                 android:layout_height="30dp"
-                                android:id="@+id/spinner1"
+                                android:id="@+id/spinner_hometab1"
                                 android:layout_marginLeft="40dp"
                                 android:layout_marginRight="0dp" />
                             <Spinner
                                 android:layout_width="150dp"
                                 android:layout_height="30dp"
-                                android:id="@+id/spinner2" />
+                                android:id="@+id/spinner_hometab2" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -65,7 +66,7 @@
                                 android:layout_height="28dp"
                                 android:layout_marginTop="10dp"
                                 android:layout_marginLeft="40dp"
-                                android:id="@+id/editText"
+                                android:id="@+id/editText_hometab1"
                                 android:textSize="13dp"
                                 android:textColor="#AAAAAA"
                                 android:text="물품 검색"
@@ -81,7 +82,7 @@
                                 android:scaleType="centerCrop"
                                 android:padding="0sp"
                                 android:adjustViewBounds="true"
-                                android:id="@+id/imageButton"
+                                android:id="@+id/imageButton_hometab1"
                                 />
 
                         </LinearLayout>
@@ -99,14 +100,14 @@
                             android:layout_height="23dp"
                             android:text="   행사상품"
                             android:textSize="15dp"
-                            android:id="@+id/textView"
+                            android:id="@+id/textView_hometab1"
                             android:background="#CCCCCC"
                             />
 
                         <ListView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:id="@+id/listView" />
+                            android:id="@+id/listView_hometab1" />
 
 
                     </LinearLayout>
@@ -116,13 +117,90 @@
                     android:id="@+id/tab2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#0000ff"
+                    android:background="#FF5000"
                     android:orientation="vertical" >
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2" />
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:weightSum="1">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            >
+
+                            <Spinner
+                                android:layout_width="150dp"
+                                android:layout_height="30dp"
+                                android:id="@+id/spinner_carttab1"
+                                android:layout_marginLeft="40dp"
+                                android:layout_marginRight="0dp" />
+                            <Spinner
+                                android:layout_width="150dp"
+                                android:layout_height="30dp"
+                                android:id="@+id/spinner_carttab2" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal"
+                            android:weightSum="1">
+
+                            <EditText
+                                android:layout_width="285dp"
+                                android:layout_height="28dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="40dp"
+                                android:id="@+id/editText_carttab1"
+                                android:textSize="13dp"
+                                android:textColor="#AAAAAA"
+                                android:text="물품 검색"
+                                android:background="@drawable/shape_circle"
+                                />
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginTop="15dp"
+                                android:background="#FF5000"
+                                android:src="@drawable/glass_con"
+                                android:scaleType="centerCrop"
+                                android:padding="0sp"
+                                android:adjustViewBounds="true"
+                                android:id="@+id/imageButton_carttab1"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#FFFFFF"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="23dp"
+                            android:text="   장바구니"
+                            android:textSize="15dp"
+                            android:id="@+id/textView_carttab1"
+                            android:background="#CCCCCC"
+                            />
+                        <ListView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/listView_carttab1" />
+                    </LinearLayout>
+
+
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -156,7 +234,7 @@
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="50dp">
             </TabWidget>
         </LinearLayout>
     </TabHost>

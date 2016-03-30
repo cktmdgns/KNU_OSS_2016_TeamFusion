@@ -19,27 +19,26 @@ import android.widget.Toast;
 /**
  * Created by user on 2016-03-29.
  */
-public class CustomAdapter_listview1 extends BaseAdapter implements OnClickListener {
+public class CustomAdapter_listview_cart extends BaseAdapter implements OnClickListener {
 
     // Activity에서 가져온 객체정보를 저장할 변수
-    private Listview1_item mUser;
+    private Listview_item_cart mUser;
     private Context mContext;
 
     // ListView 내부 View들을 가르킬 변수들
     private ImageView imgUserIcon;
-    private ImageView alramIcon;
     private TextView menu_name;
     private TextView price1_1;
     private TextView price1_2;
     private ImageButton btnSend;
 
     // 리스트 아이템 데이터를 저장할 배열
-    private ArrayList<Listview1_item> mUserData;
+    private ArrayList<Listview_item_cart> mUserData;
 
-    public CustomAdapter_listview1(Context context) {
+    public CustomAdapter_listview_cart(Context context) {
         super();
         mContext = context;
-        mUserData = new ArrayList<Listview1_item>();
+        mUserData = new ArrayList<Listview_item_cart>();
     }
 
     @Override
@@ -55,7 +54,7 @@ public class CustomAdapter_listview1 extends BaseAdapter implements OnClickListe
     /**
      * @return 선택된 아이템을 반환
      */
-    public Listview1_item getItem(int position) {
+    public Listview_item_cart getItem(int position) {
         // TODO Auto-generated method stub
         return mUserData.get(position);
     }
@@ -89,7 +88,6 @@ public class CustomAdapter_listview1 extends BaseAdapter implements OnClickListe
 
             // 레이아웃이 메모리에 올라왔기 때문에 이를 이용하여 포함된 뷰들을 참조할 수 있습니다.
             imgUserIcon = (ImageView) v.findViewById(R.id.user_icon);
-            alramIcon = (ImageView) v.findViewById(R.id.alram_icon);
             menu_name = (TextView) v.findViewById(R.id.menu_name1);
             price1_1 = (TextView) v.findViewById(R.id.price1_1);
             price1_1.setPaintFlags(price1_1.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -108,7 +106,6 @@ public class CustomAdapter_listview1 extends BaseAdapter implements OnClickListe
             // 데이터가 있다면 갖고 있는 정보를 뷰에 알맞게 배치시킵니다.
             if (mUser.getMenuIcon() != null) {
                 imgUserIcon.setImageDrawable(mUser.getMenuIcon());
-                alramIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.alram_con));
             }
             menu_name.setText(mUser.getMenuName());
             price1_1.setText(mUser.getPrice1_1());
@@ -120,7 +117,7 @@ public class CustomAdapter_listview1 extends BaseAdapter implements OnClickListe
     }
 
     // 데이터를 추가하는 것을 위해서 만들어 준다.
-    public void add(Listview1_item user) {
+    public void add(Listview_item_cart user) {
         mUserData.add(user);
     }
 
@@ -129,7 +126,7 @@ public class CustomAdapter_listview1 extends BaseAdapter implements OnClickListe
         // TODO Auto-generated method stub
 
         // Tag를 이용하여 Data를 가져옵니다.
-        Listview1_item clickItem = (Listview1_item) v.getTag();
+        Listview_item_cart clickItem = (Listview_item_cart) v.getTag();
 
         switch (v.getId()) {
             case R.id.btn_send:

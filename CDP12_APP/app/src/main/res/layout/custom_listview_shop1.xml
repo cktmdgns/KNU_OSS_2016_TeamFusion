@@ -1,70 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp"
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:padding="10dp"
     >
 
-    <ImageView
-        android:id="@+id/user_icon"
-        android:layout_width="150dp"
-        android:layout_height="100dp"
-        android:layout_marginLeft="15dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" />
+<ImageView
+    android:id="@+id/alram_icon"
+    android:layout_width="30dp"
+    android:layout_height="30dp"
+    android:layout_marginLeft="5dp"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="true"
+    />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/user_icon"
-        android:orientation="vertical"
-        android:id="@+id/linearLayout">
+<ImageView
+    android:id="@+id/user_icon"
+    android:layout_width="150dp"
+    android:layout_height="100dp"
+    android:layout_marginLeft="15dp"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="true" />
 
-        <TextView
-            android:id="@+id/menu_name1"
-            android:layout_width="120dp"
-            android:layout_height="0dp"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:textSize="18sp"
-            android:textColor="#000000"
-            android:text="테스트"
-            />
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="100dp"
+    android:layout_marginLeft="10dp"
+    android:layout_toRightOf="@+id/user_icon"
+    android:orientation="vertical"
+    android:id="@+id/linearLayout">
 
-        <TextView
-            android:id="@+id/price1_1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:textSize="18sp"
-            android:textColor="#000000"
-            android:text="테스트"
-            />
-        <TextView
-            android:id="@+id/price1_2"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:textSize="18sp"
-            android:textColor="#000000"
-            android:text="테스트"
-            />
-    </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/btn_send"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignBottom="@+id/linearLayout"
-        android:layout_alignParentEnd="true"
-
-        android:src="@drawable/cart_con"
-        android:scaleType="centerCrop"
-        android:padding="0sp"
-        android:adjustViewBounds="true"
+    <TextView
+        android:id="@+id/menu_name1"
+        android:layout_width="120dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:text="테스트"
         />
+
+    <TextView
+        android:id="@+id/price1_1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:text="테스트"
+        />
+    <TextView
+        android:id="@+id/price1_2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:text="테스트"
+        />
+</LinearLayout>
+
+<ImageButton
+    android:id="@+id/btn_send"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:layout_alignBottom="@+id/linearLayout"
+    android:layout_alignParentEnd="true"
+    android:background="@drawable/shape_circle_color"
+
+    android:src="@drawable/cart_con"
+    android:scaleType="centerCrop"
+    android:padding="10sp"
+    android:adjustViewBounds="true"
+    />
 </RelativeLayout>
