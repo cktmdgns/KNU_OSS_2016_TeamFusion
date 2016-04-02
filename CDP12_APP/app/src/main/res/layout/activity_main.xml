@@ -218,10 +218,10 @@
                                 android:layout_width="100dp"
                                 android:layout_height="40dp"
                                 android:layout_marginLeft="5dp"
-                                android:id="@+id/button_selectall_cart"
+                                android:id="@+id/button_deleteall_cart"
                                 android:background="@drawable/shape_circle_color"
                                 android:textColor="#FFFFFF"
-                                android:text="전체 선택"
+                                android:text="전체 삭제"
                                 android:onClick=""
 
                                 />
@@ -266,13 +266,17 @@
                     android:id="@+id/tab4"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#ff0000"
+                    android:background="#FFFFFF"
                     android:orientation="vertical" >
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="4" />
+                    <ExpandableListView
+                        android:id="@+id/listView_etctab1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:groupIndicator="@null"
+                        />
+
+
                 </LinearLayout>
 
             </FrameLayout>

@@ -87,11 +87,16 @@ public class CustomAdapter_listview_cart extends BaseAdapter implements OnClickL
         isCheckedConfrim[position] = !isCheckedConfrim[position];
     }
 
-    public void setAllChecked(boolean check) {
-        int tempSize = isCheckedConfrim.length;
-        for(int a=0 ; a<tempSize ; a++){
-            isCheckedConfrim[a] = check;
+    public void removeItem(int position) {
+        for (int i=position; i<isCheckedConfrim.length - 1; i++) {
+            isCheckedConfrim[position] = isCheckedConfrim[position+1];
         }
+        Log.i("CustomAdapter","" + mUserData.get(position).getMenuName());
+
+        mUserData.remove(position);
+        notifyDataSetChanged();
+
+
     }
 
     @Override
@@ -116,8 +121,6 @@ public class CustomAdapter_listview_cart extends BaseAdapter implements OnClickL
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                     .inflate(R.layout.custom_listview_cart, null);
 
-
-
             // 레이아웃이 메모리에 올라왔기 때문에 이를 이용하여 포함된 뷰들을 참조할 수 있습니다.
             imgMenuIcon = (ImageView) v.findViewById(R.id.imageView_menuicon_cart);
             where = (TextView) v.findViewById(R.id.textView_where_cart);
@@ -129,9 +132,6 @@ public class CustomAdapter_listview_cart extends BaseAdapter implements OnClickL
             checkbox_cart = (CheckBox) v.findViewById(R.id.checkbox_cart);
             checkbox_cart.setChecked(isCheckedConfrim[position]);
             v.setTag(checkbox_cart);
-
-
-
         }
         checkbox_cart.setFocusable(false);
         checkbox_cart.setClickable(false);
@@ -139,11 +139,10 @@ public class CustomAdapter_listview_cart extends BaseAdapter implements OnClickL
         //checkbox_cart = (CheckBox) v.findViewById(R.id.checkbox_cart);
         //checkbox_cart.setChecked(isCheckedConfrim[position]);
 
-
         v.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                //checkbox_cart = (CheckBox) v.findViewById(R.id.checkbox_cart);
+                checkbox_cart = (CheckBox) v.findViewById(R.id.checkbox_cart);
                 Log.i("Addpter_cart", "click Posion = " + position);
                 setOpposition(position);
                 checkbox_cart.setChecked(isCheckedConfrim[position]);

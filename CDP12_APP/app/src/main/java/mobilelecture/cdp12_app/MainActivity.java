@@ -1,18 +1,23 @@
 package mobilelecture.cdp12_app;
 
+import android.app.AlertDialog;
 import android.app.TabActivity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends TabActivity {
 
@@ -128,61 +133,111 @@ public class MainActivity extends TabActivity {
         adapter_cart.notifyDataSetChanged();
 
         //장바구니에 있는 상품들 갯수 텍스트뷰
-        TextView textView_count_cart = (TextView) findViewById(R.id.textView_cartcount);
+        final TextView textView_count_cart = (TextView) findViewById(R.id.textView_cartcount);
         if(listView_carttab != null) {
             textView_count_cart.setText("총 " + listView_carttab.getCount() + "개 상품");
         }
 
+
         //----------------------------------- cart tab 버튼 이벤트 ----------------------------
-        // 전체 선택/해제
-        Button button_selectall_cart = (Button) findViewById(R.id.button_selectall_cart);
-        button_selectall_cart.setOnClickListener(new View.OnClickListener() {
+        // 전체삭제
+        Button button_deleteall_cart = (Button) findViewById(R.id.button_deleteall_cart);
+        button_deleteall_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean toChange = false;
-                for(int i=0 ; i < listView_carttab.getCount() ; i++){
-                    if (adapter_cart.getChecked(i) == false) {
-                        toChange = true;
-                    }
-                }
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("확인").setMessage("장바구니 전체 삭제 하실래요?")
+                        .setNegativeButton("예", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                for (int i = listView_carttab.getCount() -1; i > -1 ; i--) {
+                                    adapter_cart.removeItem(i);
+                                }
+                                textView_count_cart.setText("총 " + listView_carttab.getCount() + "개 상품");
 
-                if (toChange == true) {
-                    Log.i("MainActivity", "sellect button testss " + adapter_cart.getChecked(1));
-
-                    for(int i=0 ; i < listView_carttab.getCount() ; i++){
-                        adapter_cart.setAllChecked(true);
-                        Log.i("MainActivity", "sellect button testss " + adapter_cart.getChecked(i));
-                        adapter_cart.notifyDataSetChanged();
-                    }
-                }
-                else {
-                    for(int i=0 ; i < listView_carttab.getCount() ; i++){
-                        adapter_cart.setAllChecked(false);
-                        adapter_cart.notifyDataSetChanged();
-                    }
-                }
-
+                                ListView listView_carttab = (ListView) findViewById(R.id.listView_carttab1);
+                                listView_carttab.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                                listView_carttab.setAdapter(adapter_cart);
+                            }
+                        })
+                        .setPositiveButton("아니오", null).show();
             }
         });
 
+        // 선택 삭제
+        Button button_delete_cart = (Button) findViewById(R.id.button_delete_cart);
+        button_delete_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i = listView_carttab.getCount() -1; i > -1 ; i--) {
+                    if (adapter_cart.getChecked(i) == true) {
+                        adapter_cart.removeItem(i);
+                    }
+                }
+                textView_count_cart.setText("총 " + listView_carttab.getCount() + "개 상품");
 
+                ListView listView_carttab = (ListView) findViewById(R.id.listView_carttab1);
+                listView_carttab.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                listView_carttab.setAdapter(adapter_cart);
+            }
+        });
 
+        //-------------------------------  ---  ETC tab 리스트뷰 생성 -------------------  -----------
 
+        ArrayList<String> mGroupList = new ArrayList<String>();
+        ArrayList<ArrayList<String>> mChildList = new ArrayList<ArrayList<String>>();
+        ArrayList<String> mChildListContent = new ArrayList<String>();
 
+        mGroupList.add("공지 사항");
+        mGroupList.add("이용 안내");
+        mGroupList.add("문의하기");
+        mGroupList.add("개발자");
 
+        mChildListContent.add("4월 2일");
+        mChildListContent.add("3월 29일");
+        mChildListContent.add("3월 2일");
 
+        mChildList.add(mChildListContent);
+        mChildList.add(mChildListContent);
+        mChildList.add(mChildListContent);
+        mChildList.add(mChildListContent);
 
+        ExpandableListView mListView = (ExpandableListView) findViewById(R.id.listView_etctab1);
+        mListView.setAdapter(new CustomAdapter_listview_etc(this, mGroupList, mChildList));
 
+        // 그룹 클릭 했을 경우 이벤트
+        mListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                //Toast.makeText(getApplicationContext(), "g click = " + groupPosition, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
 
+        // 차일드 클릭 했을 경우 이벤트
+        mListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                //Toast.makeText(getApplicationContext(), "c click = " + childPosition, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
 
+        // 그룹이 닫힐 경우 이벤트
+        mListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+            @Override
+            public void onGroupCollapse(int groupPosition) {
+                //Toast.makeText(getApplicationContext(), "g Collapse = " + groupPosition, Toast.LENGTH_SHORT).show();
+            }
+        });
 
-
-
-
-
-
-
-
+        // 그룹이 열릴 경우 이벤트
+        mListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                //Toast.makeText(getApplicationContext(), "g Expand = " + groupPosition, Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         //----------------------------------  tabmenu and icon 생성 ------------------------------
