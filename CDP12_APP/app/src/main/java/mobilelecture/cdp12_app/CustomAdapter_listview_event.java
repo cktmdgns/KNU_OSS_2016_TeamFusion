@@ -7,10 +7,8 @@ import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,27 +17,27 @@ import android.widget.Toast;
 /**
  * Created by user on 2016-03-29.
  */
-public class CustomAdapter_listview1 extends BaseAdapter implements OnClickListener {
+public class CustomAdapter_listview_event extends BaseAdapter implements OnClickListener {
 
     // Activity에서 가져온 객체정보를 저장할 변수
-    private Listview1_item mUser;
+    private Listview_item_event mUser;
     private Context mContext;
 
     // ListView 내부 View들을 가르킬 변수들
-    private ImageView imgUserIcon;
+    private ImageView imgMenuIcon;
     private ImageView alramIcon;
     private TextView menu_name;
-    private TextView price1_1;
-    private TextView price1_2;
-    private ImageButton btnSend;
+    private TextView price1;
+    private TextView price2;
+    private ImageButton addcart;
 
     // 리스트 아이템 데이터를 저장할 배열
-    private ArrayList<Listview1_item> mUserData;
+    private ArrayList<Listview_item_event> mUserData;
 
-    public CustomAdapter_listview1(Context context) {
+    public CustomAdapter_listview_event(Context context) {
         super();
         mContext = context;
-        mUserData = new ArrayList<Listview1_item>();
+        mUserData = new ArrayList<Listview_item_event>();
     }
 
     @Override
@@ -55,7 +53,7 @@ public class CustomAdapter_listview1 extends BaseAdapter implements OnClickListe
     /**
      * @return 선택된 아이템을 반환
      */
-    public Listview1_item getItem(int position) {
+    public Listview_item_event getItem(int position) {
         // TODO Auto-generated method stub
         return mUserData.get(position);
     }
@@ -85,42 +83,41 @@ public class CustomAdapter_listview1 extends BaseAdapter implements OnClickListe
             // inflater를 이용하여 사용할 레이아웃을 가져옵니다.
             v = ((LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                    .inflate(R.layout.custom_listview_shop1, null);
+                    .inflate(R.layout.custom_listview_event, null);
 
             // 레이아웃이 메모리에 올라왔기 때문에 이를 이용하여 포함된 뷰들을 참조할 수 있습니다.
-            imgUserIcon = (ImageView) v.findViewById(R.id.user_icon);
-            alramIcon = (ImageView) v.findViewById(R.id.alram_icon);
-            menu_name = (TextView) v.findViewById(R.id.menu_name1);
-            price1_1 = (TextView) v.findViewById(R.id.price1_1);
-            price1_1.setPaintFlags(price1_1.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            price1_2 = (TextView) v.findViewById(R.id.price1_2);
-            btnSend = (ImageButton) v.findViewById(R.id.btn_send);
+            imgMenuIcon = (ImageView) v.findViewById(R.id.imageView_menuicon_event);
+            alramIcon = (ImageView) v.findViewById(R.id.imageView_alramicon_event);
+            menu_name = (TextView) v.findViewById(R.id.textView_menuname_event);
+            price1 = (TextView) v.findViewById(R.id.textView_price1_event);
+            price2 = (TextView) v.findViewById(R.id.textView_price2_event);
+            addcart = (ImageButton) v.findViewById(R.id.imageButton_addcart_event);
         }
 
         // 받아온 position 값을 이용하여 배열에서 아이템을 가져온다.
         mUser = getItem(position);
 
         // Tag를 이용하여 데이터와 뷰를 묶습니다.
-        btnSend.setTag(mUser);
+        addcart.setTag(mUser);
 
         // 데이터의 실존 여부를 판별합니다.
         if (mUser != null) {
             // 데이터가 있다면 갖고 있는 정보를 뷰에 알맞게 배치시킵니다.
             if (mUser.getMenuIcon() != null) {
-                imgUserIcon.setImageDrawable(mUser.getMenuIcon());
+                imgMenuIcon.setImageDrawable(mUser.getMenuIcon());
                 alramIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.alram_con));
             }
             menu_name.setText(mUser.getMenuName());
-            price1_1.setText(mUser.getPrice1_1());
-            price1_2.setText(mUser.getPrice1_2());
-            btnSend.setOnClickListener(this);
+            price1.setText(mUser.getPrice1_1());
+            price2.setText(mUser.getPrice1_2());
+            addcart.setOnClickListener(this);
         }
         // 완성된 아이템 뷰를 반환합니다.
         return v;
     }
 
     // 데이터를 추가하는 것을 위해서 만들어 준다.
-    public void add(Listview1_item user) {
+    public void add(Listview_item_event user) {
         mUserData.add(user);
     }
 
@@ -129,10 +126,10 @@ public class CustomAdapter_listview1 extends BaseAdapter implements OnClickListe
         // TODO Auto-generated method stub
 
         // Tag를 이용하여 Data를 가져옵니다.
-        Listview1_item clickItem = (Listview1_item) v.getTag();
+        Listview_item_event clickItem = (Listview_item_event) v.getTag();
 
         switch (v.getId()) {
-            case R.id.btn_send:
+            case R.id.imageButton_addcart_event:
                 Toast.makeText(mContext, clickItem.getPrice1_2(),
                         Toast.LENGTH_SHORT).show();
                 break;

@@ -5,13 +5,13 @@ import android.graphics.drawable.Drawable;
 /**
  * Created by user on 2016-03-29.
  */
-public class Listview1_item {
+public class Listview_item_event {
     private Drawable mMenuIcon;
     private String mMenuName;
     private String mPrice1_1;
     private String mPrice1_2;
 
-    Listview1_item(Drawable menuIcon, String menuName, String price1_1, String price1_2) {
+    Listview_item_event(Drawable menuIcon, String menuName, String price1_1, String price1_2) {
         mMenuIcon = menuIcon;
         mMenuName = menuName;
         mPrice1_1 = price1_1;

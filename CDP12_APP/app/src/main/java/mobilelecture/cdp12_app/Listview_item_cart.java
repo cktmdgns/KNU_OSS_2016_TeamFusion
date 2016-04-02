@@ -7,30 +7,43 @@ import android.graphics.drawable.Drawable;
  */
 public class Listview_item_cart {
     private Drawable mMenuIcon;
+    private String mWhere;
     private String mMenuName;
-    private String mPrice1_1;
-    private String mPrice1_2;
+    private String mCount;
+    private String mWeight;
+    private String mPrice;
 
-    Listview_item_cart(Drawable menuIcon, String menuName, String price1_1, String price1_2) {
+    Listview_item_cart(Drawable menuIcon, String where, String menuName, String count, String weight, String price) {
         mMenuIcon = menuIcon;
+        mWhere = where;
         mMenuName = menuName;
-        mPrice1_1 = price1_1;
-        mPrice1_2 = price1_2;
+        mCount = count;
+        mWeight = weight;
+        mPrice = price;
     }
 
     public Drawable getMenuIcon(){
         return mMenuIcon;
     }
 
+    public String  getWhere() {
+        return mWhere;
+    }
+
     public String getMenuName() {
         return mMenuName;
     }
 
-    public String  getPrice1_1() {
-        return mPrice1_1;
+    public String  getCount() {
+        return mCount;
     }
 
-    public String  getPrice1_2() {
-        return mPrice1_2;
+    public String  getWeight() {
+        return mWeight;
     }
+
+    public String  getPrice() {
+        return mPrice;
+    }
+
 }

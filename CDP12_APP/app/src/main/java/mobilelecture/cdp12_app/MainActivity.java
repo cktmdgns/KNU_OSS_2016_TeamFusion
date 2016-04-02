@@ -1,20 +1,18 @@
 package mobilelecture.cdp12_app;
 
 import android.app.TabActivity;
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
+import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.List;
 
 public class MainActivity extends TabActivity {
 
@@ -22,47 +20,6 @@ public class MainActivity extends TabActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //----------------------------------  hometab listview 생성 ------------------------------
-        // Adapter 생성
-        CustomAdapter_listview1 adapter_home = new CustomAdapter_listview1(getApplicationContext());
-        // 리스트뷰 참조 및 Adapter달기
-        ListView listView_hometab = (ListView) findViewById(R.id.listView_hometab1);
-        listView_hometab.setAdapter(adapter_home);
-        // Data 추가
-        Listview1_item u1 = new Listview1_item(getResources().getDrawable(
-                R.drawable.android_con), "삼겹살 (200g)", "10000원", "6700원");
-        adapter_home.add(u1);
-        Listview1_item u2 = new Listview1_item(getResources().getDrawable(
-                R.drawable.android_con), "청포도 한송이", "7310원", "6290원");
-        adapter_home.add(u2);
-        Listview1_item u3 = new Listview1_item(getResources().getDrawable(
-                R.drawable.android_con), "왕교자 (100g)", "14500원", "12900원");
-        adapter_home.add(u3);
-        // Data가 변경 되있음을 알려준다.
-        adapter_home.notifyDataSetChanged();
-
-        //----------------------------------  carttab listview 생성 ------------------------------
-        // Adapter 생성
-        CustomAdapter_listview_cart adapter_cart = new CustomAdapter_listview_cart(getApplicationContext());
-        // 리스트뷰 참조 및 Adapter달기
-        ListView listView_carttab = (ListView) findViewById(R.id.listView_carttab1);
-        listView_carttab.setAdapter(adapter_cart);
-        // Data 추가
-        Listview_item_cart c1 = new Listview_item_cart(getResources().getDrawable(
-                R.drawable.android_con), "삼겹살 (100g)", "10000원", "6700원");
-        adapter_cart.add(c1);
-        Listview_item_cart c2 = new Listview_item_cart(getResources().getDrawable(
-                R.drawable.android_con), "청포도 한송이", "7310원", "6290원");
-        adapter_cart.add(c2);
-        Listview_item_cart c3 = new Listview_item_cart(getResources().getDrawable(
-                R.drawable.android_con), "왕교자 (100g)", "14500원", "12900원");
-        adapter_cart.add(c3);
-        // Data가 변경 되있음을 알려준다.
-        adapter_cart.notifyDataSetChanged();
-
-
-
 
         //----------------------------------  hometab spinner 생성 ------------------------------
         //스피너1 설정
@@ -131,10 +88,106 @@ public class MainActivity extends TabActivity {
 
 
 
+        //----------------------------------  hometab listview 생성 ------------------------------
+        // Adapter 생성
+        CustomAdapter_listview_event adapter_home = new CustomAdapter_listview_event(getApplicationContext());
+        // 리스트뷰 참조 및 Adapter달기
+        ListView listView_hometab = (ListView) findViewById(R.id.listView_hometab1);
+        listView_hometab.setAdapter(adapter_home);
+        // Data 추가
+        Listview_item_event u1 = new Listview_item_event(getResources().getDrawable(
+                R.drawable.android_con), "삼겹살 (200g)", "10000원", "6700원");
+        adapter_home.add(u1);
+        Listview_item_event u2 = new Listview_item_event(getResources().getDrawable(
+                R.drawable.android_con), "청포도 한송이", "7310원", "6290원");
+        adapter_home.add(u2);
+        Listview_item_event u3 = new Listview_item_event(getResources().getDrawable(
+                R.drawable.android_con), "왕교자 (100g)", "14500원", "12900원");
+        adapter_home.add(u3);
+        // Data가 변경 되있음을 알려준다.
+        adapter_home.notifyDataSetChanged();
+
+        //----------  carttab listview 생성 ---------
+        // Adapter 생성
+        final CustomAdapter_listview_cart adapter_cart = new CustomAdapter_listview_cart(getApplicationContext());
+        // 리스트뷰 참조 및 Adapter달기
+        final ListView listView_carttab = (ListView) findViewById(R.id.listView_carttab1);
+        listView_carttab.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        listView_carttab.setAdapter(adapter_cart);
+        // Data 추가
+        Listview_item_cart c1 = new Listview_item_cart(getResources().getDrawable(
+                R.drawable.android_con), "가공식품", "삼양라면", "150g", "2개", "5000원");
+        adapter_cart.add(c1);
+        Listview_item_cart c2 = new Listview_item_cart(getResources().getDrawable(
+                R.drawable.android_con), "채소", "배추", "100g", "3개", "16000원");
+        adapter_cart.add(c2);
+        Listview_item_cart c3 = new Listview_item_cart(getResources().getDrawable(
+                R.drawable.android_con), "고기", "소고기(호주산)", "100g", "1개", "3000원");
+        adapter_cart.add(c3);
+        // Data가 변경 되있음을 알려준다.
+        adapter_cart.notifyDataSetChanged();
+
+        //장바구니에 있는 상품들 갯수 텍스트뷰
+        TextView textView_count_cart = (TextView) findViewById(R.id.textView_cartcount);
+        if(listView_carttab != null) {
+            textView_count_cart.setText("총 " + listView_carttab.getCount() + "개 상품");
+        }
+
+        //----------------------------------- cart tab 버튼 이벤트 ----------------------------
+        // 전체 선택/해제
+        Button button_selectall_cart = (Button) findViewById(R.id.button_selectall_cart);
+        button_selectall_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean toChange = false;
+                for(int i=0 ; i < listView_carttab.getCount() ; i++){
+                    if (adapter_cart.getChecked(i) == false) {
+                        toChange = true;
+                    }
+                }
+
+                if (toChange == true) {
+                    Log.i("MainActivity", "sellect button testss " + adapter_cart.getChecked(1));
+
+                    for(int i=0 ; i < listView_carttab.getCount() ; i++){
+                        adapter_cart.setAllChecked(true);
+                        Log.i("MainActivity", "sellect button testss " + adapter_cart.getChecked(i));
+                        adapter_cart.notifyDataSetChanged();
+                    }
+                }
+                else {
+                    for(int i=0 ; i < listView_carttab.getCount() ; i++){
+                        adapter_cart.setAllChecked(false);
+                        adapter_cart.notifyDataSetChanged();
+                    }
+                }
+
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //----------------------------------  tabmenu and icon 생성 ------------------------------
         //탭 메뉴
         TabHost tabHost = getTabHost();
-
 
         //TabSpec tabSpecTab1 = tabHost.newTabSpec("TAB1").setIndicator("",getResources().getDrawable(R.drawable.android_con));
         TabSpec tabSpecTab1 = tabHost.newTabSpec("TAB1").setIndicator("",getResources().getDrawable(R.drawable.home_con));

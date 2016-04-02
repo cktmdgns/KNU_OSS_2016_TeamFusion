@@ -195,11 +195,57 @@
                             />
                         <ListView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="340dp"
                             android:id="@+id/listView_carttab1" />
+
+                        <TextView
+                            android:layout_width="70dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="5dp"
+                            android:text="총 0개 상품"
+                            android:textSize="12dp"
+                            android:id="@+id/textView_cartcount"
+                            />
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <Button
+                                android:layout_width="100dp"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="5dp"
+                                android:id="@+id/button_selectall_cart"
+                                android:background="@drawable/shape_circle_color"
+                                android:textColor="#FFFFFF"
+                                android:text="전체 선택"
+                                android:onClick=""
+
+                                />
+                            <Button
+                                android:layout_width="100dp"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="20dp"
+                                android:id="@+id/button_start_cart"
+                                android:background="@drawable/shape_circle_color"
+                                android:textColor="#FFFFFF"
+                                android:text="길 안내 시작"
+                                />
+                            <Button
+                                android:layout_width="100dp"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="20dp"
+                                android:id="@+id/button_delete_cart"
+                                android:background="@drawable/shape_circle_color"
+                                android:textColor="#FFFFFF"
+                                android:text="선택항목삭제"
+                                />
+
+                        </LinearLayout>
                     </LinearLayout>
-
-
 
                 </LinearLayout>
 

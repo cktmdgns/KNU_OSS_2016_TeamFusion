@@ -1,18 +1,24 @@
 package mobilelecture.cdp12_app;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,11 +32,17 @@ public class CustomAdapter_listview_cart extends BaseAdapter implements OnClickL
     private Context mContext;
 
     // ListView 내부 View들을 가르킬 변수들
-    private ImageView imgUserIcon;
+    private ImageView imgMenuIcon;
+    private TextView where;
     private TextView menu_name;
-    private TextView price1_1;
-    private TextView price1_2;
-    private ImageButton btnSend;
+    private TextView count;
+    private TextView weight;
+    private TextView price;
+    private CheckBox checkbox_cart;
+
+    private boolean[] isCheckedConfrim;
+
+
 
     // 리스트 아이템 데이터를 저장할 배열
     private ArrayList<Listview_item_cart> mUserData;
@@ -39,6 +51,8 @@ public class CustomAdapter_listview_cart extends BaseAdapter implements OnClickL
         super();
         mContext = context;
         mUserData = new ArrayList<Listview_item_cart>();
+        //isCheckedConfrim = new boolean[getCount()];
+        isCheckedConfrim = new boolean[3];
     }
 
     @Override
@@ -65,6 +79,21 @@ public class CustomAdapter_listview_cart extends BaseAdapter implements OnClickL
         return 0;
     }
 
+    public boolean getChecked(int position) {
+        return isCheckedConfrim[position];
+    }
+
+    public void setOpposition(int position) {
+        isCheckedConfrim[position] = !isCheckedConfrim[position];
+    }
+
+    public void setAllChecked(boolean check) {
+        int tempSize = isCheckedConfrim.length;
+        for(int a=0 ; a<tempSize ; a++){
+            isCheckedConfrim[a] = check;
+        }
+    }
+
     @Override
     /**
      * getView
@@ -74,7 +103,8 @@ public class CustomAdapter_listview_cart extends BaseAdapter implements OnClickL
      * @param parent - 현재 뷰의 부모를 지칭하지만 특별히 사용되지는 않는다.
      * @return 리스트 아이템이 저장된 convertView
      */
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        //android:background="?android:attr/activatedBackgroundIndicator"  추가시 리스트뷰 선택
         // TODO Auto-generated method stub
         View v = convertView;
 
@@ -84,38 +114,63 @@ public class CustomAdapter_listview_cart extends BaseAdapter implements OnClickL
             // inflater를 이용하여 사용할 레이아웃을 가져옵니다.
             v = ((LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                    .inflate(R.layout.custom_listview_shop1, null);
+                    .inflate(R.layout.custom_listview_cart, null);
+
+
 
             // 레이아웃이 메모리에 올라왔기 때문에 이를 이용하여 포함된 뷰들을 참조할 수 있습니다.
-            imgUserIcon = (ImageView) v.findViewById(R.id.user_icon);
-            menu_name = (TextView) v.findViewById(R.id.menu_name1);
-            price1_1 = (TextView) v.findViewById(R.id.price1_1);
-            price1_1.setPaintFlags(price1_1.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            price1_2 = (TextView) v.findViewById(R.id.price1_2);
-            btnSend = (ImageButton) v.findViewById(R.id.btn_send);
+            imgMenuIcon = (ImageView) v.findViewById(R.id.imageView_menuicon_cart);
+            where = (TextView) v.findViewById(R.id.textView_where_cart);
+            menu_name = (TextView) v.findViewById(R.id.textView_menuname_cart);
+            count = (TextView) v.findViewById(R.id.textView_count_cart);
+            weight = (TextView) v.findViewById(R.id.textView_weight_cart);
+            price = (TextView) v.findViewById(R.id.textView_price_cart);
+
+            checkbox_cart = (CheckBox) v.findViewById(R.id.checkbox_cart);
+            checkbox_cart.setChecked(isCheckedConfrim[position]);
+            v.setTag(checkbox_cart);
+
+
+
         }
+        checkbox_cart.setFocusable(false);
+        checkbox_cart.setClickable(false);
+
+        //checkbox_cart = (CheckBox) v.findViewById(R.id.checkbox_cart);
+        //checkbox_cart.setChecked(isCheckedConfrim[position]);
+
+
+        v.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //checkbox_cart = (CheckBox) v.findViewById(R.id.checkbox_cart);
+                Log.i("Addpter_cart", "click Posion = " + position);
+                setOpposition(position);
+                checkbox_cart.setChecked(isCheckedConfrim[position]);
+
+            }
+        });
+
 
         // 받아온 position 값을 이용하여 배열에서 아이템을 가져온다.
         mUser = getItem(position);
-
-        // Tag를 이용하여 데이터와 뷰를 묶습니다.
-        btnSend.setTag(mUser);
 
         // 데이터의 실존 여부를 판별합니다.
         if (mUser != null) {
             // 데이터가 있다면 갖고 있는 정보를 뷰에 알맞게 배치시킵니다.
             if (mUser.getMenuIcon() != null) {
-                imgUserIcon.setImageDrawable(mUser.getMenuIcon());
+                imgMenuIcon.setImageDrawable(mUser.getMenuIcon());
             }
+            where.setText(mUser.getWhere());
             menu_name.setText(mUser.getMenuName());
-            price1_1.setText(mUser.getPrice1_1());
-            price1_2.setText(mUser.getPrice1_2());
-            btnSend.setOnClickListener(this);
+            count.setText(mUser.getCount());
+            weight.setText(mUser.getWeight());
+            price.setText(mUser.getPrice());
         }
-        // 완성된 아이템 뷰를 반환합니다.
+
+        //checkbox_cart.setChecked(((ListView)parent).isItemChecked(position));
         return v;
     }
-
     // 데이터를 추가하는 것을 위해서 만들어 준다.
     public void add(Listview_item_cart user) {
         mUserData.add(user);
@@ -125,14 +180,5 @@ public class CustomAdapter_listview_cart extends BaseAdapter implements OnClickL
     public void onClick(View v) {
         // TODO Auto-generated method stub
 
-        // Tag를 이용하여 Data를 가져옵니다.
-        Listview_item_cart clickItem = (Listview_item_cart) v.getTag();
-
-        switch (v.getId()) {
-            case R.id.btn_send:
-                Toast.makeText(mContext, clickItem.getPrice1_2(),
-                        Toast.LENGTH_SHORT).show();
-                break;
-        }
     }
 }
