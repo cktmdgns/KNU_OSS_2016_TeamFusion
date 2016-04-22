@@ -6,14 +6,14 @@ import android.graphics.drawable.Drawable;
  * Created by user on 2016-03-29.
  */
 public class Listview_item_cart {
-    private Drawable mMenuIcon;
+    private String mMenuIcon;
     private String mWhere;
     private String mMenuName;
     private String mCount;
     private String mWeight;
     private String mPrice;
 
-    Listview_item_cart(Drawable menuIcon, String where, String menuName, String count, String weight, String price) {
+    Listview_item_cart(String menuIcon, String where, String menuName, String count, String weight, String price) {
         mMenuIcon = menuIcon;
         mWhere = where;
         mMenuName = menuName;
@@ -22,7 +22,7 @@ public class Listview_item_cart {
         mPrice = price;
     }
 
-    public Drawable getMenuIcon(){
+    public String getMenuIcon(){
         return mMenuIcon;
     }
 

@@ -21,10 +21,25 @@ import java.util.ArrayList;
 
 public class MainActivity extends TabActivity {
 
+    private DBManager dbManager = null;
+
+    //home tab
+    private CustomAdapter_listview_event adapter_home;
+    private ListView listView_hometab;
+    private ArrayList<String> arraylist_event;
+
+    //cart tab
+    private CustomAdapter_listview_cart adapter_cart;
+    private ListView listView_carttab;
+    private ArrayList<String> arraylist_cart;
+    private TextView textView_count_cart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        dbManager = new DBManager(getApplicationContext(), "test.db", null, 1);
 
         //----------------------------------  hometab spinner 생성 ------------------------------
         //스피너1 설정
@@ -41,7 +56,7 @@ public class MainActivity extends TabActivity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 String msg = parent.getItemAtPosition(position).toString();
-                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -53,7 +68,7 @@ public class MainActivity extends TabActivity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 String msg = parent.getItemAtPosition(position).toString();
-                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
@@ -73,7 +88,7 @@ public class MainActivity extends TabActivity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 String msg = parent.getItemAtPosition(position).toString();
-                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -85,7 +100,7 @@ public class MainActivity extends TabActivity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 String msg = parent.getItemAtPosition(position).toString();
-                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
@@ -94,49 +109,10 @@ public class MainActivity extends TabActivity {
 
 
         //----------------------------------  hometab listview 생성 ------------------------------
-        // Adapter 생성
-        CustomAdapter_listview_event adapter_home = new CustomAdapter_listview_event(getApplicationContext());
-        // 리스트뷰 참조 및 Adapter달기
-        ListView listView_hometab = (ListView) findViewById(R.id.listView_hometab1);
-        listView_hometab.setAdapter(adapter_home);
-        // Data 추가
-        Listview_item_event u1 = new Listview_item_event(getResources().getDrawable(
-                R.drawable.android_con), "삼겹살 (200g)", "10000원", "6700원");
-        adapter_home.add(u1);
-        Listview_item_event u2 = new Listview_item_event(getResources().getDrawable(
-                R.drawable.android_con), "청포도 한송이", "7310원", "6290원");
-        adapter_home.add(u2);
-        Listview_item_event u3 = new Listview_item_event(getResources().getDrawable(
-                R.drawable.android_con), "왕교자 (100g)", "14500원", "12900원");
-        adapter_home.add(u3);
-        // Data가 변경 되있음을 알려준다.
-        adapter_home.notifyDataSetChanged();
+       resetEventListView();
 
         //----------  carttab listview 생성 ---------
-        // Adapter 생성
-        final CustomAdapter_listview_cart adapter_cart = new CustomAdapter_listview_cart(getApplicationContext());
-        // 리스트뷰 참조 및 Adapter달기
-        final ListView listView_carttab = (ListView) findViewById(R.id.listView_carttab1);
-        listView_carttab.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        listView_carttab.setAdapter(adapter_cart);
-        // Data 추가
-        Listview_item_cart c1 = new Listview_item_cart(getResources().getDrawable(
-                R.drawable.android_con), "가공식품", "삼양라면", "150g", "2개", "5000원");
-        adapter_cart.add(c1);
-        Listview_item_cart c2 = new Listview_item_cart(getResources().getDrawable(
-                R.drawable.android_con), "채소", "배추", "100g", "3개", "16000원");
-        adapter_cart.add(c2);
-        Listview_item_cart c3 = new Listview_item_cart(getResources().getDrawable(
-                R.drawable.android_con), "고기", "소고기(호주산)", "100g", "1개", "3000원");
-        adapter_cart.add(c3);
-        // Data가 변경 되있음을 알려준다.
-        adapter_cart.notifyDataSetChanged();
-
-        //장바구니에 있는 상품들 갯수 텍스트뷰
-        final TextView textView_count_cart = (TextView) findViewById(R.id.textView_cartcount);
-        if(listView_carttab != null) {
-            textView_count_cart.setText("총 " + listView_carttab.getCount() + "개 상품");
-        }
+        resetCartListView();
 
 
         //----------------------------------- cart tab 버튼 이벤트 ----------------------------
@@ -150,14 +126,10 @@ public class MainActivity extends TabActivity {
                         .setNegativeButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                for (int i = listView_carttab.getCount() -1; i > -1 ; i--) {
-                                    adapter_cart.removeItem(i);
+                                for (int i = 0; i < listView_carttab.getCount(); i++) {
+                                    dbManager.delete_cart_byname(adapter_cart.getItem(i).getMenuName());
                                 }
-                                textView_count_cart.setText("총 " + listView_carttab.getCount() + "개 상품");
-
-                                ListView listView_carttab = (ListView) findViewById(R.id.listView_carttab1);
-                                listView_carttab.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-                                listView_carttab.setAdapter(adapter_cart);
+                                resetCartListView();
                             }
                         })
                         .setPositiveButton("아니오", null).show();
@@ -166,19 +138,24 @@ public class MainActivity extends TabActivity {
 
         // 선택 삭제
         Button button_delete_cart = (Button) findViewById(R.id.button_delete_cart);
+
         button_delete_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = listView_carttab.getCount() -1; i > -1 ; i--) {
-                    if (adapter_cart.getChecked(i) == true) {
-                        adapter_cart.removeItem(i);
-                    }
-                }
-                textView_count_cart.setText("총 " + listView_carttab.getCount() + "개 상품");
-
-                ListView listView_carttab = (ListView) findViewById(R.id.listView_carttab1);
-                listView_carttab.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-                listView_carttab.setAdapter(adapter_cart);
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("확인").setMessage("의상 선택 삭제 할래요?")
+                        .setNegativeButton("예", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                for (int i = 0; i < listView_carttab.getCount(); i++) {
+                                    if (adapter_cart.getChecked(i) == true) {
+                                        dbManager.delete_cart_byname(adapter_cart.getItem(i).getMenuName());
+                                    }
+                                }
+                                resetCartListView();
+                            }
+                        })
+                        .setPositiveButton("아니오", null).show();
             }
         });
 
@@ -267,4 +244,64 @@ public class MainActivity extends TabActivity {
         }
 
     }
+
+
+    public void resetEventListView() {
+        adapter_home = new CustomAdapter_listview_event(getApplicationContext());
+        // 리스트뷰 참조 및 Adapter달기
+        listView_hometab = (ListView) findViewById(R.id.listView_hometab1);
+        listView_hometab.setAdapter(adapter_home);
+
+        arraylist_event = dbManager.select_Event();
+
+        ArrayList<String> temp_event;
+
+        for (int i = 0; i < arraylist_event.size(); i++) {
+            String event_goods_name = arraylist_event.get(i);
+
+            temp_event = dbManager.select_Event_byname(event_goods_name);
+
+            Listview_item_event u1 = new Listview_item_event("android_con", event_goods_name, temp_event.get(0) + "원", temp_event.get(1) + "원");
+            adapter_home.add(u1);
+        }
+        // Data가 변경 되있음을 알려준다.
+        adapter_home.notifyDataSetChanged();
+    }
+
+    public void resetCartListView() {
+        adapter_cart = new CustomAdapter_listview_cart(getApplicationContext());
+        // 리스트뷰 참조 및 Adapter달기
+        listView_carttab = (ListView) findViewById(R.id.listView_carttab1);
+        listView_carttab.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        listView_carttab.setAdapter(adapter_cart);
+
+        arraylist_cart = dbManager.select_Cart();
+
+        ArrayList<String> temp_cart;
+        String EA = "";
+        String Cname = "";
+
+        for (int i = 0; i < arraylist_cart.size(); i++) {
+            String cart_goods_name = arraylist_cart.get(i);
+
+
+            temp_cart = dbManager.select_Cart_byname(cart_goods_name);
+            EA = dbManager.select_CartEA_byname(cart_goods_name);
+            Cname = dbManager.select_CName_byInt(Integer.valueOf(temp_cart.get(2)));
+
+            Listview_item_cart u1 = new Listview_item_cart("android_con",Cname, cart_goods_name, EA + "개", temp_cart.get(0) + "g", temp_cart.get(1) + "원");
+            adapter_cart.add(u1);
+
+            adapter_cart.setCheckCount();
+        }
+        // Data가 변경 되있음을 알려준다.
+        adapter_home.notifyDataSetChanged();
+
+        //장바구니에 있는 상품들 갯수 텍스트뷰
+        textView_count_cart = (TextView) findViewById(R.id.textView_cartcount);
+        textView_count_cart.setText("총 " + adapter_cart.getCount() + "개 상품");
+        //textView_count_cart.setText("총 " + listView_carttab.getCount() + "개 상품");
+        //Log.i("MainActivity","총 개 상품 : " + adapter_cart.getCount());
+    }
+
 }
