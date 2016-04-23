@@ -216,7 +216,16 @@ public class DBManager extends SQLiteOpenHelper {
 
     public void insert_cart(String name, int EA) {
         SQLiteDatabase db = getWritableDatabase();
-        sql= "INSERT INTO CART (name, EA) VALUES ('" +name + "' , " + EA + " );";
+        Cursor cursor = db.rawQuery("select EA from CART where name = '" + name + "'", null);
+        String grd="";
+        while(cursor.moveToNext()) {
+            if (!cursor.getString(0).equals(""))
+                grd =  String.valueOf(cursor.getInt(0));
+        }
+        if(grd.equals(""))
+            sql = "INSERT INTO CART (name, EA) VALUES ('" + name + "' , " + EA + " );";
+        else
+            sql = "UPDATE CART SET EA=EA+1 where name='" + name + "'";
         db.execSQL(sql);
         db.close();
     }

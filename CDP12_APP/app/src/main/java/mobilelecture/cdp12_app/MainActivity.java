@@ -141,9 +141,7 @@ public class MainActivity extends TabActivity {
             }
         });
 
-<<<<<<< HEAD
 
-=======
         // 길찾기
         Button button_searchMap_cart = (Button) findViewById(R.id.button_start_cart);
         button_searchMap_cart.setOnClickListener(new View.OnClickListener() {
@@ -153,7 +151,6 @@ public class MainActivity extends TabActivity {
                 startActivity(intent_mapview);
             }
         });
->>>>>>> 6bfe9fe34477f0caf73baf8f10a477b36c1f24fe
 
         // 선택 삭제
         Button button_delete_cart = (Button) findViewById(R.id.button_delete_cart);
@@ -161,7 +158,7 @@ public class MainActivity extends TabActivity {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("확인").setMessage("의상 선택 삭제 할래요?")
+                        .setTitle("확인").setMessage("선택 항목 삭제 할래요?")
                         .setNegativeButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -309,7 +306,7 @@ public class MainActivity extends TabActivity {
             EA = dbManager.select_CartEA_byname(cart_goods_name);
             Cname = dbManager.select_CName_byInt(Integer.valueOf(temp_cart.get(2)));
 
-            Listview_item_cart u1 = new Listview_item_cart("android_con",Cname, cart_goods_name, EA + "개", temp_cart.get(0) + "g", temp_cart.get(1) + "원");
+            Listview_item_cart u1 = new Listview_item_cart("android_con",Cname, cart_goods_name, EA + "개", Integer.valueOf(temp_cart.get(0))*Integer.valueOf(EA) + "g", Integer.valueOf(temp_cart.get(1))*Integer.valueOf(EA) + "원");
             adapter_cart.add(u1);
 
             adapter_cart.setCheckCount();

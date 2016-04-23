@@ -159,7 +159,7 @@
                                 android:id="@+id/editText_carttab1"
                                 android:textSize="13dp"
                                 android:textColor="#AAAAAA"
-                                android:text="물품 검색"
+                                android:hint="물품 검색"
                                 android:background="@drawable/shape_circle"
                                 />
 
