@@ -1041,6 +1041,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener,
          * A simple callback where out of photo happened;
          * */
         void onOutsidePhotoTap();
+
     }
 
     /**

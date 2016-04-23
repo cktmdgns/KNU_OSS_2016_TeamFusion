@@ -18,5 +18,13 @@
             android:layout_width="match_parent"
             android:layout_height="366dp"
             android:id="@+id/imageView_mapview" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="14dp"
+            android:id="@+id/textView_where_mapview"
+            android:layout_weight="0.24" />
     </LinearLayout>
 </RelativeLayout>
