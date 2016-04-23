@@ -3,6 +3,7 @@ package mobilelecture.cdp12_app;
 import android.app.AlertDialog;
 import android.app.TabActivity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -136,9 +137,18 @@ public class MainActivity extends TabActivity {
             }
         });
 
+        // 길찾기
+        Button button_searchMap_cart = (Button) findViewById(R.id.button_start_cart);
+        button_searchMap_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_mapview = new Intent(MainActivity.this, MapViewActivity.class);
+                startActivity(intent_mapview);
+            }
+        });
+
         // 선택 삭제
         Button button_delete_cart = (Button) findViewById(R.id.button_delete_cart);
-
         button_delete_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -267,6 +277,8 @@ public class MainActivity extends TabActivity {
         // Data가 변경 되있음을 알려준다.
         adapter_home.notifyDataSetChanged();
     }
+
+
 
     public void resetCartListView() {
         adapter_cart = new CustomAdapter_listview_cart(getApplicationContext());
