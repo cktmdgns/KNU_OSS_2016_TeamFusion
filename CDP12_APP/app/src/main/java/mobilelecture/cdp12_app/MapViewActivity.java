@@ -6,6 +6,11 @@ import at.lukle.clickableareasimage.ClickableAreasImage;
 import at.lukle.clickableareasimage.OnClickableAreaClickedListener;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,9 +29,7 @@ import java.util.List;
 
 public class MapViewActivity extends AppCompatActivity implements OnClickableAreaClickedListener {
 
-    //private String default_drawable_path = "android.resource://mobilelecture.cdp12_app/drawable/";
-    //private PhotoViewAttacher mAttacher;
-
+    private String default_drawable_path = "android.resource://mobilelecture.cdp12_app/drawable/";
 
     private ImageView imgMapView;
 
@@ -42,8 +45,30 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
 
         imgMapView = (ImageView) findViewById(R.id.imageView_mapview);
         //Glide.with(this).load(Uri.parse(default_drawable_path + "mapview")).into(imgMapView);
-        imgMapView.setImageResource(R.drawable.mapview1);
+        //imgMapView.setImageResource(R.drawable.mapview1);
         textView_wherePixel = (TextView) findViewById(R.id.textView_where_mapview);
+
+
+
+
+        Bitmap resized1 = BitmapFactory.decodeResource(this.getResources(), R.drawable.mapview1);
+        //Bitmap resized1 = Bitmap.createScaledBitmap(src1, 1500, 750, true);
+
+        Bitmap src2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.map_pin_red);
+        Bitmap resized2 = Bitmap.createScaledBitmap( src2, 150, 150, true );
+
+
+        Drawable drawable = new BitmapDrawable(overlayMark(resized1,resized2, 50, 50));
+        imgMapView.setImageDrawable(drawable);
+
+        //src1.recycle();
+        //src1 = null;
+        src2.recycle();
+        src2 = null;
+        resized1.recycle();
+        resized1 = null;
+        resized2.recycle();
+        resized2 = null;
 
 
         // Create your image
@@ -55,13 +80,10 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
 
         // Define your clickable areas
         // parameter values (pixels): (x coordinate, y coordinate, width, height) and assign an object to it
-        //clickableAreas.add(new ClickableArea(500, 200, 125, 200, new Character('A')));
-        //clickableAreas.add(new ClickableArea(800, 250, 130, 160, new Character('B')));
         clickableAreas.add(new ClickableArea(500, 200, 125, 200, "행사"));
         clickableAreas.add(new ClickableArea(800, 250, 130, 160, "장류"));
         //clickableAreas.add(new ClickableArea(500, 200, 125, 200, new Character("Homer", "Simpson")));
         //clickableAreas.add(new ClickableArea(600, 440, 130, 160, new Character("Bart", "Simpson")));
-
 
     }
 
@@ -81,6 +103,21 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
             Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
             textView_wherePixel.setText(text);
         }
+    }
+
+
+    private Bitmap overlayMark(Bitmap bmp1, Bitmap bmp2, int x, int y) {
+
+        // marker = x = 3 , y = 2
+
+        Bitmap bmOverlay = Bitmap.createBitmap(bmp1.getWidth(), bmp1.getHeight(), bmp1.getConfig());
+        Canvas canvas = new Canvas(bmOverlay);
+        canvas.drawBitmap(bmp1, 0, 0, null);
+        canvas.drawBitmap(bmp2, 1800, 550, null);
+        //canvas.drawBitmap(bmp2, 2500, 700, null);
+        //canvas.drawBitmap(bmp2, 900, 520, null);
+
+        return bmOverlay;
     }
 
 
