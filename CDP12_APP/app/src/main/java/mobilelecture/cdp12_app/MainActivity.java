@@ -2,6 +2,7 @@ package mobilelecture.cdp12_app;
 
 import android.app.AlertDialog;
 import android.app.TabActivity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TabHost;
@@ -116,6 +118,8 @@ public class MainActivity extends TabActivity {
         resetCartListView();
 
 
+
+
         //----------------------------------- cart tab 버튼 이벤트 ----------------------------
         // 전체삭제
         Button button_deleteall_cart = (Button) findViewById(R.id.button_deleteall_cart);
@@ -129,14 +133,17 @@ public class MainActivity extends TabActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 for (int i = 0; i < listView_carttab.getCount(); i++) {
                                     dbManager.delete_cart_byname(adapter_cart.getItem(i).getMenuName());
-                                }
-                                resetCartListView();
+                            }
+                            resetCartListView();
                             }
                         })
                         .setPositiveButton("아니오", null).show();
             }
         });
 
+<<<<<<< HEAD
+
+=======
         // 길찾기
         Button button_searchMap_cart = (Button) findViewById(R.id.button_start_cart);
         button_searchMap_cart.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +153,7 @@ public class MainActivity extends TabActivity {
                 startActivity(intent_mapview);
             }
         });
+>>>>>>> 6bfe9fe34477f0caf73baf8f10a477b36c1f24fe
 
         // 선택 삭제
         Button button_delete_cart = (Button) findViewById(R.id.button_delete_cart);

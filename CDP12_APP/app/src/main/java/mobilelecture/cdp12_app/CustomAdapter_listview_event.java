@@ -1,15 +1,20 @@
 package mobilelecture.cdp12_app;
 
+import java.math.MathContext;
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
@@ -25,7 +30,6 @@ import com.bumptech.glide.Glide;
 public class CustomAdapter_listview_event extends BaseAdapter implements OnClickListener {
 
     private DBManager dbManager = null;
-
     // Activity에서 가져온 객체정보를 저장할 변수
     private Listview_item_event mUser;
     private Context mContext;
@@ -39,6 +43,7 @@ public class CustomAdapter_listview_event extends BaseAdapter implements OnClick
         mContext = context;
         mUserData = new ArrayList<Listview_item_event>();
     }
+
 
     @Override
     /**
@@ -73,7 +78,7 @@ public class CustomAdapter_listview_event extends BaseAdapter implements OnClick
      * @param parent - 현재 뷰의 부모를 지칭하지만 특별히 사용되지는 않는다.
      * @return 리스트 아이템이 저장된 convertView
      */
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
         View v = convertView;
         final PersonViewHolder viewHolder;
@@ -94,15 +99,33 @@ public class CustomAdapter_listview_event extends BaseAdapter implements OnClick
             viewHolder.menu_name = (TextView) v.findViewById(R.id.textView_menuname_event);
             viewHolder.price1 = (TextView) v.findViewById(R.id.textView_price1_event);
             viewHolder.price2 = (TextView) v.findViewById(R.id.textView_price2_event);
-            viewHolder.addcart = (ImageButton) v.findViewById(R.id.imageButton_addcart_event);
+            viewHolder.addcart = (ImageView) v.findViewById(R.id.imageButton_addcart_event);
             v.setTag(viewHolder);
         }
         else {
             viewHolder = (PersonViewHolder) v.getTag();
         }
 
+        viewHolder.addcart.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                new AlertDialog.Builder(v.getRootView().getContext()).setTitle("확인").setMessage("추가하시겠습니까?")
+                        .setNegativeButton("예", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dbManager = new DBManager(mContext, "test.db", null, 1);
+                                dbManager.insert_cart(viewHolder.menu_name.getText().toString(), 1);
+                                ((MainActivity)v.getRootView().getContext()).resetCartListView();
+                                Toast.makeText (mContext, "추가되었습니다", Toast.LENGTH_SHORT).show();
+                            }
+                }).setPositiveButton("아니오",null).show();
+
+            }
+
+        });
         // 받아온 position 값을 이용하여 배열에서 아이템을 가져온다.
         mUser = getItem(position);
+
 
 
         // 데이터의 실존 여부를 판별합니다.
@@ -111,16 +134,15 @@ public class CustomAdapter_listview_event extends BaseAdapter implements OnClick
             if (mUser.getMenuIcon() != null) {
                 Glide.with(mContext).load(Uri.parse( default_drawable_path + mUser.getMenuIcon() )).into(viewHolder.imgMenuIcon);
                 Glide.with(mContext).load(Uri.parse( default_drawable_path + "alram_con")).into(viewHolder.alramIcon);
+                Glide.with(mContext).load(Uri.parse( default_drawable_path + "cart_con")).into(viewHolder.addcart);
             }
             viewHolder. menu_name.setText(mUser.getMenuName());
             viewHolder.price1.setText(mUser.getPrice1_1());
             viewHolder.price2.setText(mUser.getPrice1_2());
-            viewHolder.addcart.setOnClickListener(this);
         }
         // 완성된 아이템 뷰를 반환합니다.
         return v;
     }
-
 
     public class PersonViewHolder {
         // ListView 내부 View들을 가르킬 변수들
@@ -129,7 +151,7 @@ public class CustomAdapter_listview_event extends BaseAdapter implements OnClick
         private TextView menu_name;
         private TextView price1;
         private TextView price2;
-        private ImageButton addcart;
+        private ImageView addcart;
     }
 
 
@@ -146,22 +168,17 @@ public class CustomAdapter_listview_event extends BaseAdapter implements OnClick
     @Override
     public void onClick(View v) {
         // TODO Auto-generated method stub
-
-        // Tag를 이용하여 Data를 가져옵니다.
-        /*
-
-        PersonViewHolder viewHolder = (PersonViewHolder) v.getTag();
+        // Tag를 이용하여 Data를 가져옵니다
+     /*   PersonViewHolder viewHolder = (PersonViewHolder) v.getTag();
 
         switch (v.getId()) {
             case R.id.imageButton_addcart_event:
                 dbManager = new DBManager(mContext, "test.db", null, 1);
-                dbManager.insert_cart(viewHolder.menu_name.getText().toString(),1);
+                //dbManager.insert_cart(viewHolder.menu_name.getText().toString(),1);
 
-
-//                Toast.makeText(mContext, clickItem.getPrice1_2(),
-//                        Toast.LENGTH_SHORT).show();
+                Toast.makeText (mContext, viewHolder.menu_name.getText().toString(), Toast.LENGTH_SHORT).show();
                 break;
-        }
-        */
+        }*/
+
     }
 }
