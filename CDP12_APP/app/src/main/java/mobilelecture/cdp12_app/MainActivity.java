@@ -275,8 +275,10 @@ public class MainActivity extends TabActivity {
             String event_goods_name = arraylist_event.get(i);
 
             temp_event = dbManager.select_Event_byname(event_goods_name);
+            String gid = dbManager.select_GoodsID_byname(event_goods_name);
+            String icon_name = "goods" + gid;
 
-            Listview_item_event u1 = new Listview_item_event("android_con", event_goods_name, temp_event.get(0) + "원", temp_event.get(1) + "원");
+            Listview_item_event u1 = new Listview_item_event(icon_name, event_goods_name, temp_event.get(0) + "원", temp_event.get(1) + "원");
             adapter_home.add(u1);
         }
         // Data가 변경 되있음을 알려준다.
@@ -301,12 +303,15 @@ public class MainActivity extends TabActivity {
         for (int i = 0; i < arraylist_cart.size(); i++) {
             String cart_goods_name = arraylist_cart.get(i);
 
+            String gid = dbManager.select_GoodsID_byname(cart_goods_name);
+            String icon_name = "goods" + gid;
+            Log.i("MainActivity","goodsid : " + icon_name);
 
             temp_cart = dbManager.select_Cart_byname(cart_goods_name);
             EA = dbManager.select_CartEA_byname(cart_goods_name);
             Cname = dbManager.select_CName_byInt(Integer.valueOf(temp_cart.get(2)));
 
-            Listview_item_cart u1 = new Listview_item_cart("android_con",Cname, cart_goods_name, EA + "개", Integer.valueOf(temp_cart.get(0))*Integer.valueOf(EA) + "g", Integer.valueOf(temp_cart.get(1))*Integer.valueOf(EA) + "원");
+            Listview_item_cart u1 = new Listview_item_cart(icon_name,Cname, cart_goods_name, EA + "개", Integer.valueOf(temp_cart.get(0))*Integer.valueOf(EA) + "g", Integer.valueOf(temp_cart.get(1))*Integer.valueOf(EA) + "원");
             adapter_cart.add(u1);
 
             adapter_cart.setCheckCount();

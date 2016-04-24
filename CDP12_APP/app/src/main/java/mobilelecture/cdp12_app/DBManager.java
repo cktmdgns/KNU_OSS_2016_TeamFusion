@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -29,7 +30,7 @@ public class DBManager extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE IF NOT EXISTS CORNER " +
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT ," +
-                "id INTEGER, name TEXT, location TEXT, s_id INTEGER );");
+                "id INTEGER, name TEXT, location TEXT, s_id INTEGER , x1 INTEGER, y1 INTEGER, xlen INTEGER, ylen INTEGER );");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS GOODS " +
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT ," +
@@ -41,64 +42,121 @@ public class DBManager extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE IF NOT EXISTS CART " +
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT ," +
-                "id INTEGER, name TEXT, EA INTEGER );");
+                "id INTEGER, name TEXT, EA INTEGER, C_NAME TEXT, G_LOC INTEGER );");
 
 
         db.execSQL( "INSERT INTO SHOP (id, name, location) VALUES (1,'홈플러스','황금')" );
 
-        db.execSQL( "INSERT INTO CORNER (id, name, location) VALUES (1,'생선/해산', 1001)" );
-        db.execSQL( "INSERT INTO CORNER (id, name, location) VALUES (2,'정육/계란', 1001)" );
-        db.execSQL( "INSERT INTO CORNER (id, name, location) VALUES (3,'과일', 1001)" );
-        db.execSQL( "INSERT INTO CORNER (id, name, location) VALUES (4,'채소/건나물', 1001)" );
-        db.execSQL( "INSERT INTO CORNER (id, name, location) VALUES (5,'쌀/잡곡', 1001)" );
-        db.execSQL( "INSERT INTO CORNER (id, name, location) VALUES (6,'김/미역/건어', 1001)" );
-        db.execSQL( "INSERT INTO CORNER (id, name, location) VALUES (7,'유제품/냉장음료', 1001)" );
-        db.execSQL( "INSERT INTO CORNER (id, name, location) VALUES (8,'두부/김치', 1001)" );
-        db.execSQL( "INSERT INTO CORNER (id, name, location) VALUES (9,'냉동식품/아이스크림', 1001)" );
-        db.execSQL( "INSERT INTO CORNER (id, name, location) VALUES (10,'음료/생수', 1001)" );
-        db.execSQL( "INSERT INTO CORNER (id, name, location) VALUES (11,'커피/차', 1001)" );
-        db.execSQL( "INSERT INTO CORNER (id, name, location) VALUES (12,'과자', 1001)" );
-        db.execSQL( "INSERT INTO CORNER (id, name, location) VALUES (13,'라면', 1001)" );
-        db.execSQL( "INSERT INTO CORNER (id, name, location) VALUES (14,'식용유/조미료/밀가루', 1001)" );
-        db.execSQL( "INSERT INTO CORNER (id, name, location) VALUES (15,'통조림/캔', 1001)" );
-        db.execSQL( "INSERT INTO CORNER (id, name, location) VALUES (16,'장류/케찹/소스', 1001)" );
-        db.execSQL( "INSERT INTO CORNER (id, name, location) VALUES (17,'세제/화장지', 1001)" );
-        db.execSQL( "INSERT INTO CORNER (id, name, location) VALUES (18,'헤어/세안/바디', 1001)" );
-        db.execSQL( "INSERT INTO CORNER (id, name, location) VALUES (19,'랩/호일/고무장갑', 1001)" );
-        db.execSQL( "INSERT INTO CORNER (id, name, location) VALUES (20,'조리/주방용품/그릇', 1001)" );
+
+
+        // 채소/건나물 : (0,55) / (30,160)
+        // 조리/주방용품/그릇 : (470,75) / (500,180)
+
+        // 생선/해산물1 : (40,1) / (140,20)
+        // 정육/계란1 : (144,1) / (240,20)
+        // 헤어/세안/바디 : (270,1) / (340,20)
+        // 랩/호일고무장갑 : (345,1) / (420,20)
+        // 세제/화장지 : (420,1) / (500,55)
+
+        // 생선/해산물2 : (50,30) / (130,45)
+        // 정육/계란2 : (150,30) / (230,45)
+        // 행사1 : (265,30) / (315,42)
+        // 행사2 : (325,30) / (375,42)
+
+        // 두부/김치 : (50,55) / (130,85)
+        // 반찬 : (150,60) / (230,85)
+        // 냉동식품/아이스크림 : (265,50) / (307,90)
+        // 커피/차 : (316,50) / (357,90)
+        // 과자 : (365,50) / (410,90)
+
+        // 과일 : (50,95) / (120,130)
+        // 음료 : (135,95) / (160,130)
+        // 유제품 : (175,95) / (200,130)
+        // 주류 : (215,95) / (240,130)
+        // 행사3 : (265,105) / (315,115)
+        // 행사4 : (325,105) / (375,115)
+        // 행사5 : (385,105) / (435,115)
+        // 행사6 : (265,125) / (315,130)
+        // 행사7 : (320,125) / (375,130)
+        // 행사8 : (380,125) / (430,130)
+
+        // 김/미역/건어 : (55,150) / (135,160)
+        // 쌀,잡곡 : (180,150) / (225,180)
+        // 식용류/조미료/밀가루 : (135,150) / (275,180)
+        // 쌀,잡곡 : (135,150) / (275,180)
+        // 라면 : (290,150) / (330,180)
+        // 통조림/캔 : (340,150) / (380,180)
+        // 장류/케찹/소스 : (390,150) / (430,180)
+
+
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (1,'생선/해산1', 1001, 40, 1, 100, 5 )" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (2,'정육/계란1', 1001, 144, 1, 95, 5 )" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (3,'생선/해산2', 1001, 50, 30, 80, 15)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (4,'정육/계란2', 1001, 150, 30, 80, 15)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (5,'과일', 1001, 50, 95, 70, 35)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (6,'채소/건나물', 1001, 1, 55, 30, 105 )" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (7,'쌀/잡곡', 1001, 185, 150, 40, 30)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (8,'김/미역/건어', 1001, 55, 150, 80, 10)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (9,'유제품/냉장음료', 1001, 175, 95, 25, 35)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (10,'두부/김치', 1001, 50, 55, 80, 30)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (11,'냉동식품/아이스크림', 1001, 265, 50, 42, 40)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (12,'음료/생수', 1001, 135, 95, 25, 35)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (13,'커피/차', 1001, 316, 50, 40, 40)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (14,'과자', 1001, 365, 50, 45, 40)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (15,'라면', 1001, 290, 150, 40, 30)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (16,'식용유/조미료/밀가루', 1001, 235, 150, 40, 30)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (17,'통조림/캔', 1001, 340, 150, 40, 30)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (18,'장류/케찹/소스', 1001, 390, 150, 40, 30)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (19,'세제/화장지', 1001, 420, 1, 80, 55)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (20,'헤어/세안/바디', 1001, 270, 1, 70, 20)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (21,'랩/호일/고무장갑', 1001, 345, 1, 75, 20)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (22,'조리/주방용품/그릇', 1001, 470, 75, 30, 105)" );
+
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (23,'반찬', 1001, 150, 60, 80, 25)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (24,'주류', 1001, 215, 95, 25, 35)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (25,'행사1', 1001, 265, 30, 50, 12)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (26,'행사2', 1001, 325, 30, 50, 12)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (27,'행사3', 1001, 265, 105, 50, 12)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (28,'행사4', 1001, 325, 105, 50, 12)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (29,'행사5', 1001, 385, 105, 50, 12)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (30,'행사6', 1001, 265, 125, 50, 12)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (31,'행사7', 1001, 325, 125, 50, 12)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (32,'행사8', 1001, 380, 125, 50, 12)" );
+
+
 
         db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (1,'해동고등어', '400', '1590', 1)" );
         db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (2,'해동오징어', '250', '1590', 1)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (3,'돼지삼겹살', '100', '1090', 2)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (4,'돼지목심', '100', '1090', 2)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (5,'부채살(호주)', '100', '2290', 2)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (6,'냉동닭가슴살', '1000', '5990', 2)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (7,'고당도오렌지', '250', '890', 3)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (8,'자몽', '380', '990', 3)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (9,'냉동블루베리', '500', '6000', 3)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (10,'딸기', '500', '4990', 3)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (11,'햇감자', '100', '590', 4)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (12,'애호박', '260', '1990', 4)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (13,'제주무', '1500', '1490', 4)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (14,'파프리카', '200', '1290', 4)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (22,'돼지삼겹살', '100', '1090', 2)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (23,'돼지목심', '100', '1090', 2)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (24,'돼지앞다리', '100', '2290', 2)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (25,'냉동닭가슴살', '1000', '5990', 2)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (42,'고당도오렌지', '250', '890', 3)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (43,'자몽', '380', '990', 3)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (44,'냉동블루베리', '500', '6000', 3)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (45,'딸기', '500', '4990', 3)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (63,'햇감자', '100', '590', 4)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (64,'애호박', '260', '1990', 4)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (65,'제주무', '1500', '1490', 4)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (66,'파프리카', '200', '1290', 4)" );
 
 
 
         db.execSQL( "INSERT INTO EVENT (id, name, f_price, l_price) VALUES (1,'해동고등어', '1590', '1000')" );
-        db.execSQL( "INSERT INTO EVENT (id, name, f_price, l_price) VALUES (2,'돼지삼겹살', '1090', '700')" );
-        db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (3,'냉동닭가슴살', '5990', '4000')");
-        db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (4,'고당도오렌지', '890', '700')");
-        db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (5,'딸기', '4990', '3500')");
-        db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (6,'햇감자', '590', '400')");
-        db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (7,'파프리카', '1290', '800')");
+        db.execSQL( "INSERT INTO EVENT (id, name, f_price, l_price) VALUES (3,'돼지삼겹살', '1090', '700')" );
+        db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (6,'냉동닭가슴살', '5990', '4000')");
+        db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (7,'고당도오렌지', '890', '700')");
+        db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (10,'딸기', '4990', '3500')");
+        db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (11,'햇감자', '590', '400')");
+        db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (14,'파프리카', '1290', '800')");
 
 
-        db.execSQL("INSERT INTO CART (id,name, EA) VALUES (1,'파프리카', 3)");
-        db.execSQL("INSERT INTO CART (id,name, EA) VALUES (2,'고당도오렌지', 2)");
-        db.execSQL("INSERT INTO CART (id,name, EA) VALUES (3,'딸기', 1)");
-        db.execSQL("INSERT INTO CART (id,name, EA) VALUES (4,'햇감자', 2)");
-        db.execSQL("INSERT INTO CART (id,name, EA) VALUES (5,'자몽', 4)");
-        db.execSQL("INSERT INTO CART (id,name, EA) VALUES (6,'돼지목심', 5)");
+        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (1,'파프리카', 3, '채소/건나물', 1)");
+        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (2,'고당도오렌지', 2, '과일', 2)");
+        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (3,'딸기', 1, '과일', 1)");
+        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (4,'햇감자', 2, '채소/건나물', 5)");
+        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (5,'자몽', 4, '과일', 3)");
+        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (6,'돼지목심', 5, '정육/계란1', 4)");
 
     }
 
@@ -160,6 +218,18 @@ public class DBManager extends SQLiteOpenHelper {
         return arrlist;
     }
 
+    public String select_GoodsID_byname(String goodsName) {
+        SQLiteDatabase db = getWritableDatabase();
+        String str = "";
+
+        Cursor c = db.rawQuery("SELECT id FROM GOODS where name = '" + goodsName + "';", null);
+        while(c.moveToNext()) {
+            str = String.valueOf(c.getInt(0));
+        }
+        db.close();
+        return str;
+    }
+
     public ArrayList<String> select_Cart() {
         SQLiteDatabase db = getWritableDatabase();
         ArrayList<String> arrlist = new ArrayList<String>();
@@ -183,6 +253,31 @@ public class DBManager extends SQLiteOpenHelper {
             arrlist.add(c.getString(0));
             arrlist.add(c.getString(1));
             arrlist.add(c.getString(2));
+        }
+        db.close();
+        return arrlist;
+    }
+
+    public ArrayList<String> select_Cart_forMap() {
+        SQLiteDatabase db = getWritableDatabase();
+        ArrayList<String> arrlist = new ArrayList<String>();
+
+        Cursor c = db.rawQuery("SELECT name FROM CART order by C_NAME;", null);
+        while(c.moveToNext()) {
+            arrlist.add(c.getString(0));
+        }
+        db.close();
+        return arrlist;
+    }
+
+    public ArrayList<String> select_Cart_forMap_byname(String name) {
+        SQLiteDatabase db = getWritableDatabase();
+        ArrayList<String> arrlist = new ArrayList<String>();
+
+        Cursor c = db.rawQuery("SELECT C_NAME, G_LOC FROM CART WHERE name = '" +  name + "';", null);
+        while(c.moveToNext()) {
+            arrlist.add(c.getString(0));
+            arrlist.add(String.valueOf(c.getInt(1)));
         }
         db.close();
         return arrlist;
@@ -235,6 +330,22 @@ public class DBManager extends SQLiteOpenHelper {
         sql = "DELETE FROM CART WHERE name = '" + name  + "';";
         db.execSQL(sql);
         db.close();
+    }
+
+
+    public ArrayList<Integer> select_CornerPosition_byConnerName(String CornerName) {
+        SQLiteDatabase db = getWritableDatabase();
+        ArrayList<Integer> arrlist = new ArrayList<Integer>();
+
+        Cursor c = db.rawQuery("SELECT x1, y1, xlen, ylen FROM CORNER where name = '" + CornerName + "';", null);
+        while(c.moveToNext()) {
+            arrlist.add(Integer.valueOf(c.getString(0)));
+            arrlist.add(Integer.valueOf(c.getString(1)));
+            arrlist.add(Integer.valueOf(c.getString(2)));
+            arrlist.add(Integer.valueOf(c.getString(3)));
+        }
+        db.close();
+        return arrlist;
     }
 
 
