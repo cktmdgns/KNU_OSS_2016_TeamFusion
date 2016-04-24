@@ -1,0 +1,41 @@
+create table Shop(
+id integer,
+name varchar2(20),
+location varchar2(20),
+primary key(id)
+);
+
+create table Corner(
+id integer,
+name varchar2(20),
+s_id integer,
+primary key(id)
+);
+
+create table Goods(
+id integer,
+name varchar2(20),
+heavy integer,
+price integer,
+location varchar2(20),
+c_id integer,
+primary key(id)
+);
+
+
+create table EVENT(
+g_id integer,
+name varchar2(20),
+f_price integer,
+l_price integer
+);
+
+
+alter table CORNER add constraint s_id_ref foreign key(s_id) references SHOP(id);
+alter table GOODS add constraint c_id_ref foreign key(c_id) references Corner(id);
+alter table EVENT add constraint g_id_ref foreign key(g_id) references Goods(id);
+
+drop table shop cascade constraints;
+drop table corner cascade constraints;
+drop table goods cascade constraints;
+drop table event cascade constraints;
