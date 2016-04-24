@@ -51,7 +51,7 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
         textView_wherePixel = (TextView) findViewById(R.id.textView_where_mapview);
 
 
-        Bitmap src1 = BitmapFactory.decodeResource(this.getResources(), R.drawable.mapview21);
+        Bitmap src1 = BitmapFactory.decodeResource(this.getResources(), R.drawable.mapview1);
         Bitmap resized1 = Bitmap.createScaledBitmap(src1, 1500, 750, true);
 
         Bitmap src2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.map_pin_red);
@@ -102,8 +102,11 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
 
         // Define your clickable areas
         // parameter values (pixels): (x coordinate, y coordinate, width, height) and assign an object to it
-        clickableAreas.add(new ClickableArea(265, 110, 125, 200, "행사"));
-        clickableAreas.add(new ClickableArea(390, 150, 130, 160, "장류"));
+        clickableAreas.add(new ClickableArea(200, 90, 40, 30, "행사3"));
+        clickableAreas.add(new ClickableArea(220, 115, 30, 20, "라면"));
+        clickableAreas.add(new ClickableArea(110, 5, 70, 20, "정육/계란1"));
+        clickableAreas.add(new ClickableArea(2, 50, 25, 70, "채소/건나물"));
+        clickableAreas.add(new ClickableArea(40, 75, 55, 25, "과일"));
 
     }
 

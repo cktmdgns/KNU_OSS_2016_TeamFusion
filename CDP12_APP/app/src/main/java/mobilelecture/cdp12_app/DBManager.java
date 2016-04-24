@@ -127,28 +127,28 @@ public class DBManager extends SQLiteOpenHelper {
 
         db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (1,'해동고등어', '400', '1590', 1)" );
         db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (2,'해동오징어', '250', '1590', 1)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (3,'돼지삼겹살', '100', '1090', 2)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (4,'돼지목심', '100', '1090', 2)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (5,'부채살(호주)', '100', '2290', 2)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (6,'냉동닭가슴살', '1000', '5990', 2)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (7,'고당도오렌지', '250', '890', 3)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (8,'자몽', '380', '990', 3)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (9,'냉동블루베리', '500', '6000', 3)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (10,'딸기', '500', '4990', 3)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (11,'햇감자', '100', '590', 4)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (12,'애호박', '260', '1990', 4)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (13,'제주무', '1500', '1490', 4)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (14,'파프리카', '200', '1290', 4)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (22,'돼지삼겹살', '100', '1090', 2)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (23,'돼지목심', '100', '1090', 2)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (24,'돼지앞다리', '100', '2290', 2)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (25,'냉동닭가슴살', '1000', '5990', 2)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (42,'고당도오렌지', '250', '890', 3)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (43,'자몽', '380', '990', 3)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (44,'냉동블루베리', '500', '6000', 3)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (45,'딸기', '500', '4990', 3)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (63,'햇감자', '100', '590', 4)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (64,'애호박', '260', '1990', 4)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (65,'제주무', '1500', '1490', 4)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (66,'파프리카', '200', '1290', 4)" );
 
 
 
         db.execSQL( "INSERT INTO EVENT (id, name, f_price, l_price) VALUES (1,'해동고등어', '1590', '1000')" );
-        db.execSQL( "INSERT INTO EVENT (id, name, f_price, l_price) VALUES (2,'돼지삼겹살', '1090', '700')" );
-        db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (3,'냉동닭가슴살', '5990', '4000')");
-        db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (4,'고당도오렌지', '890', '700')");
-        db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (5,'딸기', '4990', '3500')");
-        db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (6,'햇감자', '590', '400')");
-        db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (7,'파프리카', '1290', '800')");
+        db.execSQL( "INSERT INTO EVENT (id, name, f_price, l_price) VALUES (3,'돼지삼겹살', '1090', '700')" );
+        db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (6,'냉동닭가슴살', '5990', '4000')");
+        db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (7,'고당도오렌지', '890', '700')");
+        db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (10,'딸기', '4990', '3500')");
+        db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (11,'햇감자', '590', '400')");
+        db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (14,'파프리카', '1290', '800')");
 
 
         db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (1,'파프리카', 3, '채소/건나물', 1)");
@@ -218,6 +218,18 @@ public class DBManager extends SQLiteOpenHelper {
         return arrlist;
     }
 
+    public String select_GoodsID_byname(String goodsName) {
+        SQLiteDatabase db = getWritableDatabase();
+        String str = "";
+
+        Cursor c = db.rawQuery("SELECT id FROM GOODS where name = '" + goodsName + "';", null);
+        while(c.moveToNext()) {
+            str = String.valueOf(c.getInt(0));
+        }
+        db.close();
+        return str;
+    }
+
     public ArrayList<String> select_Cart() {
         SQLiteDatabase db = getWritableDatabase();
         ArrayList<String> arrlist = new ArrayList<String>();
@@ -265,7 +277,7 @@ public class DBManager extends SQLiteOpenHelper {
         Cursor c = db.rawQuery("SELECT C_NAME, G_LOC FROM CART WHERE name = '" +  name + "';", null);
         while(c.moveToNext()) {
             arrlist.add(c.getString(0));
-            arrlist.add( String.valueOf(c.getInt(1)));
+            arrlist.add(String.valueOf(c.getInt(1)));
         }
         db.close();
         return arrlist;

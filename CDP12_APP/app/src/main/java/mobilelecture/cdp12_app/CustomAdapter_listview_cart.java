@@ -156,7 +156,7 @@ public class CustomAdapter_listview_cart extends BaseAdapter implements OnClickL
         if (mUser != null) {
             // 데이터가 있다면 갖고 있는 정보를 뷰에 알맞게 배치시킵니다.
             if (mUser.getMenuIcon() != null) {
-                Glide.with(mContext).load(Uri.parse( default_drawable_path + "android_con")).into(viewHolder.imgMenuIcon);
+                Glide.with(mContext).load(Uri.parse( default_drawable_path + mUser.getMenuIcon())).into(viewHolder.imgMenuIcon);
             }
             viewHolder.where.setText(mUser.getWhere());
             viewHolder.menu_name.setText(mUser.getMenuName());
