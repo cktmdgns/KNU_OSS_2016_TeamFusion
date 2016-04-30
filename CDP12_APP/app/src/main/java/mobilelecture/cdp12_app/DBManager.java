@@ -131,14 +131,14 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (23,'돼지목심', '100', '1090', 2)" );
         db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (24,'돼지앞다리', '100', '2290', 2)" );
         db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (25,'냉동닭가슴살', '1000', '5990', 2)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (42,'고당도오렌지', '250', '890', 3)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (43,'자몽', '380', '990', 3)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (44,'냉동블루베리', '500', '6000', 3)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (45,'딸기', '500', '4990', 3)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (63,'햇감자', '100', '590', 4)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (64,'애호박', '260', '1990', 4)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (65,'제주무', '1500', '1490', 4)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (66,'파프리카', '200', '1290', 4)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (42,'고당도오렌지', '110', '890', 5)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (43,'자몽', '110', '990', 5)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (44,'냉동블루베리', '500', '6000', 5)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (45,'딸기', '500', '4990', 5)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (63,'햇감자', '100', '590', 6)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (64,'애호박', '260', '1990', 6)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (65,'제주무', '1500', '1490', 6)" );
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (66,'파프리카', '50', '1290', 6)" );
 
 
 
@@ -235,7 +235,7 @@ public class DBManager extends SQLiteOpenHelper {
         ArrayList<String> arrlist = new ArrayList<String>();
 
         String str="";
-        Cursor c = db.rawQuery("SELECT name FROM CART order by name;", null);
+        Cursor c = db.rawQuery("SELECT name FROM CART order by C_NAME;", null);
         while(c.moveToNext()) {
             str = c.getString(0);
             arrlist.add(str);
