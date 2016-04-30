@@ -155,14 +155,8 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
             pre_conner = arr_item_position.get(i).conner;
 
 
-            Log.i("MapViewActivity_DBtest", "" + arr_item_position.get(i).conner + " size : " + arr_item_position.size());
-            for(int k = 0; k<arr_item_position.size(); k++) {
-                Log.i("MapViewActivity_DBtest","" + arr_item_position.get(k).conner);
-            }
-
-
-            canvas.drawBitmap(bm_pin, Integer.valueOf(String.format("%.0f", (arr_Corner_position.get(0) + arr_Corner_position.get(2) * goods_where) * 2.77)),
-                    Integer.valueOf(String.format("%.0f", (arr_Corner_position.get(1) + (arr_Corner_position.get(3) / 2)) * 2.82 - 20)), null);
+            canvas.drawBitmap(bm_pin, Integer.valueOf(String.format("%.0f", (arr_Corner_position.get(0) + arr_Corner_position.get(2) * goods_where) * 1.85)),
+                    Integer.valueOf(String.format("%.0f", (arr_Corner_position.get(1) + (arr_Corner_position.get(3) / 2)) * 1.7 - 30)), null);
 
         }
         return bmOverlay;

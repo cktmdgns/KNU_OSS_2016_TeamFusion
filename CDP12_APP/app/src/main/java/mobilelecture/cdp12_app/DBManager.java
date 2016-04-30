@@ -308,8 +308,7 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
 
-
-    public void insert_cart(String name, int EA) {
+    public void insert_cart(String name, int EA, String C_NAME, int G_LOC) {
         SQLiteDatabase db = getWritableDatabase();
         Cursor cursor = db.rawQuery("select EA from CART where name = '" + name + "'", null);
         String grd="";
@@ -318,7 +317,7 @@ public class DBManager extends SQLiteOpenHelper {
                 grd =  String.valueOf(cursor.getInt(0));
         }
         if(grd.equals(""))
-            sql = "INSERT INTO CART (name, EA) VALUES ('" + name + "' , " + EA + " );";
+            sql = "INSERT INTO CART (name, EA, C_NAME, G_LOC) VALUES ('" + name + "' , " + EA + ", '" + C_NAME + "', " + G_LOC + " );";
         else
             sql = "UPDATE CART SET EA=EA+1 where name='" + name + "'";
         db.execSQL(sql);
@@ -348,181 +347,4 @@ public class DBManager extends SQLiteOpenHelper {
         return arrlist;
     }
 
-
-    /*
-    public void insert_byname(String name, String filename, String category,
-                              String season, String temp, String weather, String favor) {
-        SQLiteDatabase db = getWritableDatabase();
-        sql= "INSERT INTO clothes_list (name, filename, category, season, temp, weather, favor)" +
-                " VALUES ('" + name + "', '" + filename +  "', '"  + category +  "', '" +
-                season +  "', '" + temp +  "', '" + weather +  "', '" +  favor +  "');";
-        db.execSQL(sql);
-        db.close();
-    }
-
-    public void delete_clothesName(String name){
-        SQLiteDatabase db = getWritableDatabase();
-        sql = "DELETE FROM clothes_list WHERE name = '" + name  + "';";
-        db.execSQL(sql);
-        db.close();
-    }
-
-    public void update_byname(String name, String filename, String category,
-                              String season, String temp, String weather, String favor) {
-        SQLiteDatabase db = getWritableDatabase();
-        String sql = "";
-
-        sql= "UPDATE clothes_list SET filename = '" + filename + "', category = '" + category + "' " +
-                ", season = '" + season + "' , temp = '" + temp + "' , weather = '" + weather + "' " +
-                ", favor = '" + favor + "'  where name = '" + name + "';";
-        db.execSQL(sql);
-        db.close();
-    }
-
-    public ArrayList<String> select_clothesName() {
-        SQLiteDatabase db = getWritableDatabase();
-        ArrayList<String> arrlist = new ArrayList<String>();
-
-        String str="";
-        Cursor c = db.rawQuery("SELECT name FROM clothes_list order by name;", null);
-        while(c.moveToNext()) {
-            str = c.getString(0);
-            arrlist.add(str);
-        }
-        db.close();
-        return arrlist;
-    }
-
-    public String select_fileName(String clothesName) {
-        SQLiteDatabase db = getWritableDatabase();
-
-        String str="";
-        Cursor c = db.rawQuery("SELECT filename FROM clothes_list where name = '" + clothesName + "';", null);
-        while(c.moveToNext()) {
-            str = c.getString(0) ;
-        }
-        db.close();
-        return str;
-    }
-
-    public String select_category_byname(String clothesName) {
-        SQLiteDatabase db = getWritableDatabase();
-        String str="";
-        Cursor c = db.rawQuery("SELECT category FROM clothes_list where name = '" + clothesName + "';", null);
-        while(c.moveToNext()) {
-            str = c.getString(0) ;
-        }
-        db.close();
-        return str;
-    }
-
-    public String select_season_byname(String clothesName) {
-        SQLiteDatabase db = getWritableDatabase();
-        String str="";
-        Cursor c = db.rawQuery("SELECT season FROM clothes_list where name = '" + clothesName + "';", null);
-        while(c.moveToNext()) {
-            str = c.getString(0) ;
-        }
-        db.close();
-        return str;
-    }
-
-    public String select_temp_byname(String clothesName) {
-        SQLiteDatabase db = getWritableDatabase();
-
-        String str="";
-        Cursor c = db.rawQuery("SELECT temp FROM clothes_list where name = '" + clothesName + "';", null);
-        while(c.moveToNext()) {
-            str = c.getString(0) ;
-        }
-        db.close();
-        return str;
-    }
-
-    public String select_weather_byname(String clothesName) {
-        SQLiteDatabase db = getWritableDatabase();
-
-        String str="";
-        Cursor c = db.rawQuery("SELECT weather FROM clothes_list where name = '" + clothesName + "';", null);
-        while(c.moveToNext()) {
-            str = c.getString(0) ;
-        }
-        db.close();
-        return str;
-    }
-
-    public String select_favor_byname(String clothesName) {
-        SQLiteDatabase db = getWritableDatabase();
-        String str="";
-        Cursor c = db.rawQuery("SELECT favor FROM clothes_list where name = '" + clothesName + "';", null);
-        while(c.moveToNext()) {
-            str = c.getString(0) ;
-        }
-        db.close();
-        return str;
-    }
-
-    public ArrayList<String> select_search_wardrobe(String category, String season, String clothesName) {
-        SQLiteDatabase db = getWritableDatabase();
-        ArrayList<String> arrlist = new ArrayList<String>();
-        String str = "";
-        Boolean blank_check = false;
-
-        if (category.equals("ㅡㅡㅡㅡ")) {
-            if (season.equals("ㅡㅡㅡㅡ")) {
-                if(clothesName.equals("")) {
-                    blank_check = true;
-                }
-                else {
-                    str = "SELECT name FROM clothes_list where name LIKE '%" + clothesName + "%' order by name;";
-                }
-            } else {
-                if(clothesName.equals("")) {
-                    str = "SELECT name FROM clothes_list where season = '" + season + "' order by name;";
-                }
-                else {
-                    str = "SELECT name FROM clothes_list where name LIKE '%" + clothesName + "%' and season = '" + season + "' order by name;";
-                }
-            }
-        }
-        else if (season.equals("ㅡㅡㅡㅡ")) {
-            if (category.equals("ㅡㅡㅡㅡ")) {
-                if(clothesName.equals("")) {
-                    blank_check = true;
-                }
-                else {
-                    str = "SELECT name FROM clothes_list where name LIKE '%" + clothesName + "%' order by name;";
-                }
-            } else {
-                if(clothesName.equals("")) {
-                    str = "SELECT name FROM clothes_list where category = '" + category + "' order by name;";
-                }
-                else {
-                    str = "SELECT name FROM clothes_list where name LIKE '%" + clothesName + "%' and category = '" + category + "' order by name;";
-                }
-            }
-        }
-        else {
-            if (clothesName.equals("")) {
-                str = "SELECT name FROM clothes_list where category = '" + category + "' and season = '" + season + "' order by name;";
-            }
-            else {
-                str = "SELECT name FROM clothes_list where name LIKE '%" + clothesName + "%' and category = '" + category + "' and season = '" + season + "' order by name;";
-            }
-        }
-
-        if(blank_check == true) {
-            str = "SELECT name FROM clothes_list order by name;";
-        }
-
-        Cursor c = db.rawQuery(str, null);
-        while(c.moveToNext()) {
-            str = c.getString(0) ;
-            arrlist.add(str);
-        }
-
-        db.close();
-        return arrlist;
-    }
-    */
 }
