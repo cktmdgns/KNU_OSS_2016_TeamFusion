@@ -9,6 +9,8 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -78,7 +80,12 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
 
         }
 
-        Drawable drawable = new BitmapDrawable(overlayMark(resized1,resized2, resized3, arr_item_position));
+        ConnerPosition whereman = new ConnerPosition();
+        whereman.pic_x = 160;
+        whereman.pic_y = 200;
+        ArrayList<ConnerPosition> connerPositions = getTsp(arr_item_position, whereman);
+
+        Drawable drawable = new BitmapDrawable(overlayMark(resized1,resized2, resized3, arr_item_position, connerPositions));
         imgMapView.setImageDrawable(drawable);
 
         src1.recycle();
@@ -109,8 +116,6 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
         clickableAreas.add(new ClickableArea(2, 50, 25, 70, "채소/건나물"));
         clickableAreas.add(new ClickableArea(40, 75, 55, 25, "과일"));
 
-        getTsp(arr_item_position);
-
     }
 
     // Listen for touches on your images:
@@ -132,7 +137,9 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
     }
 
 
-    private Bitmap overlayMark(Bitmap bm_map, Bitmap bm_pin, Bitmap bm_man, ArrayList<ItemPosition> arr_item_position) {
+    private Bitmap overlayMark(Bitmap bm_map, Bitmap bm_pin, Bitmap bm_man, ArrayList<ItemPosition> arr_item_position, ArrayList<ConnerPosition> connerPositions) {
+
+        Paint mPaint = new Paint();
 
         //   (ABS)    (Marker)
         // 155,200 -> 430,565   = (x * 2.77) / ( y * 2.82 )
@@ -143,7 +150,18 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
         Bitmap bmOverlay = Bitmap.createBitmap(bm_map.getWidth(), bm_map.getHeight(), bm_map.getConfig());
         Canvas canvas = new Canvas(bmOverlay);
         canvas.drawBitmap(bm_map, 0, 0, null);
-        canvas.drawBitmap(bm_man, 430, 565, null);
+        canvas.drawBitmap(bm_man, connerPositions.get(0).pic_x *2 -20, connerPositions.get(0).pic_y *2 -20, null);
+
+        for(int i=0; i<connerPositions.size();i++) {
+            Log.i("MapViewActivity_conner","" + connerPositions.get(i).pic_x);
+        }
+
+        mPaint.setColor(Color.BLUE);
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeWidth(3);
+        for(int i=0; i<connerPositions.size()-1;i++) {
+            canvas.drawLine(connerPositions.get(i).pic_x *2, connerPositions.get(i).pic_y *2, connerPositions.get(i+1).pic_x *2, connerPositions.get(i+1).pic_y *2, mPaint);
+        }
 
         String pre_conner = "";
         for (int i=0 ; i< arr_item_position.size(); i++) {
@@ -162,7 +180,7 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
         return bmOverlay;
     }
 
-    public void getTsp(ArrayList<ItemPosition> arr_item_position) {
+    public ArrayList<ConnerPosition> getTsp(ArrayList<ItemPosition> arr_item_position, ConnerPosition whereman) {
 
         String result_corner_name = "";
         String result_path = "";
@@ -173,12 +191,15 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
         int[] best_tour = new int[1];
         boolean tour_check = false;
         double result = 0.0;
+        ArrayList<ConnerPosition> temp_conner = new ArrayList<ConnerPosition>();
+        ArrayList<ConnerPosition> return_conner = new ArrayList<ConnerPosition>();
         //(Start : 160,200) , (Counter : 300,200)
 
 
         // start to dest1
         temp_path = "0.0";
         nosame_corner.add("start");
+
         for (int i=0 ; i< arr_item_position.size(); i++) {
             if( preconner_start.equals(arr_item_position.get(i).conner)) {
                 continue;
@@ -186,14 +207,18 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
             preconner_start = arr_item_position.get(i).conner;
             nosame_corner.add(arr_item_position.get(i).conner);
             ArrayList<Integer> arr_Corner_position_dest = dbManager.select_CornerPosition_byConnerName(arr_item_position.get(i).conner);
-            result = (Math.pow(((arr_Corner_position_dest.get(0) + arr_Corner_position_dest.get(2)/2) - 160), 2) + Math.pow(((arr_Corner_position_dest.get(1) + arr_Corner_position_dest.get(3)/2) - 200), 2)) / 5;
+            result = (Math.pow(((arr_Corner_position_dest.get(0) + arr_Corner_position_dest.get(2)/2) - whereman.pic_x), 2) + Math.pow(((arr_Corner_position_dest.get(1) + arr_Corner_position_dest.get(3)/2) - whereman.pic_y), 2)) / 5;
 
             temp_path = temp_path + " " + result;
+
+            ConnerPosition temp_connerPosition = new ConnerPosition();
+            temp_connerPosition.pic_x = (arr_Corner_position_dest.get(0) + arr_Corner_position_dest.get(2)/2);
+            temp_connerPosition.pic_y = (arr_Corner_position_dest.get(1) + arr_Corner_position_dest.get(3)/2);
+            temp_conner.add(temp_connerPosition);
         }
+
         Log.i("MapViewActivity","" + temp_path);
         result_path = temp_path + "\n";
-
-
 
 
         // dest1 to dest2
@@ -206,7 +231,7 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
             int startx =  arr_Corner_position_start.get(0) + arr_Corner_position_start.get(2) / 2;
             int starty =  arr_Corner_position_start.get(1) + arr_Corner_position_start.get(3) / 2;
 
-            result = (Math.pow(startx-160,2) + Math.pow(starty-200,2)) / 5;
+            result = (Math.pow(startx-whereman.pic_x,2) + Math.pow(starty-whereman.pic_y,2)) / 5;
             temp_path = "" + result;
 
 
@@ -245,11 +270,20 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
                 }
             }
         }
+
+        return_conner.add(whereman);
         for(int i=1; i< best_tour.length; i++) {
             result_corner_name = result_corner_name + " " + nosame_corner.get(best_tour[i]);
+            return_conner.add(temp_conner.get(best_tour[i]-1));
             //Log.i("MapViewActivity","item : " + nosame_corner.get(best_tour[i]));
         }
+        ConnerPosition counter_connerPosition = new ConnerPosition();
+        counter_connerPosition.pic_x = 300;
+        counter_connerPosition.pic_y = 200;
+        return_conner.add(counter_connerPosition);
         Log.i("MapViewActivity","best Tour : " + result_corner_name);
+
+        return return_conner;
     }
 
     @Override
@@ -279,4 +313,9 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
 class ItemPosition {
     String conner;
     int location_num;
+}
+
+class ConnerPosition {
+    int pic_x;
+    int pic_y;
 }
