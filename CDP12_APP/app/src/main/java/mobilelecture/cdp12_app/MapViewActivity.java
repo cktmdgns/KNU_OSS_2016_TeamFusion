@@ -27,6 +27,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -150,17 +152,14 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
         Bitmap bmOverlay = Bitmap.createBitmap(bm_map.getWidth(), bm_map.getHeight(), bm_map.getConfig());
         Canvas canvas = new Canvas(bmOverlay);
         canvas.drawBitmap(bm_map, 0, 0, null);
-        canvas.drawBitmap(bm_man, connerPositions.get(0).pic_x *2 -20, connerPositions.get(0).pic_y *2 -20, null);
-
-        for(int i=0; i<connerPositions.size();i++) {
-            Log.i("MapViewActivity_conner","" + connerPositions.get(i).pic_x);
-        }
+        canvas.drawBitmap(bm_man, connerPositions.get(0).pic_x * 2 - 20, connerPositions.get(0).pic_y * 2 - 20, null);
 
         mPaint.setColor(Color.BLUE);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(3);
+
         for(int i=0; i<connerPositions.size()-1;i++) {
-            canvas.drawLine(connerPositions.get(i).pic_x *2, connerPositions.get(i).pic_y *2, connerPositions.get(i+1).pic_x *2, connerPositions.get(i+1).pic_y *2, mPaint);
+            canvas.drawLine(connerPositions.get(i).pic_x * 2, connerPositions.get(i).pic_y * 2, connerPositions.get(i + 1).pic_x * 2, connerPositions.get(i + 1).pic_y * 2, mPaint);
         }
 
         String pre_conner = "";
@@ -177,6 +176,59 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
                     Integer.valueOf(String.format("%.0f", (arr_Corner_position.get(1) + (arr_Corner_position.get(3) / 2)) * 1.7 - 30)), null);
 
         }
+
+        /*
+
+        ArrayList<ConnerPosition> vertex_positions = dbManager.select_conners();
+        ArrayList<VertexLenth> vertex_lenth = new ArrayList<VertexLenth>();
+        ConnerPosition cur_position;
+        int next_vertex;
+        int count = 0;
+        for(int i=0; i<connerPositions.size();i++) {
+
+            cur_position = connerPositions.get(i);
+            Log.i("MapViewActivity","aaaaaaaaa");
+            next_vertex = 99;
+            while (count < 10) {
+
+                for (int j = 0; j < vertex_positions.size(); j++) {
+                    VertexLenth temp_vertex_lenth = new VertexLenth();
+                    temp_vertex_lenth.vertex_num = j;
+                    temp_vertex_lenth.vertex_lenth = Math.pow(vertex_positions.get(j).pic_x - cur_position.pic_x, 2) + Math.pow(vertex_positions.get(j).pic_y - cur_position.pic_y, 2);
+                    vertex_lenth.add(temp_vertex_lenth);
+                }
+                for (int j = 0; j < vertex_lenth.size(); j++) {
+                    Collections.sort(vertex_lenth, new Comparator<VertexLenth>() {
+                        public int compare(VertexLenth obj1, VertexLenth obj2) {
+                            // TODO Auto-generated method stub
+                            return (obj1.vertex_lenth < obj2.vertex_lenth) ? -1 : (obj1.vertex_lenth > obj2.vertex_lenth) ? 1 : 0;
+                        }
+                    });
+                }
+                Log.i("MapViewActivity", "vertex : " + vertex_lenth.get(0).vertex_num + " " + vertex_lenth.get(0).vertex_lenth);
+                Log.i("MapViewActivity", "vertex : " + vertex_lenth.get(1).vertex_num + " " + vertex_lenth.get(1).vertex_lenth);
+                Log.i("MapViewActivity", "vertex : " + vertex_lenth.get(2).vertex_num + " " + vertex_lenth.get(2).vertex_lenth);
+
+                if(vertex_lenth.get(0).vertex_num == next_vertex) {
+                    break;
+                }
+
+                double temp_result = 1000000.0;
+
+                for (int j = 0; j < 3; j++) {
+                    double temp = Math.pow(vertex_positions.get(vertex_lenth.get(j).vertex_num).pic_x - cur_position.pic_x, 2) + Math.pow(vertex_positions.get(vertex_lenth.get(j).vertex_num).pic_y - cur_position.pic_y, 2);
+                    if (temp_result > temp) {
+                        temp_result = temp;
+                        next_vertex = vertex_lenth.get(j).vertex_num;
+                    }
+                }
+                canvas.drawLine(cur_position.pic_x * 2, cur_position.pic_y * 2, vertex_positions.get(next_vertex).pic_x * 2, vertex_positions.get(next_vertex).pic_y * 2, mPaint);
+                cur_position = vertex_positions.get(next_vertex);
+                count++;
+            }
+        }
+        */
+
         return bmOverlay;
     }
 
@@ -318,4 +370,9 @@ class ItemPosition {
 class ConnerPosition {
     int pic_x;
     int pic_y;
+}
+
+class VertexLenth {
+    int vertex_num;
+    double vertex_lenth;
 }
