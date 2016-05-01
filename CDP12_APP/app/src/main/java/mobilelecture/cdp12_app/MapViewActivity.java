@@ -159,7 +159,7 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
         mPaint.setStrokeWidth(3);
 
         for(int i=0; i<connerPositions.size()-1;i++) {
-            canvas.drawLine(connerPositions.get(i).pic_x * 2, connerPositions.get(i).pic_y * 2, connerPositions.get(i + 1).pic_x * 2, connerPositions.get(i + 1).pic_y * 2, mPaint);
+            canvas.drawLine(connerPositions.get(i).pic_x * 2 , connerPositions.get(i).pic_y * 2 + 15 , connerPositions.get(i + 1).pic_x * 2 , connerPositions.get(i + 1).pic_y * 2 + 15, mPaint);
         }
 
         String pre_conner = "";
