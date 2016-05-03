@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -97,6 +98,13 @@ public class mygui extends JFrame {
 
 		button_search = new JButton("검색");
 		button_search.setBounds(366,53,72,33);
+		button_search.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				String str = textField_name_search.getText();
+
+			}
+		});
 		panel_main.add(button_search);
 		
 		
@@ -105,8 +113,12 @@ public class mygui extends JFrame {
 		button_add.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				String str = textField_name_search.getText();
-
+				if(e.getSource() == button_add){
+					//새창띄우기
+					final add fs = new add();
+					fs.setVisible(true);
+					fs.setSize(280, 380);
+				}
 			}
 		});
 		panel_main.add(button_add);
@@ -122,6 +134,7 @@ public class mygui extends JFrame {
 		gbc_total_List_Scroll.gridheight = 2;
 		gbc_total_List_Scroll.gridy = 0;
 		panel_main.add(total_List_Scroll, gbc_total_List_Scroll);
+		
 		
 
 		setSize(600,700);
