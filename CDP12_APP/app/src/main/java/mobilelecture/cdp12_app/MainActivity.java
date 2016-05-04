@@ -44,220 +44,229 @@ public class MainActivity extends TabActivity {
 
         dbManager = new DBManager(getApplicationContext(), "test.db", null, 1);
 
-        //----------------------------------  hometab spinner 생성 ------------------------------
-        //스피너1 설정
-        String spinner1_array[] = {"대분류", "대분류1", "대분류2"};
-        ArrayAdapter<String> spinner_adapter1 = new ArrayAdapter<String>(this, R.layout.spinner_item, spinner1_array);
-        spinner_adapter1.setDropDownViewResource(R.layout.spinner_item);
-        Spinner spinner1 = (Spinner) findViewById(R.id.spinner_hometab1);
-        Spinner spinner1_2 = (Spinner) findViewById(R.id.spinner_carttab1);
-
-        spinner1.setAdapter(spinner_adapter1);
-        spinner1_2.setAdapter(spinner_adapter1);
-        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-                String msg = parent.getItemAtPosition(position).toString();
-                //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        spinner1_2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-                String msg = parent.getItemAtPosition(position).toString();
-                //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
-
-        //스피너2 설정
-        String spinner2_array[] = {"중분류", "중분류1", "중분류2"};
-        ArrayAdapter<String> spinner_adapter2 = new ArrayAdapter<String>(this, R.layout.spinner_item, spinner2_array);
-        spinner_adapter2.setDropDownViewResource(R.layout.spinner_item);
-        Spinner spinner2 = (Spinner) findViewById(R.id.spinner_hometab2);
-        Spinner spinner2_2 = (Spinner) findViewById(R.id.spinner_carttab2);
-
-        spinner2.setAdapter(spinner_adapter2);
-        spinner2_2.setAdapter(spinner_adapter2);
-        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-                String msg = parent.getItemAtPosition(position).toString();
-                //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        spinner2_2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-                String msg = parent.getItemAtPosition(position).toString();
-                //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
+        if( dbManager.select_IsThereInform().equals("0")) {
+            Intent intent_inform = new Intent(MainActivity.this,UserInformActivity.class);
+            startActivityForResult(intent_inform, 1);
+        }
+        else {
 
 
+            //----------------------------------  hometab spinner 생성 ------------------------------
+            //스피너1 설정
+            String spinner1_array[] = {"대분류", "대분류1", "대분류2"};
+            ArrayAdapter<String> spinner_adapter1 = new ArrayAdapter<String>(this, R.layout.spinner_item, spinner1_array);
+            spinner_adapter1.setDropDownViewResource(R.layout.spinner_item);
+            Spinner spinner1 = (Spinner) findViewById(R.id.spinner_hometab1);
+            Spinner spinner1_2 = (Spinner) findViewById(R.id.spinner_carttab1);
 
-        //----------------------------------  hometab listview 생성 ------------------------------
-       resetEventListView();
+            spinner1.setAdapter(spinner_adapter1);
+            spinner1_2.setAdapter(spinner_adapter1);
+            spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view,
+                                           int position, long id) {
+                    String msg = parent.getItemAtPosition(position).toString();
+                    //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                }
 
-        //----------  carttab listview 생성 ---------
-        resetCartListView();
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+            spinner1_2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view,
+                                           int position, long id) {
+                    String msg = parent.getItemAtPosition(position).toString();
+                    //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+
+            //스피너2 설정
+            String spinner2_array[] = {"중분류", "중분류1", "중분류2"};
+            ArrayAdapter<String> spinner_adapter2 = new ArrayAdapter<String>(this, R.layout.spinner_item, spinner2_array);
+            spinner_adapter2.setDropDownViewResource(R.layout.spinner_item);
+            Spinner spinner2 = (Spinner) findViewById(R.id.spinner_hometab2);
+            Spinner spinner2_2 = (Spinner) findViewById(R.id.spinner_carttab2);
+
+            spinner2.setAdapter(spinner_adapter2);
+            spinner2_2.setAdapter(spinner_adapter2);
+            spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view,
+                                           int position, long id) {
+                    String msg = parent.getItemAtPosition(position).toString();
+                    //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+            spinner2_2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view,
+                                           int position, long id) {
+                    String msg = parent.getItemAtPosition(position).toString();
+                    //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
 
 
+            //----------------------------------  hometab listview 생성 ------------------------------
+            resetEventListView();
+
+            //----------  carttab listview 생성 ---------
+            resetCartListView();
 
 
-        //----------------------------------- cart tab 버튼 이벤트 ----------------------------
-        // 전체삭제
-        Button button_deleteall_cart = (Button) findViewById(R.id.button_deleteall_cart);
-        button_deleteall_cart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("확인").setMessage("장바구니 전체 삭제 하실래요?")
-                        .setNegativeButton("예", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                for (int i = 0; i < listView_carttab.getCount(); i++) {
-                                    dbManager.delete_cart_byname(adapter_cart.getItem(i).getMenuName());
-                            }
-                            resetCartListView();
-                            }
-                        })
-                        .setPositiveButton("아니오", null).show();
-            }
-        });
-
-
-        // 길찾기
-        Button button_searchMap_cart = (Button) findViewById(R.id.button_start_cart);
-        button_searchMap_cart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent_mapview = new Intent(MainActivity.this, MapViewActivity.class);
-                startActivity(intent_mapview);
-            }
-        });
-
-        // 선택 삭제
-        Button button_delete_cart = (Button) findViewById(R.id.button_delete_cart);
-        button_delete_cart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("확인").setMessage("선택 항목 삭제 할래요?")
-                        .setNegativeButton("예", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                for (int i = 0; i < listView_carttab.getCount(); i++) {
-                                    if (adapter_cart.getChecked(i) == true) {
+            //----------------------------------- cart tab 버튼 이벤트 ----------------------------
+            // 전체삭제
+            Button button_deleteall_cart = (Button) findViewById(R.id.button_deleteall_cart);
+            button_deleteall_cart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("확인").setMessage("장바구니 전체 삭제 하실래요?")
+                            .setNegativeButton("예", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    for (int i = 0; i < listView_carttab.getCount(); i++) {
                                         dbManager.delete_cart_byname(adapter_cart.getItem(i).getMenuName());
                                     }
+                                    resetCartListView();
                                 }
-                                resetCartListView();
-                            }
-                        })
-                        .setPositiveButton("아니오", null).show();
+                            })
+                            .setPositiveButton("아니오", null).show();
+                }
+            });
+
+
+            // 길찾기
+            Button button_searchMap_cart = (Button) findViewById(R.id.button_start_cart);
+            button_searchMap_cart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent_mapview = new Intent(MainActivity.this, MapViewActivity.class);
+                    startActivity(intent_mapview);
+                }
+            });
+
+            // 선택 삭제
+            Button button_delete_cart = (Button) findViewById(R.id.button_delete_cart);
+            button_delete_cart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("확인").setMessage("선택 항목 삭제 할래요?")
+                            .setNegativeButton("예", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    for (int i = 0; i < listView_carttab.getCount(); i++) {
+                                        if (adapter_cart.getChecked(i) == true) {
+                                            dbManager.delete_cart_byname(adapter_cart.getItem(i).getMenuName());
+                                        }
+                                    }
+                                    resetCartListView();
+                                }
+                            })
+                            .setPositiveButton("아니오", null).show();
+                }
+            });
+
+            //-------------------------------  ---  ETC tab 리스트뷰 생성 -------------------  -----------
+
+            ArrayList<String> mGroupList = new ArrayList<String>();
+            ArrayList<ArrayList<String>> mChildList = new ArrayList<ArrayList<String>>();
+            ArrayList<String> mChildListContent = new ArrayList<String>();
+
+            mGroupList.add("공지 사항");
+            mGroupList.add("이용 안내");
+            mGroupList.add("문의하기");
+            mGroupList.add("개발자");
+
+            mChildListContent.add("4월 2일");
+            mChildListContent.add("3월 29일");
+            mChildListContent.add("3월 2일");
+
+            mChildList.add(mChildListContent);
+            mChildList.add(mChildListContent);
+            mChildList.add(mChildListContent);
+            mChildList.add(mChildListContent);
+
+            ExpandableListView mListView = (ExpandableListView) findViewById(R.id.listView_etctab1);
+            mListView.setAdapter(new CustomAdapter_listview_etc(this, mGroupList, mChildList));
+
+            // 그룹 클릭 했을 경우 이벤트
+            mListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                @Override
+                public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                    //Toast.makeText(getApplicationContext(), "g click = " + groupPosition, Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
+
+            // 차일드 클릭 했을 경우 이벤트
+            mListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                @Override
+                public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                    //Toast.makeText(getApplicationContext(), "c click = " + childPosition, Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
+
+            // 그룹이 닫힐 경우 이벤트
+            mListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+                @Override
+                public void onGroupCollapse(int groupPosition) {
+                    //Toast.makeText(getApplicationContext(), "g Collapse = " + groupPosition, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            // 그룹이 열릴 경우 이벤트
+            mListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+                @Override
+                public void onGroupExpand(int groupPosition) {
+                    //Toast.makeText(getApplicationContext(), "g Expand = " + groupPosition, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+            //----------------------------------  tabmenu and icon 생성 ------------------------------
+            //탭 메뉴
+            TabHost tabHost = getTabHost();
+
+            //TabSpec tabSpecTab1 = tabHost.newTabSpec("TAB1").setIndicator("",getResources().getDrawable(R.drawable.android_con));
+            TabSpec tabSpecTab1 = tabHost.newTabSpec("TAB1").setIndicator("", getResources().getDrawable(R.drawable.home_con));
+            tabSpecTab1.setContent(R.id.tab1);
+            tabHost.addTab(tabSpecTab1);
+
+            TabSpec tabSpecTab2 = tabHost.newTabSpec("TAB2").setIndicator("", getResources().getDrawable(R.drawable.cart_con));
+            tabSpecTab2.setContent(R.id.tab2);
+            tabHost.addTab(tabSpecTab2);
+
+            TabSpec tabSpecTab3 = tabHost.newTabSpec("TAB3").setIndicator("", getResources().getDrawable(R.drawable.graph_con));
+            tabSpecTab3.setContent(R.id.tab3);
+            tabHost.addTab(tabSpecTab3);
+
+            TabSpec tabSpecTab4 = tabHost.newTabSpec("TAB4").setIndicator("", getResources().getDrawable(R.drawable.menu_con));
+            tabSpecTab4.setContent(R.id.tab4);
+            tabHost.addTab(tabSpecTab4);
+
+            tabHost.setCurrentTab(0);
+            for (int i = 0; i < 4; i++) {
+                tabHost.getTabWidget().getChildAt(i).setPadding(30, 30, 30, 30);
             }
-        });
 
-        //-------------------------------  ---  ETC tab 리스트뷰 생성 -------------------  -----------
-
-        ArrayList<String> mGroupList = new ArrayList<String>();
-        ArrayList<ArrayList<String>> mChildList = new ArrayList<ArrayList<String>>();
-        ArrayList<String> mChildListContent = new ArrayList<String>();
-
-        mGroupList.add("공지 사항");
-        mGroupList.add("이용 안내");
-        mGroupList.add("문의하기");
-        mGroupList.add("개발자");
-
-        mChildListContent.add("4월 2일");
-        mChildListContent.add("3월 29일");
-        mChildListContent.add("3월 2일");
-
-        mChildList.add(mChildListContent);
-        mChildList.add(mChildListContent);
-        mChildList.add(mChildListContent);
-        mChildList.add(mChildListContent);
-
-        ExpandableListView mListView = (ExpandableListView) findViewById(R.id.listView_etctab1);
-        mListView.setAdapter(new CustomAdapter_listview_etc(this, mGroupList, mChildList));
-
-        // 그룹 클릭 했을 경우 이벤트
-        mListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                //Toast.makeText(getApplicationContext(), "g click = " + groupPosition, Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-
-        // 차일드 클릭 했을 경우 이벤트
-        mListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                //Toast.makeText(getApplicationContext(), "c click = " + childPosition, Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-
-        // 그룹이 닫힐 경우 이벤트
-        mListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-                //Toast.makeText(getApplicationContext(), "g Collapse = " + groupPosition, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // 그룹이 열릴 경우 이벤트
-        mListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                //Toast.makeText(getApplicationContext(), "g Expand = " + groupPosition, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        //----------------------------------  tabmenu and icon 생성 ------------------------------
-        //탭 메뉴
-        TabHost tabHost = getTabHost();
-
-        //TabSpec tabSpecTab1 = tabHost.newTabSpec("TAB1").setIndicator("",getResources().getDrawable(R.drawable.android_con));
-        TabSpec tabSpecTab1 = tabHost.newTabSpec("TAB1").setIndicator("",getResources().getDrawable(R.drawable.home_con));
-        tabSpecTab1.setContent(R.id.tab1);
-        tabHost.addTab(tabSpecTab1);
-
-        TabSpec tabSpecTab2 = tabHost.newTabSpec("TAB2").setIndicator("", getResources().getDrawable(R.drawable.cart_con));
-        tabSpecTab2.setContent(R.id.tab2);
-        tabHost.addTab(tabSpecTab2);
-
-        TabSpec tabSpecTab3 = tabHost.newTabSpec("TAB3").setIndicator("",getResources().getDrawable(R.drawable.graph_con));
-        tabSpecTab3.setContent(R.id.tab3);
-        tabHost.addTab(tabSpecTab3);
-
-        TabSpec tabSpecTab4 = tabHost.newTabSpec("TAB4").setIndicator("",getResources().getDrawable(R.drawable.menu_con));
-        tabSpecTab4.setContent(R.id.tab4);
-        tabHost.addTab(tabSpecTab4);
-
-        tabHost.setCurrentTab(0);
-        for (int i = 0; i < 4; i++){
-            tabHost.getTabWidget().getChildAt(i).setPadding(30,30,30,30);
         }
-
     }
 
 
@@ -324,6 +333,34 @@ public class MainActivity extends TabActivity {
         textView_count_cart.setText("총 " + adapter_cart.getCount() + "개 상품");
         //textView_count_cart.setText("총 " + listView_carttab.getCount() + "개 상품");
         //Log.i("MainActivity","총 개 상품 : " + adapter_cart.getCount());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK) { // 액티비티가 정상적으로 종료되었을 경우
+            String inform_check = "";
+            if(requestCode==1) { // InformationInput에서 호출한 경우에만 처리합니다.
+                // 받아온 이름과 전화번호를 InformationInput 액티비티에 표시합니다.
+                inform_check = data.getStringExtra("Inform_exist");
+
+                if(inform_check.equals("true")) {
+                    Log.i("MainActivity","Inform exist");
+
+                    Intent intent_main = new Intent(MainActivity.this, MainActivity.class);
+                    intent_main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent_main);
+                }
+                else {
+                    Log.i("MainActivity","Inform not exist");
+
+                    moveTaskToBack(true);
+                    finish();
+                    android.os.Process.killProcess(android.os.Process.myPid());
+                }
+
+            }
+        }
     }
 
 }

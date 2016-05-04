@@ -647,4 +647,28 @@ public class DBManager extends SQLiteOpenHelper {
         return arrlist;
     }
 
+    public String select_IsThereInform() {
+        SQLiteDatabase db = getWritableDatabase();
+        String return_str = "";
+
+        Cursor c = db.rawQuery("SELECT COUNT(*) FROM sqlite_master WHERE name='INFORM'", null);
+        while(c.moveToNext()) {
+            return_str = c.getString(0);
+        }
+        db.close();
+        return return_str;
+    }
+
+    public void insert_inform(String zender, String age) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS INFORM " +
+                "(_id INTEGER PRIMARY KEY AUTOINCREMENT ," +
+                "ZENDER TEXT, AGE TEXT );");
+
+        sql = "INSERT INTO INFORM (ZENDER, AGE) VALUES ('" + zender + "' , '" + age + "' );";
+
+        db.execSQL(sql);
+        db.close();
+    }
 }

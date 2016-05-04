@@ -20,6 +20,10 @@
             android:name=".MapViewActivity"
             android:label="@string/title_activity_map_view" >
         </activity>
+        <activity
+            android:name=".UserInformActivity"
+            android:label="@string/title_activity_user_inform" >
+        </activity>
     </application>
 
 </manifest>
