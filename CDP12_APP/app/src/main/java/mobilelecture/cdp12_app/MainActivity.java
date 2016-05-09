@@ -1,4 +1,4 @@
-package mobilelecture.cdp12_app;
+﻿package mobilelecture.cdp12_app;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -347,7 +347,9 @@ public class MainActivity extends TabActivity {
         // Data가 변경 되있음을 알려준다.
         adapter_home.notifyDataSetChanged();
     }
+	
 
+	//상품 스피너 출력
     public void resetGoodsListView(int Cid) {
         adapter_home2 = new CustomAdapter_listview_goods(getApplicationContext());
         // 리스트뷰 참조 및 Adapter달기
@@ -372,6 +374,8 @@ public class MainActivity extends TabActivity {
         adapter_home.notifyDataSetChanged();
     }
 
+
+	//물품 검색
     public void resetCartSearchView(String Cname) {
             adapter_home2 = new CustomAdapter_listview_goods(getApplicationContext());
             // 리스트뷰 참조 및 Adapter달기
