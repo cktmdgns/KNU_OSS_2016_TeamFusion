@@ -1,0 +1,7 @@
+
+public class DTO {
+	private String name;
+//	private String ;
+//	private String;
+//	private String;
+}

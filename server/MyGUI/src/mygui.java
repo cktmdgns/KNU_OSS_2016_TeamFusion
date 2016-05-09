@@ -1,13 +1,6 @@
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.Frame;
 import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,10 +10,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
-public class mygui extends JFrame {
+public class mygui extends JFrame implements ActionListener {
 	
 	private JTextField textField_1;
 	
@@ -38,11 +29,12 @@ public class mygui extends JFrame {
 	private JLabel label_view_top;
 	private JLabel label_top_name;
 	private JScrollPane total_List_Scroll;
+	private JList list;
 
 	
 
 	public mygui() {
-
+		
 		panel_main = new JPanel();
 		panel_main.setLayout(null);
 		panel_main.setBounds(0, 0, 500, 500);
@@ -108,17 +100,16 @@ public class mygui extends JFrame {
 		panel_main.add(button_search);
 		
 		
+		
+		
 		JButton button_add = new JButton("추가");
 		button_add.setBounds(366,96,72,30);
 		button_add.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e){
-				if(e.getSource() == button_add){
-					//새창띄우기
-					final add fs = new add();
-					fs.setVisible(true);
-					fs.setSize(280, 380);
-				}
+				addd addd1 = new addd();
+				addd1.createD();
+
 			}
 		});
 		panel_main.add(button_add);
@@ -135,12 +126,25 @@ public class mygui extends JFrame {
 		gbc_total_List_Scroll.gridy = 0;
 		panel_main.add(total_List_Scroll, gbc_total_List_Scroll);
 		
-		
+		list = new JList();
+		total_List_Scroll.setViewportView(list);
 
 		setSize(600,700);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}	
+	
+
 }
+
+
 
 
