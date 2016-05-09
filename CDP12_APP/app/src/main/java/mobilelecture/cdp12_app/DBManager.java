@@ -34,7 +34,7 @@ public class DBManager extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE IF NOT EXISTS GOODS " +
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT ," +
-                "id INTEGER, name TEXT, weight TEXT, price TEXT, c_id INTEGER );");
+                "id INTEGER, name TEXT, weight TEXT, price TEXT, c_id INTEGER);");
 
         db.execSQL("CREATE TABLE IF NOT EXISTS EVENT " +
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT ," +
@@ -150,6 +150,7 @@ public class DBManager extends SQLiteOpenHelper {
 
 
         db.execSQL( "INSERT INTO EVENT (id, name, f_price, l_price) VALUES (1,'해동고등어', '1590', '1000')" );
+        db.execSQL( "INSERT INTO EVENT (id, name, f_price, l_price) VALUES (2,'해동오징어', '1090', '700')" );
         db.execSQL( "INSERT INTO EVENT (id, name, f_price, l_price) VALUES (3,'돼지삼겹살', '1090', '700')" );
         db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (6,'냉동닭가슴살', '5990', '4000')");
         db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (7,'고당도오렌지', '890', '700')");
@@ -490,6 +491,37 @@ public class DBManager extends SQLiteOpenHelper {
         return arrlist;
     }
 
+    public ArrayList<String> select_Search(String goodsName) {
+        SQLiteDatabase db = getWritableDatabase();
+        ArrayList<String> arrlist = new ArrayList<String>();
+
+        String str="";
+        Cursor c = db.rawQuery("SELECT name FROM GOODS where name like  '%" + goodsName + "%';", null);
+        while(c.moveToNext()) {
+            str = c.getString(0);
+            arrlist.add(str);
+        }
+        db.close();
+        return arrlist;
+    }
+
+    public ArrayList<String> select_Classcification(int Cid) {
+        SQLiteDatabase db = getWritableDatabase();
+        ArrayList<String> arrlist = new ArrayList<String>();
+
+        String str="";
+        Cursor c = db.rawQuery("SELECT name FROM GOODS where c_id = '" + Cid + "' ;", null);
+        while(c.moveToNext()) {
+            str = c.getString(0);
+            arrlist.add(str);
+        }
+        db.close();
+        return arrlist;
+    }
+
+
+
+
     public ArrayList<String> select_Event_byname(String goodsName) {
         SQLiteDatabase db = getWritableDatabase();
         ArrayList<String> arrlist = new ArrayList<String>();
@@ -507,7 +539,7 @@ public class DBManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         String str = "";
 
-        Cursor c = db.rawQuery("SELECT id FROM GOODS where name = '" + goodsName + "';", null);
+        Cursor c = db.rawQuery("SELECT id FROM GOODS where name like '%" + goodsName + "%';", null);
         while(c.moveToNext()) {
             str = String.valueOf(c.getInt(0));
         }
