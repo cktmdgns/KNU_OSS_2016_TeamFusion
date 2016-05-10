@@ -109,7 +109,10 @@ public class mygui extends JFrame implements ActionListener {
 			public void actionPerformed(ActionEvent e){
 				addd addd1 = new addd();
 				addd1.createD();
-
+				
+				del del1 = new del();
+				del1.createD_1();
+				
 			}
 		});
 		panel_main.add(button_add);
@@ -141,8 +144,6 @@ public class mygui extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 		
 	}	
-	
-
 }
 
 
