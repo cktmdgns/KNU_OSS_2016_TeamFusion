@@ -11,8 +11,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
         android:weightSum="1">
 
         <ImageView
@@ -27,5 +25,83 @@
             android:textSize="14dp"
             android:id="@+id/textView_where_mapview"
             android:layout_weight="0.24" />
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="37dp">
+
+            <TextView
+                android:id="@+id/monitoringToggleButtonLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:textSize="10dp"
+                android:text="@string/background_monitoring"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <ToggleButton
+                android:id="@+id/backgroundMonitoringToggleButton"
+                android:layout_width="69dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/monitoringToggleButtonLabel"
+                android:layout_alignBottom="@+id/monitoringToggleButtonLabel"
+                android:layout_toEndOf="@+id/monitoringToggleButtonLabel"
+                android:textOn="ON"
+                android:textOff="OFF"
+                android:onClick="onMonitoringToggleButtonClicked" />
+
+            <TextView
+                android:id="@+id/rangingToggleButtonLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/monitoringToggleButtonLabel"
+                android:textSize="10dp"
+                android:text="@string/background_ranging"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <ToggleButton
+                android:id="@+id/backgroundRangingToggleButton"
+                android:layout_width="62dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/rangingToggleButtonLabel"
+                android:layout_alignBottom="@+id/rangingToggleButtonLabel"
+                android:layout_toEndOf="@+id/rangingToggleButtonLabel"
+                android:textOn="ON"
+                android:textOff="OFF"
+                android:onClick="onRangingToggleButtonClicked"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="41dp"
+            android:layout_gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/monitoringButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rangingToggleButtonLabel"
+                android:layout_centerHorizontal="true"
+                android:text="@string/start_monitoring"
+                android:onClick="onButtonClicked"/>
+
+            <Button
+                android:id="@+id/rangingButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/monitoringButton"
+                android:layout_centerHorizontal="true"
+                android:text="@string/start_ranging"
+                android:onClick="onButtonClicked"/>
+        </LinearLayout>
+
+
     </LinearLayout>
+
+
 </RelativeLayout>

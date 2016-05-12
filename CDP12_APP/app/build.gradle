@@ -28,6 +28,8 @@ repositories {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.0.0'
+    compile 'com.android.support:support-v4:23.0.0'
     compile files('libs/glide-3.7.0.jar')
     compile files('libs/picasso-2.5.2.jar')
     compile(name:'reco-sdk-android_1.0.0', ext:'aar')

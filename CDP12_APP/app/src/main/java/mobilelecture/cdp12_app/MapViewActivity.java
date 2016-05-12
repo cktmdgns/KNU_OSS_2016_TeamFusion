@@ -4,9 +4,14 @@ package mobilelecture.cdp12_app;
 import at.lukle.clickableareasimage.ClickableArea;
 import at.lukle.clickableareasimage.ClickableAreasImage;
 import at.lukle.clickableareasimage.OnClickableAreaClickedListener;
+import mobilelecture.cdp12_app.RECO_beacon.RecoBackgroundMonitoringService;
+import mobilelecture.cdp12_app.RECO_beacon.RecoBackgroundRangingService;
+import mobilelecture.cdp12_app.RECO_beacon.RecoMonitoringActivity;
+import mobilelecture.cdp12_app.RECO_beacon.RecoRangingActivity;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
@@ -21,6 +26,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,9 +35,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 
@@ -39,7 +47,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 
 
 
@@ -135,10 +142,10 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
          */
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if(ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                Log.i("MainActivity", "The location permission (ACCESS_COARSE_LOCATION or ACCESS_FINE_LOCATION) is not granted.");
-                //this.requestLocationPermission();
+                Log.i("MapViewActivity", "The location permission (ACCESS_COARSE_LOCATION or ACCESS_FINE_LOCATION) is not granted.");
+                this.requestLocationPermission();
             } else {
-                Log.i("MainActivity", "The location permission (ACCESS_COARSE_LOCATION or ACCESS_FINE_LOCATION) is already granted.");
+                Log.i("MapViewActivity", "The location permission (ACCESS_COARSE_LOCATION or ACCESS_FINE_LOCATION) is already granted.");
             }
         }
 
@@ -463,6 +470,100 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
+    //비콘
+
+    /**
+     * In order to use RECO SDK for Android API 23 (Marshmallow) or higher,
+     * the location permission (ACCESS_COARSE_LOCATION or ACCESS_FINE_LOCATION) is required.
+     *
+     * This sample project requests "ACCESS_COARSE_LOCATION" permission only,
+     * but you may request "ACCESS_FINE_LOCATION" permission depending on your application.
+     *
+     * "ACCESS_COARSE_LOCATION" permission is recommended.
+     *
+     * 안드로이드 API 23 (마시멜로우)이상 버전부터, 정상적으로 RECO SDK를 사용하기 위해서는
+     * 위치 권한 (ACCESS_COARSE_LOCATION 혹은 ACCESS_FINE_LOCATION)을 요청해야 합니다.
+     *
+     * 본 샘플 프로젝트에서는 "ACCESS_COARSE_LOCATION"을 요청하지만, 필요에 따라 "ACCESS_FINE_LOCATION"을 요청할 수 있습니다.
+     *
+     * 당사에서는 ACCESS_COARSE_LOCATION 권한을 권장합니다.
+     *
+     */
+    private void requestLocationPermission() {
+        if(!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_LOCATION);
+            return;
+        }
+
+        Snackbar.make(mLayout, "Location permission is needed to monitor or range beacons.", Snackbar.LENGTH_INDEFINITE)
+                .setAction("ok", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ActivityCompat.requestPermissions(MapViewActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_LOCATION);
+                    }
+                })
+                .show();
+    }
+    public void onMonitoringToggleButtonClicked(View v) {
+        ToggleButton toggle = (ToggleButton)v;
+        if(toggle.isChecked()) {
+            Log.i("MainActivity", "onMonitoringToggleButtonClicked off to on");
+            Intent intent = new Intent(this, RecoBackgroundMonitoringService.class);
+            startService(intent);
+        } else {
+            Log.i("MainActivity", "onMonitoringToggleButtonClicked on to off");
+            stopService(new Intent(this, RecoBackgroundMonitoringService.class));
+        }
+    }
+
+    public void onRangingToggleButtonClicked(View v) {
+        ToggleButton toggle = (ToggleButton)v;
+        if(toggle.isChecked()) {
+            Log.i("MainActivity", "onRangingToggleButtonClicked off to on");
+            Intent intent = new Intent(this, RecoBackgroundRangingService.class);
+            startService(intent);
+        } else {
+            Log.i("MainActivity", "onRangingToggleButtonClicked on to off");
+            stopService(new Intent(this, RecoBackgroundRangingService.class));
+        }
+    }
+
+    public void onButtonClicked(View v) {
+        Button btn = (Button)v;
+        if(btn.getId() == R.id.monitoringButton) {
+            final Intent intent = new Intent(this, RecoMonitoringActivity.class);
+            startActivity(intent);
+        } else {
+            final Intent intent = new Intent(this, RecoRangingActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private boolean isBackgroundMonitoringServiceRunning(Context context) {
+        ActivityManager am = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+        for(ActivityManager.RunningServiceInfo runningService : am.getRunningServices(Integer.MAX_VALUE)) {
+            if(RecoBackgroundMonitoringService.class.getName().equals(runningService.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isBackgroundRangingServiceRunning(Context context) {
+        ActivityManager am = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+        for(ActivityManager.RunningServiceInfo runningService : am.getRunningServices(Integer.MAX_VALUE)) {
+            if(RecoBackgroundRangingService.class.getName().equals(runningService.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }
 
 
