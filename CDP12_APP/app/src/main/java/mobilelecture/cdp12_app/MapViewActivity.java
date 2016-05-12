@@ -6,6 +6,12 @@ import at.lukle.clickableareasimage.ClickableAreasImage;
 import at.lukle.clickableareasimage.OnClickableAreaClickedListener;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
+import android.Manifest;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -14,11 +20,14 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,16 +41,63 @@ import java.util.Comparator;
 import java.util.List;
 
 
+
+
+
 public class MapViewActivity extends AppCompatActivity implements OnClickableAreaClickedListener {
 
     //private String default_drawable_path = "android.resource://mobilelecture.cdp12_app/drawable/";
 
     private DBManager dbManager = null;
-
     private ImageView imgMapView;
-
     private ClickableAreasImage clickableAreasImage;
     private TextView textView_wherePixel;
+
+
+    //비콘 관련 변수들
+    //This is a default proximity uuid of the RECO
+    public static final String RECO_UUID = "24DDF411-8CF1-440C-87CD-E368DAF9C93E";
+
+     // SCAN_RECO_ONLY:
+     // If true, the application scans RECO beacons only, otherwise it scans all beacons.
+     // It will be used when the instance of RECOBeaconManager is created.
+     // true일 경우 레코 비콘만 스캔하며, false일 경우 모든 비콘을 스캔합니다.
+     // RECOBeaconManager 객체 생성 시 사용합니다.
+
+    public static final boolean SCAN_RECO_ONLY = true;
+
+
+     // ENABLE_BACKGROUND_RANGING_TIMEOUT:
+     // If true, the application stops to range beacons in the entered region automatically in 10 seconds (background),
+     // otherwise it continues to range beacons. (It affects the battery consumption.)
+     // It will be used when the instance of RECOBeaconManager is created.
+     // 백그라운드 ranging timeout을 설정합니다.
+     // true일 경우, 백그라운드에서 입장한 region에서 ranging이 실행 되었을 때, 10초 후 자동으로 정지합니다.
+     // false일 경우, 계속 ranging을 실행합니다. (배터리 소모율에 영향을 끼칩니다.)
+     // RECOBeaconManager 객체 생성 시 사용합니다.
+
+    public static final boolean ENABLE_BACKGROUND_RANGING_TIMEOUT = true;
+
+
+     // DISCONTINUOUS_SCAN:
+     // There is a known android bug that some android devices scan BLE devices only once.
+     // (link: http://code.google.com/p/android/issues/detail?id=65863)
+     // To resolve the bug in our SDK, you can use setDiscontinuousScan() method of the RECOBeaconManager.
+     // This method is to set whether the device scans BLE devices continuously or discontinuously.
+     // The default is set as FALSE. Please set TRUE only for specific devices.
+     // 일부 안드로이드 기기에서 BLE 장치들을 스캔할 때, 한 번만 스캔 후 스캔하지 않는 버그(참고: http://code.google.com/p/android/issues/detail?id=65863)가 있습니다.
+     // 해당 버그를 SDK에서 해결하기 위해, RECOBeaconManager에 setDiscontinuousScan() 메소드를 이용할 수 있습니다.
+     // 해당 메소드는 기기에서 BLE 장치들을 스캔할 때(즉, ranging 시에), 연속적으로 계속 스캔할 것인지, 불연속적으로 스캔할 것인지 설정하는 것입니다.
+     // 기본 값은 FALSE로 설정되어 있으며, 특정 장치에 대해 TRUE로 설정하시길 권장합니다.
+
+    public static final boolean DISCONTINUOUS_SCAN = false;
+    private static final int REQUEST_ENABLE_BT = 1;
+    private static final int REQUEST_LOCATION = 10;
+    private BluetoothManager mBluetoothManager;
+    private BluetoothAdapter mBluetoothAdapter;
+    private View mLayout;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +106,54 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
         setContentView(R.layout.activity_map_view);
 
         dbManager = new DBManager(getApplicationContext(), "test.db", null, 1);
+
+
+
+        //비콘 연결
+
+        //If a user device turns off bluetooth, request to turn it on.
+        //사용자가 블루투스를 켜도록 요청합니다.
+        mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        mBluetoothAdapter = mBluetoothManager.getAdapter();
+
+        if(mBluetoothAdapter == null || !mBluetoothAdapter.isEnabled()) {
+            Intent enableBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBTIntent, REQUEST_ENABLE_BT);
+        }
+
+        /**
+         * In order to use RECO SDK for Android API 23 (Marshmallow) or higher,
+         * the location permission (ACCESS_COARSE_LOCATION or ACCESS_FINE_LOCATION) is required.
+         * Please refer to the following permission guide and sample code provided by Google.
+         *
+         * 안드로이드 API 23 (마시멜로우)이상 버전부터, 정상적으로 RECO SDK를 사용하기 위해서는
+         * 위치 권한 (ACCESS_COARSE_LOCATION 혹은 ACCESS_FINE_LOCATION)을 요청해야 합니다.
+         * 권한 요청의 경우, 구글에서 제공하는 가이드를 참고하시기 바랍니다.
+         *
+         * http://www.google.com/design/spec/patterns/permissions.html
+         * https://github.com/googlesamples/android-RuntimePermissions
+         */
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                Log.i("MainActivity", "The location permission (ACCESS_COARSE_LOCATION or ACCESS_FINE_LOCATION) is not granted.");
+                //this.requestLocationPermission();
+            } else {
+                Log.i("MainActivity", "The location permission (ACCESS_COARSE_LOCATION or ACCESS_FINE_LOCATION) is already granted.");
+            }
+        }
+
+        //비콘 끝
+
+
+
+
+
+
+
+
+
+
+
 
         imgMapView = (ImageView) findViewById(R.id.imageView_mapview);
         textView_wherePixel = (TextView) findViewById(R.id.textView_where_mapview);
