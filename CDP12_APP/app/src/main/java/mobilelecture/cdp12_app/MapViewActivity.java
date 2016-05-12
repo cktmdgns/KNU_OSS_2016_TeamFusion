@@ -11,6 +11,7 @@ import mobilelecture.cdp12_app.RECO_beacon.RecoRangingActivity;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
@@ -563,7 +564,33 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
         return false;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_ENABLE_BT && resultCode == Activity.RESULT_CANCELED) {
+            //If the request to turn on bluetooth is denied, the app will be finished.
+            //사용자가 블루투스 요청을 허용하지 않았을 경우, 어플리케이션은 종료됩니다.
+            finish();
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch(requestCode) {
+            case REQUEST_LOCATION : {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Snackbar.make(mLayout, R.string.location_permission_granted, Snackbar.LENGTH_LONG).show();
+                } else {
+                    Snackbar.make(mLayout, R.string.location_permission_not_granted, Snackbar.LENGTH_LONG).show();
+                }
+            }
+            default :
+                break;
+        }
+
+
+    }
 }
 
 
