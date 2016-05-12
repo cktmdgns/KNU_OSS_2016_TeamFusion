@@ -1,14 +1,11 @@
-﻿package mobilelecture.cdp12_app;
+package mobilelecture.cdp12_app;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.*;
-import android.os.Process;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,10 +20,6 @@ import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
 
@@ -47,11 +40,6 @@ public class MainActivity extends TabActivity {
     private ListView listView_carttab;
     private ArrayList<String> arraylist_cart;
     private TextView textView_count_cart;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +48,11 @@ public class MainActivity extends TabActivity {
 
         dbManager = new DBManager(getApplicationContext(), "test.db", null, 1);
 
-        if (dbManager.select_IsThereInform().equals("0")) {
-            Intent intent_inform = new Intent(MainActivity.this, UserInformActivity.class);
+        if( dbManager.select_IsThereInform().equals("0")) {
+            Intent intent_inform = new Intent(MainActivity.this,UserInformActivity.class);
             startActivityForResult(intent_inform, 1);
-        } else {
+        }
+        else {
 
 
             //----------------------------------  hometab spinner 생성 ------------------------------
@@ -161,6 +150,7 @@ public class MainActivity extends TabActivity {
             search_item.setOnClickListener(new View.OnClickListener() {
                 EditText item_name = (EditText) findViewById(R.id.editText_hometab1);
                 TextView tab = (TextView) findViewById(R.id.textView_hometab1);
+
                 public void onClick(View v) {
                     tab.setText("검색 결과");
                     String Cname = item_name.getText().toString();
@@ -318,9 +308,6 @@ public class MainActivity extends TabActivity {
             }
 
         }
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
 
@@ -334,22 +321,62 @@ public class MainActivity extends TabActivity {
 
         ArrayList<String> temp_event;
 
-            for (int i = 0; i < arraylist_event.size(); i++) {
-                String event_goods_name = arraylist_event.get(i);
+        for (int i = 0; i < arraylist_event.size(); i++) {
+            String event_goods_name = arraylist_event.get(i);
 
-                temp_event = dbManager.select_Event_byname(event_goods_name);
-                String gid = dbManager.select_GoodsID_byname(event_goods_name);
-                String icon_name = "goods" + gid;
+            temp_event = dbManager.select_Event_byname(event_goods_name);
+            String gid = dbManager.select_GoodsID_byname(event_goods_name);
+            String icon_name = "goods" + gid;
 
-                Listview_item_event u1 = new Listview_item_event(icon_name, event_goods_name, temp_event.get(0) + "g", temp_event.get(1) + "원");
-                adapter_home.add(u1);
-            }
+            Listview_item_event u1 = new Listview_item_event(icon_name, event_goods_name, temp_event.get(0) + "원", temp_event.get(1) + "원");
+            adapter_home.add(u1);
+        }
         // Data가 변경 되있음을 알려준다.
         adapter_home.notifyDataSetChanged();
     }
-	
 
-	//상품 스피너 출력
+
+
+    public void resetCartListView() {
+        adapter_cart = new CustomAdapter_listview_cart(getApplicationContext());
+        // 리스트뷰 참조 및 Adapter달기
+        listView_carttab = (ListView) findViewById(R.id.listView_carttab1);
+        listView_carttab.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        listView_carttab.setAdapter(adapter_cart);
+
+        arraylist_cart = dbManager.select_Cart();
+
+        ArrayList<String> temp_cart;
+        String EA = "";
+        String Cname = "";
+
+        for (int i = 0; i < arraylist_cart.size(); i++) {
+            String cart_goods_name = arraylist_cart.get(i);
+
+            String gid = dbManager.select_GoodsID_byname(cart_goods_name);
+            String icon_name = "goods" + gid;
+            Log.i("MainActivity","goodsid : " + icon_name);
+
+            temp_cart = dbManager.select_Cart_byname(cart_goods_name);
+            EA = dbManager.select_CartEA_byname(cart_goods_name);
+            Cname = dbManager.select_CName_byInt(Integer.valueOf(temp_cart.get(2)));
+
+            Listview_item_cart u1 = new Listview_item_cart(icon_name,Cname, cart_goods_name, EA + "개", Integer.valueOf(temp_cart.get(0))*Integer.valueOf(EA) + "g", Integer.valueOf(temp_cart.get(1))*Integer.valueOf(EA) + "원");
+            adapter_cart.add(u1);
+
+            adapter_cart.setCheckCount();
+        }
+        // Data가 변경 되있음을 알려준다.
+        adapter_home.notifyDataSetChanged();
+
+        //장바구니에 있는 상품들 갯수 텍스트뷰
+        textView_count_cart = (TextView) findViewById(R.id.textView_cartcount);
+        textView_count_cart.setText("총 " + adapter_cart.getCount() + "개 상품");
+        //textView_count_cart.setText("총 " + listView_carttab.getCount() + "개 상품");
+        //Log.i("MainActivity","총 개 상품 : " + adapter_cart.getCount());
+    }
+
+    //상품 스피너 출력
     public void resetGoodsListView(int Cid) {
         adapter_home2 = new CustomAdapter_listview_goods(getApplicationContext());
         // 리스트뷰 참조 및 Adapter달기
@@ -375,134 +402,60 @@ public class MainActivity extends TabActivity {
     }
 
 
-	//물품 검색
+    //물품 검색
     public void resetCartSearchView(String Cname) {
-            adapter_home2 = new CustomAdapter_listview_goods(getApplicationContext());
-            // 리스트뷰 참조 및 Adapter달기
-            listView_hometab = (ListView) findViewById(R.id.listView_hometab1);
-            listView_hometab.setAdapter(adapter_home2);
-
-            arraylist_search = dbManager.select_Search(Cname);
-
-            ArrayList<String> temp_search;
-
-            for (int i = 0; i < arraylist_search.size(); i++) {
-                String event_goods_name = arraylist_search.get(i);
-                String gid = dbManager.select_GoodsID_byname(event_goods_name);
-                String icon_name = "goods" + gid;
-
-                temp_search = dbManager.select_Goods_byname(event_goods_name);
-
-                Listview_item_goods u1 = new Listview_item_goods(icon_name, event_goods_name, temp_search.get(0) + "g", temp_search.get(1) + "원");
-                adapter_home2.add(u1);
-            }
-            // Data가 변경 되있음을 알려준다.
-            adapter_home2.notifyDataSetChanged();
-        }
-
-    public void resetCartListView() {
-        adapter_cart = new CustomAdapter_listview_cart(getApplicationContext());
+        adapter_home2 = new CustomAdapter_listview_goods(getApplicationContext());
         // 리스트뷰 참조 및 Adapter달기
-        listView_carttab = (ListView) findViewById(R.id.listView_carttab1);
-        listView_carttab.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        listView_carttab.setAdapter(adapter_cart);
+        listView_hometab = (ListView) findViewById(R.id.listView_hometab1);
+        listView_hometab.setAdapter(adapter_home2);
 
-        arraylist_cart = dbManager.select_Cart();
+        arraylist_search = dbManager.select_Search(Cname);
 
-        ArrayList<String> temp_cart;
-        String EA = "";
-        String Cname = "";
+        ArrayList<String> temp_search;
 
-        for (int i = 0; i < arraylist_cart.size(); i++) {
-            String cart_goods_name = arraylist_cart.get(i);
-
-            String gid = dbManager.select_GoodsID_byname(cart_goods_name);
+        for (int i = 0; i < arraylist_search.size(); i++) {
+            String event_goods_name = arraylist_search.get(i);
+            String gid = dbManager.select_GoodsID_byname(event_goods_name);
             String icon_name = "goods" + gid;
-            Log.i("MainActivity", "goodsid : " + icon_name);
 
-            temp_cart = dbManager.select_Cart_byname(cart_goods_name);
-            EA = dbManager.select_CartEA_byname(cart_goods_name);
-            Cname = dbManager.select_CName_byInt(Integer.valueOf(temp_cart.get(2)));
+            temp_search = dbManager.select_Goods_byname(event_goods_name);
 
-            Listview_item_cart u1 = new Listview_item_cart(icon_name, Cname, cart_goods_name, EA + "개", Integer.valueOf(temp_cart.get(0)) * Integer.valueOf(EA) + "g", Integer.valueOf(temp_cart.get(1)) * Integer.valueOf(EA) + "원");
-            adapter_cart.add(u1);
-
-            adapter_cart.setCheckCount();
+            Listview_item_goods u1 = new Listview_item_goods(icon_name, event_goods_name, temp_search.get(0) + "g", temp_search.get(1) + "원");
+            adapter_home2.add(u1);
         }
         // Data가 변경 되있음을 알려준다.
-        adapter_home.notifyDataSetChanged();
-
-        //장바구니에 있는 상품들 갯수 텍스트뷰
-        textView_count_cart = (TextView) findViewById(R.id.textView_cartcount);
-        textView_count_cart.setText("총 " + adapter_cart.getCount() + "개 상품");
-        //textView_count_cart.setText("총 " + listView_carttab.getCount() + "개 상품");
-        //Log.i("MainActivity","총 개 상품 : " + adapter_cart.getCount());
+        adapter_home2.notifyDataSetChanged();
     }
 
+
+
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) { // 액티비티가 정상적으로 종료되었을 경우
+        if(resultCode==RESULT_OK) { // 액티비티가 정상적으로 종료되었을 경우
             String inform_check = "";
-            if (requestCode == 1) { // InformationInput에서 호출한 경우에만 처리합니다.
+            if(requestCode==1) { // InformationInput에서 호출한 경우에만 처리합니다.
                 // 받아온 이름과 전화번호를 InformationInput 액티비티에 표시합니다.
                 inform_check = data.getStringExtra("Inform_exist");
 
-                if (inform_check.equals("true")) {
-                    Log.i("MainActivity", "Inform exist");
+                if(inform_check.equals("true")) {
+                    Log.i("MainActivity","Inform exist");
 
                     Intent intent_main = new Intent(MainActivity.this, MainActivity.class);
                     intent_main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent_main);
-                } else {
-                    Log.i("MainActivity", "Inform not exist");
+                }
+                else {
+                    Log.i("MainActivity","Inform not exist");
 
                     moveTaskToBack(true);
                     finish();
-                    android.os.Process.killProcess(Process.myPid());
+                    android.os.Process.killProcess(android.os.Process.myPid());
                 }
 
             }
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://mobilelecture.cdp12_app/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://mobilelecture.cdp12_app/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
-    }
 }
