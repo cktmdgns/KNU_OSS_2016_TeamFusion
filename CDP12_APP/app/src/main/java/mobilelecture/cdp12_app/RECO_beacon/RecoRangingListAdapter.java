@@ -62,6 +62,16 @@ public class RecoRangingListAdapter extends BaseAdapter {
         }
     }
 
+    public String getMinor(int position) {
+        RECOBeacon recoBeacon = mRangedBeacons.get(position);
+        return recoBeacon.getMinor() + "";
+    }
+    public String getAccuracy(int position) {
+        RECOBeacon recoBeacon = mRangedBeacons.get(position);
+        return String.format("%.2f", recoBeacon.getAccuracy());
+    }
+
+
     public void clear() {
         mRangedBeacons.clear();
     }
@@ -90,10 +100,10 @@ public class RecoRangingListAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             viewHolder.recoProximityUuid = (TextView)convertView.findViewById(R.id.recoProximityUuid);
             viewHolder.recoMajor = (TextView)convertView.findViewById(R.id.recoMajor);
-            viewHolder.recoMinor = (TextView)convertView.findViewById(R.id.recoMinor);
+            viewHolder.recoMinor = (TextView)convertView.findViewById(R.id.recoMinor);      /////
             viewHolder.recoTxPower = (TextView)convertView.findViewById(R.id.recoTxPower);
             viewHolder.recoRssi = (TextView)convertView.findViewById(R.id.recoRssi);
-            viewHolder.recoProximity = (TextView)convertView.findViewById(R.id.recoProximity);
+            viewHolder.recoProximity = (TextView)convertView.findViewById(R.id.recoProximity);  //////
             viewHolder.recoAccuracy = (TextView)convertView.findViewById(R.id.recoAccuracy);
             convertView.setTag(viewHolder);
         } else {

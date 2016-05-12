@@ -436,7 +436,6 @@ public class MainActivity extends TabActivity {
         if(resultCode==RESULT_OK) { // 액티비티가 정상적으로 종료되었을 경우
             String inform_check = "";
             if(requestCode==1) { // InformationInput에서 호출한 경우에만 처리합니다.
-                // 받아온 이름과 전화번호를 InformationInput 액티비티에 표시합니다.
                 inform_check = data.getStringExtra("Inform_exist");
 
                 if(inform_check.equals("true")) {

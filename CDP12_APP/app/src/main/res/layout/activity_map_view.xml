@@ -24,7 +24,7 @@
             android:text=""
             android:textSize="14dp"
             android:id="@+id/textView_where_mapview"
-            android:layout_weight="0.24" />
+            android:layout_weight="0.84" />
 
 
         <LinearLayout
