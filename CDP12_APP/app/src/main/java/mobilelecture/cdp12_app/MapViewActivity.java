@@ -61,6 +61,9 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
     private ClickableAreasImage clickableAreasImage;
     private TextView textView_wherePixel;
 
+    private String current_location_ID = "";
+    private String current_location_LOC = "";
+
 
     //비콘 관련 변수들
     //This is a default proximity uuid of the RECO
@@ -101,6 +104,7 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
     public static final boolean DISCONTINUOUS_SCAN = false;
     private static final int REQUEST_ENABLE_BT = 1;
     private static final int REQUEST_LOCATION = 10;
+    private static final int REQUEST_GETLOCATION = 100;
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
     private View mLayout;
@@ -115,6 +119,8 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
 
         dbManager = new DBManager(getApplicationContext(), "test.db", null, 1);
 
+        Intent intent_getlocation = new Intent(MapViewActivity.this,RecoRangingActivity.class);
+        startActivityForResult(intent_getlocation, REQUEST_GETLOCATION);
 
 
         //비콘 연결
@@ -152,20 +158,8 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
 
         //비콘 끝
 
-
-
-
-
-
-
-
-
-
-
-
-        imgMapView = (ImageView) findViewById(R.id.imageView_mapview);
         textView_wherePixel = (TextView) findViewById(R.id.textView_where_mapview);
-
+        imgMapView = (ImageView) findViewById(R.id.imageView_mapview);
 
         Bitmap src1 = BitmapFactory.decodeResource(this.getResources(), R.drawable.mapview1);
         Bitmap resized1 = Bitmap.createScaledBitmap(src1, 1000, 500, true);
@@ -474,8 +468,7 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
 
 
 
-
-    //비콘
+    // 비콘 테스트
 
     /**
      * In order to use RECO SDK for Android API 23 (Marshmallow) or higher,
@@ -566,13 +559,30 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_ENABLE_BT && resultCode == Activity.RESULT_CANCELED) {
-            //If the request to turn on bluetooth is denied, the app will be finished.
-            //사용자가 블루투스 요청을 허용하지 않았을 경우, 어플리케이션은 종료됩니다.
-            finish();
-            return;
-        }
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_CANCELED) {
+            Log.i("MapViewActivity", "비콘 연동 테스트 디폴트 3333  ");
+            if (requestCode == REQUEST_ENABLE_BT) {
+                //If the request to turn on bluetooth is denied, the app will be finished.
+                //사용자가 블루투스 요청을 허용하지 않았을 경우, 어플리케이션은 종료됩니다.
+                finish();
+                return;
+            }
+        }
+        else if (resultCode==RESULT_OK) {
+            Log.i("MapViewActivity", "비콘 연동 테스트 디폴트 2222  ");
+            if (requestCode==REQUEST_GETLOCATION) {
+                current_location_ID = data.getStringExtra("current_location_ID");
+                current_location_LOC = data.getStringExtra("current_location_LOC");
+                textView_wherePixel.setText("ID :  " + current_location_ID + " LOC :  " +  current_location_LOC + "meter");
+                Log.i("MapViewActivity", "비콘 연동 테스트  " + current_location_ID + "  " + current_location_LOC+ "meter");
+            }
+        }
+        else {
+            Log.i("MapViewActivity", "비콘 연동 테스트 디폴트  ");
+        }
+
     }
 
     @Override

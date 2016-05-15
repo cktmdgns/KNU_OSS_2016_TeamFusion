@@ -23,6 +23,7 @@
  */
 package mobilelecture.cdp12_app.RECO_beacon;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.Log;
@@ -85,6 +86,7 @@ public class RecoRangingActivity extends RecoActivity implements RECORangingList
 
     @Override
     protected void onDestroy() {
+
         super.onDestroy();
         this.stop(mRegions);
         this.unbind();
@@ -113,6 +115,22 @@ public class RecoRangingActivity extends RecoActivity implements RECORangingList
         mRangingListAdapter.updateAllBeacons(recoBeacons);
         mRangingListAdapter.notifyDataSetChanged();
         //Write the code when the beacons in the region is received
+
+
+        String return_location_ID = "0";
+        double temp_location = 100.0;
+        for(int i=0; i<mRangingListAdapter.getCount();i++) {
+            if(temp_location > Double.valueOf(mRangingListAdapter.getAccuracy(i))) {
+                temp_location = Double.valueOf(mRangingListAdapter.getAccuracy(i));
+                return_location_ID = mRangingListAdapter.getMinor(i);
+            }
+        }
+        Intent intent_out_location = getIntent();
+        intent_out_location.putExtra("current_location_ID",return_location_ID);
+        intent_out_location.putExtra("current_location_LOC", temp_location + "");
+        Log.i("RECORangingActivity", "" + return_location_ID + "  " + temp_location);
+        setResult(RESULT_OK, intent_out_location);
+
     }
 
     @Override
@@ -138,6 +156,7 @@ public class RecoRangingActivity extends RecoActivity implements RECORangingList
                 e.printStackTrace();
             }
         }
+
     }
 
     @Override
