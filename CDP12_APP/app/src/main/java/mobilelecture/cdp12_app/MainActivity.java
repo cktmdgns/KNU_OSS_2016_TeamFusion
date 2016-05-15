@@ -196,7 +196,8 @@ public class MainActivity extends TabActivity {
             button_searchMap_cart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent_mapview = new Intent(MainActivity.this, MapViewActivity.class);
+                    Intent intent_mapview = new Intent(MainActivity.this, RecoRangingActivity.class);
+                    intent_mapview.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     startActivity(intent_mapview);
                 }
             });

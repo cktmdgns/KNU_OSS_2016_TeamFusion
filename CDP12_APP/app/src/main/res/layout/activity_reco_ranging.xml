@@ -5,10 +5,33 @@
     android:layout_height="wrap_content"
     tools:context="com.perples.recosample.RecoRangingActivity">
 
-    <ListView android:id="@+id/list_ranging"
+
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp">
-    </ListView>
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="위치 탐색중..."
+            android:id="@+id/textView"
+            android:textSize="25dp"
+            android:padding="10dp"
+            android:layout_gravity="center_horizontal"
+            android:textIsSelectable="false" />
+
+        <ListView android:id="@+id/list_ranging"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+        </ListView>
+
+    </LinearLayout>
 
 </RelativeLayout>

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package mobilelecture.cdp12_app.RECO_beacon;
+package mobilelecture.cdp12_app;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -71,7 +71,6 @@ public class RecoRangingListAdapter extends BaseAdapter {
         return String.format("%.2f", recoBeacon.getAccuracy());
     }
 
-
     public void clear() {
         mRangedBeacons.clear();
     }
@@ -98,12 +97,12 @@ public class RecoRangingListAdapter extends BaseAdapter {
         if(convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.item_ranging_beacon, parent, false);
             viewHolder = new ViewHolder();
-            viewHolder.recoProximityUuid = (TextView)convertView.findViewById(R.id.recoProximityUuid);
-            viewHolder.recoMajor = (TextView)convertView.findViewById(R.id.recoMajor);
+            //viewHolder.recoProximityUuid = (TextView)convertView.findViewById(R.id.recoProximityUuid);
+            //viewHolder.recoMajor = (TextView)convertView.findViewById(R.id.recoMajor);
             viewHolder.recoMinor = (TextView)convertView.findViewById(R.id.recoMinor);      /////
-            viewHolder.recoTxPower = (TextView)convertView.findViewById(R.id.recoTxPower);
-            viewHolder.recoRssi = (TextView)convertView.findViewById(R.id.recoRssi);
-            viewHolder.recoProximity = (TextView)convertView.findViewById(R.id.recoProximity);  //////
+            //viewHolder.recoTxPower = (TextView)convertView.findViewById(R.id.recoTxPower);
+            //viewHolder.recoRssi = (TextView)convertView.findViewById(R.id.recoRssi);
+            //viewHolder.recoProximity = (TextView)convertView.findViewById(R.id.recoProximity);  //////
             viewHolder.recoAccuracy = (TextView)convertView.findViewById(R.id.recoAccuracy);
             convertView.setTag(viewHolder);
         } else {
@@ -114,24 +113,24 @@ public class RecoRangingListAdapter extends BaseAdapter {
 
         String proximityUuid = recoBeacon.getProximityUuid();
 
-        viewHolder.recoProximityUuid.setText(String.format("%s-%s-%s-%s-%s", proximityUuid.substring(0, 8), proximityUuid.substring(8, 12), proximityUuid.substring(12, 16), proximityUuid.substring(16, 20), proximityUuid.substring(20) ));
-        viewHolder.recoMajor.setText(recoBeacon.getMajor() + "");
+        //viewHolder.recoProximityUuid.setText(String.format("%s-%s-%s-%s-%s", proximityUuid.substring(0, 8), proximityUuid.substring(8, 12), proximityUuid.substring(12, 16), proximityUuid.substring(16, 20), proximityUuid.substring(20)));
+        //viewHolder.recoMajor.setText(recoBeacon.getMajor() + "");
         viewHolder.recoMinor.setText(recoBeacon.getMinor() + "");
-        viewHolder.recoTxPower.setText(recoBeacon.getTxPower() + "");
-        viewHolder.recoRssi.setText(recoBeacon.getRssi() + "");
-        viewHolder.recoProximity.setText(recoBeacon.getProximity() + "");
+        //viewHolder.recoTxPower.setText(recoBeacon.getTxPower() + "");
+        //viewHolder.recoRssi.setText(recoBeacon.getRssi() + "");
+        //viewHolder.recoProximity.setText(recoBeacon.getProximity() + "");
         viewHolder.recoAccuracy.setText(String.format("%.2f", recoBeacon.getAccuracy()));
 
         return convertView;
     }
 
     static class ViewHolder {
-        TextView recoProximityUuid;
-        TextView recoMajor;
+        //TextView recoProximityUuid;
+        //TextView recoMajor;
         TextView recoMinor;
-        TextView recoTxPower;
-        TextView recoRssi;
-        TextView recoProximity;
+        //TextView recoTxPower;
+        //TextView recoRssi;
+        //TextView recoProximity;
         TextView recoAccuracy;
     }
 

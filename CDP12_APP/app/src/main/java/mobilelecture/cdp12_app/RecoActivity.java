@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package mobilelecture.cdp12_app.RECO_beacon;
+package mobilelecture.cdp12_app;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -32,8 +32,6 @@ import com.perples.recosdk.RECOBeaconRegion;
 import com.perples.recosdk.RECOServiceConnectListener;
 
 import java.util.ArrayList;
-
-import mobilelecture.cdp12_app.MapViewActivity;
 
 /**
  * RECOActivity class is the base activity for RECOMonitoringActivity and RECORangingActivity.
@@ -63,7 +61,7 @@ public abstract class RecoActivity extends Activity implements RECOServiceConnec
          * 주의: enableRangingTimeout을 false로 설정 시, 배터리 소모량이 증가합니다.
          */
 
-        mRecoManager = RECOBeaconManager.getInstance(getApplicationContext(), MapViewActivity.SCAN_RECO_ONLY, MapViewActivity.ENABLE_BACKGROUND_RANGING_TIMEOUT);
+        mRecoManager = RECOBeaconManager.getInstance(getApplicationContext(), RecoRangingActivity.SCAN_RECO_ONLY, RecoRangingActivity.ENABLE_BACKGROUND_RANGING_TIMEOUT);
         mRegions = this.generateBeaconRegion();
     }
 
@@ -76,7 +74,7 @@ public abstract class RecoActivity extends Activity implements RECOServiceConnec
         ArrayList<RECOBeaconRegion> regions = new ArrayList<RECOBeaconRegion>();
 
         RECOBeaconRegion recoRegion;
-        recoRegion = new RECOBeaconRegion(MapViewActivity.RECO_UUID, "RECO Sample Region");
+        recoRegion = new RECOBeaconRegion(RecoRangingActivity.RECO_UUID, "RECO Sample Region");
         regions.add(recoRegion);
 
         return regions;
