@@ -12,7 +12,7 @@ public class TCPServer implements Runnable {
     //public static final String ServerIP = "xxx.xxx.xxx.xxxx";
 	
 	public static final int ServerPort = 9999;
-    public static final String ServerIP = "211.229.100.40";
+    public static final String ServerIP = "211.229.100.109";
  
     @Override
     public void run() {
