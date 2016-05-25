@@ -132,7 +132,7 @@ public class DBManager extends SQLiteOpenHelper {
 
 
 
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (1,'해동고등어', '400', '1590', 1)" );
+        db.execSQL("INSERT INTO GOODS (id, name, weight, price,c_id) VALUES (1,'해동고등어','400','1590', 1)" );
         db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (2,'해동오징어', '250', '1590', 1)" );
         db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (22,'돼지삼겹살', '100', '1090', 2)" );
         db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (23,'돼지목심', '100', '1090', 2)" );
@@ -145,7 +145,8 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (63,'햇감자', '100', '590', 6)" );
         db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (64,'애호박', '260', '1990', 6)" );
         db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (65,'제주무', '1500', '1490', 6)" );
-        db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (66,'파프리카', '50', '1290', 6)" );
+        db.execSQL("INSERT INTO GOODS (id, name, weight, price,c_id) VALUES (66,'파프리카', '50', '1290', 6)" );
+
 
 
 

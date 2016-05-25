@@ -178,14 +178,16 @@ public class RecoRangingActivity extends RecoActivity implements RECORangingList
 
 
     @Override
-    protected void onDestroy() {
+     protected void onDestroy() {
 
         Intent intent_out_location = new Intent(getApplicationContext(),MapViewActivity.class);
-        intent_out_location.putExtra("current_location_ID",return_location_ID);
+        intent_out_location.putExtra("current_location_ID", return_location_ID);
         intent_out_location.putExtra("current_location_LOC", temp_location + "");
         Log.i("RECORangingActivity", "" + return_location_ID + "  " + temp_location);
-        intent_out_location.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent_out_location.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent_out_location);
+
+
 
         super.onDestroy();
         this.stop(mRegions);
@@ -227,6 +229,7 @@ public class RecoRangingActivity extends RecoActivity implements RECORangingList
 
         if(recoBeacons.size() >= 3) {
             onDestroy();
+            finish();
         }
     }
 

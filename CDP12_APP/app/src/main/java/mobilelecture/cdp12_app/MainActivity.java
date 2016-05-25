@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,6 +24,13 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 public class MainActivity extends TabActivity {
@@ -41,6 +51,15 @@ public class MainActivity extends TabActivity {
     private ArrayList<String> arraylist_cart;
     private TextView textView_count_cart;
 
+
+    //server-client
+    private Socket client;
+    private String ip = "211.229.100.109";
+    private int port = 9999;
+    private Thread thread;
+    private ClientThread clientThread;
+    private Handler handler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,32 +67,37 @@ public class MainActivity extends TabActivity {
 
         dbManager = new DBManager(getApplicationContext(), "test.db", null, 1);
 
+
         if( dbManager.select_IsThereInform().equals("0")) {
             Intent intent_inform = new Intent(MainActivity.this,UserInformActivity.class);
             startActivityForResult(intent_inform, 1);
         }
         else {
 
+            //  --------------   server - client ----------
+            handler = new Handler(){
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    Bundle bundle = msg.getData();
+                    Log.i("MainActivity","bundle_getStr : " + bundle.getString("msg"));
+
+                }
+            };
+            connect();
 
             //----------------------------------  hometab spinner 생성 ------------------------------
             //스피너1 설정
             String spinner1_array[] = {"종류 선택", "해산", "정육", "과일", "채소"};
             ArrayAdapter<String> spinner_adapter1 = new ArrayAdapter<String>(this, R.layout.spinner_item, spinner1_array);
             spinner_adapter1.setDropDownViewResource(R.layout.spinner_item);
-            final Spinner spinner1 = (Spinner) findViewById(R.id.spinner_hometab1);
+
+            Spinner spinner1 = (Spinner) findViewById(R.id.spinner_hometab1);
             Spinner spinner1_2 = (Spinner) findViewById(R.id.spinner_carttab1);
 
-          /*  String[] spinner2_array = {"중분류", "중분류1", "중분류2"};
-            final Spinner spinner2 = (Spinner) findViewById(R.id.spinner_hometab2);
-            Spinner spinner2_2 = (Spinner) findViewById(R.id.spinner_carttab2);
-            ArrayAdapter<String> spinner_adapter2 = new ArrayAdapter<String>(this, R.layout.spinner_item, spinner2_array);
-            spinner_adapter2.setDropDownViewResource(R.layout.spinner_item);
-
-            spinner2.setAdapter(spinner_adapter2);
-            spinner2_2.setAdapter(spinner_adapter2);*/
 
             spinner1.setAdapter(spinner_adapter1);
             spinner1_2.setAdapter(spinner_adapter1);
+
             spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view,
@@ -111,37 +135,6 @@ public class MainActivity extends TabActivity {
                 public void onNothingSelected(AdapterView<?> parent) {
                 }
             });
-
-
-/*
-            spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view,
-                                           int position, long id) {
-                    String msg = parent.getItemAtPosition(position).toString();
-                    //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-                    String str = (String) spinner2.getSelectedItem();
-                    if (str.equals("해산")){
-                        resetEventListView("생선");
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                }
-            });
-            spinner2_2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view,
-                                           int position, long id) {
-                    String msg = parent.getItemAtPosition(position).toString();
-                    //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                }
-            });*/
 
 
             //물품검색
@@ -221,6 +214,17 @@ public class MainActivity extends TabActivity {
                                 }
                             })
                             .setPositiveButton("아니오", null).show();
+                }
+            });
+
+            //-------------------------------  ---  tab3 통계 -------------------  -----------
+            // 서버에 메세지 보내기
+            Button button_sendtest= (Button) findViewById(R.id.button_sendtest_tab3);
+            button_sendtest.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    clientThread.send("message send !!");
                 }
             });
 
@@ -458,4 +462,31 @@ public class MainActivity extends TabActivity {
         }
     }
 
+
+
+
+
+
+    // ------------------------------- server-client  -------------------------------
+    public void connect(){
+
+        thread = new Thread(){
+            public void run() {
+                super.run();
+                try {
+                    client = new Socket(ip, port);
+
+                    clientThread = new ClientThread(client, handler);
+                    clientThread.start();
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        thread.start();
+    }
 }

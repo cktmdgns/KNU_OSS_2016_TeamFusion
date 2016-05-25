@@ -53,6 +53,12 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
     private String current_location_LOC = "";
     private String curcorname = "";
 
+    private ConnerPosition whereman;
+    private ArrayList<String> arr_cart;
+
+    private ArrayList<String> finish_cart;
+    private ArrayList<ItemPosition> arr_item_position;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,22 +94,10 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
         }
 
 
-
-
-        Bitmap src1 = BitmapFactory.decodeResource(this.getResources(), R.drawable.mapview1);
-        Bitmap resized1 = Bitmap.createScaledBitmap(src1, 1000, 500, true);
-
-        Bitmap src2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.map_pin_red);
-        Bitmap resized2 = Bitmap.createScaledBitmap(src2, 70, 70, true);
-
-        Bitmap src3 = BitmapFactory.decodeResource(this.getResources(), R.drawable.man_con);
-        Bitmap resized3 = Bitmap.createScaledBitmap(src3, 80, 80, true);
-
-
-        ConnerPosition whereman = new ConnerPosition();
+        whereman = new ConnerPosition();
         if (curcorname.equals("정육1")) {
             whereman.pic_x = 145;
-            whereman.pic_y = 40;
+            whereman.pic_y = 20;
         }
         else if (curcorname.equals("과일")) {
             whereman.pic_x = 105;
@@ -119,7 +113,25 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
         }
 
 
-        ArrayList<ItemPosition> arr_item_position = new ArrayList<ItemPosition>();
+        finish_cart = new ArrayList<String>();
+        //test
+        //finish_cart.add("채소/건나물");
+        //finish_cart.add("정육/계란1");
+        //finish_cart.add("과일");
+
+
+        //findMap create = getArr_item_position(); + setMyDrawable(); + setMyClickableAreasImage();
+        getArr_item_position();
+        setMyDrawable();
+        setMyClickableAreasImage();
+
+    }
+
+    public void getArr_item_position() {
+
+        boolean delete_finish_check = false;
+        arr_item_position = new ArrayList<ItemPosition>();
+
         ItemPosition temp_item_position0 = new ItemPosition();
         temp_item_position0.conner_name = "Start";
         temp_item_position0.goods_location = 5;
@@ -138,10 +150,19 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
         temp_item_position1.lenth_y = 1;
         arr_item_position.add(temp_item_position1);
 
-        ArrayList<String> arr_cart = dbManager.select_Cart_forMap();
-        for (int i = 0; i < arr_cart.size(); i++) {
+        arr_cart = dbManager.select_Cart_forMap();
 
+        for (int i = 0; i < arr_cart.size(); i++) {
             ArrayList<String> temp_cart = dbManager.select_Cart_forMap_byname(arr_cart.get(i));
+
+            for(int z = 0; z < finish_cart.size(); z++) {
+                if( temp_cart.get(0).equals(finish_cart.get(z)) ) {
+                    delete_finish_check = true;
+                }
+            }
+            if (delete_finish_check == true) {
+                continue;
+            }
 
             ItemPosition temp_item_position = new ItemPosition();
             ArrayList<Integer> arr_Corner_position_dest = dbManager.select_CornerPosition_byConnerName(temp_cart.get(0));
@@ -153,6 +174,36 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
             temp_item_position.lenth_y = arr_Corner_position_dest.get(3);
             arr_item_position.add(temp_item_position);
         }
+    }
+
+    public void setMyClickableAreasImage() {
+
+        // Create your image
+        clickableAreasImage = new ClickableAreasImage(new PhotoViewAttacher(imgMapView), this);
+
+        // Initialize your clickable area list
+        List<ClickableArea> clickableAreas = new ArrayList<>();
+        clickableAreasImage.setClickableAreas(clickableAreas);
+
+        // Define your clickable areas
+        // parameter values (pixels): (x coordinate, y coordinate, width, height) and assign an object to it
+        clickableAreas.add(new ClickableArea(200, 90, 40, 30, "행사3"));
+        clickableAreas.add(new ClickableArea(220, 115, 30, 20, "라면"));
+        clickableAreas.add(new ClickableArea(110, 5, 70, 20, "정육/계란1"));
+        clickableAreas.add(new ClickableArea(2, 50, 25, 70, "채소/건나물"));
+        clickableAreas.add(new ClickableArea(40, 75, 55, 25, "과일"));
+    }
+
+    public void setMyDrawable() {
+        Bitmap src1 = BitmapFactory.decodeResource(this.getResources(), R.drawable.mapview1);
+        Bitmap resized1 = Bitmap.createScaledBitmap(src1, 1000, 500, true);
+
+        Bitmap src2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.map_pin_red);
+        Bitmap resized2 = Bitmap.createScaledBitmap(src2, 70, 70, true);
+
+        Bitmap src3 = BitmapFactory.decodeResource(this.getResources(), R.drawable.man_con);
+        Bitmap resized3 = Bitmap.createScaledBitmap(src3, 80, 80, true);
+
 
         ArrayList<ConnerPosition> connerPositions = getTsp(arr_item_position, whereman);
 
@@ -172,29 +223,17 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
         resized3.recycle();
         resized3 = null;
 
-        // Create your image
-        clickableAreasImage = new ClickableAreasImage(new PhotoViewAttacher(imgMapView), this);
-
-        // Initialize your clickable area list
-        List<ClickableArea> clickableAreas = new ArrayList<>();
-        clickableAreasImage.setClickableAreas(clickableAreas);
-
-        // Define your clickable areas
-        // parameter values (pixels): (x coordinate, y coordinate, width, height) and assign an object to it
-        clickableAreas.add(new ClickableArea(200, 90, 40, 30, "행사3"));
-        clickableAreas.add(new ClickableArea(220, 115, 30, 20, "라면"));
-        clickableAreas.add(new ClickableArea(110, 5, 70, 20, "정육/계란1"));
-        clickableAreas.add(new ClickableArea(2, 50, 25, 70, "채소/건나물"));
-        clickableAreas.add(new ClickableArea(40, 75, 55, 25, "과일"));
-
     }
+
+
+
+
 
     // Listen for touches on your images:
     @Override
     public void onClickableAreaTouched(Object item) {
 
         ArrayList<String> temp_arr = clickableAreasImage.getPixel();
-
         if (item instanceof String) {
             String text = "Touch Item ( " + (item).toString() + " ) Location :  X = " + temp_arr.get(0) + "  /  Y = " + temp_arr.get(1);
             Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
@@ -202,6 +241,30 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
             String text = "Touch Location :  X = " + temp_arr.get(0) + "  /  Y = " + temp_arr.get(1);
             Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
         }
+
+
+        boolean finish_cart_check = false;
+        for(int i=0; i<finish_cart.size();i++) {
+            if (finish_cart.get(i).equals( (item).toString() )) {
+                finish_cart_check = true;
+            }
+        }
+        finish_cart.add( (item).toString() );
+
+
+        if (finish_cart_check == false) {
+            for(int i=0; i<arr_item_position.size();i++) {
+                if (arr_item_position.get(i).conner_name.equals( (item).toString()) ) {
+                    //arr_item_position.remove(i);
+                    finish_cart.add( (item).toString() );
+                    break;
+                }
+            }
+        }
+
+        getArr_item_position();
+        setMyDrawable();
+        setMyClickableAreasImage();
     }
 
 
@@ -361,18 +424,21 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
         }
 
 
-        for (int k = 0; k < 10; k++) {
+        for (int k = 0; k < 30; k++) {
             Tsp tsp = new Tsp();
             tsp.readStringPath(result_path);
             for (int i = 0; i < 10; i++) {
-
                 if (tour_check == true) {
                     break;
                 } else {
                     best_tour = tsp.solve(i);
                     if (i > 3 && best_tour[0] == 0) {
+                        Log.i("MapViewActivity","best 11 : " + best_tour[best_tour.length-1] + best_tour.length);
                         tour_check = true;
-                        break;
+                        if( best_tour[best_tour.length -1] == best_tour.length -1) {
+                            Log.i("MapViewActivity","best End : " + best_tour[best_tour.length-1] + best_tour.length);
+                            break;
+                        }
                     }
                 }
             }

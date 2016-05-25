@@ -20,6 +20,7 @@
         당사에서는 ACCESS_COARSE_LOCATION 권한을 권장합니다. -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
 
     <application
@@ -45,16 +46,10 @@
             android:label="@string/title_activity_user_inform" >
         </activity>
 
-
-
-        <activity android:name=".RECO_beacon.RecoMonitoringActivity" >
-        </activity>
         <activity android:name=".RecoRangingActivity" >
         </activity>
 
         <service android:name="com.perples.recosdk.RECOBeaconService" />
-        <service android:name=".RECO_beacon.RecoBackgroundMonitoringService" />
-        <service android:name=".RECO_beacon.RecoBackgroundRangingService"/>
 
 
     </application>
