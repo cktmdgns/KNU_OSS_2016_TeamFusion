@@ -115,7 +115,7 @@ public class CustomAdapter_listview_goods extends BaseAdapter implements OnClick
                                 dbManager = new DBManager(mContext, "test.db", null, 1);
                                 String corner_name = dbManager.select_CName_byInt(Integer.valueOf(dbManager.select_Goods_byname(viewHolder.menu_name.getText().toString()).get(2)));
                                 dbManager.insert_cart(viewHolder.menu_name.getText().toString(), 1, corner_name, 1);
-                                ((MainActivity)v.getRootView().getContext()).resetCartListView();
+                                //((MainActivity)v.getRootView().getContext()).resetCartListView();
                                 Toast.makeText (mContext, "추가되었습니다", Toast.LENGTH_SHORT).show();
                             }
                         }).setPositiveButton("아니오",null).show();

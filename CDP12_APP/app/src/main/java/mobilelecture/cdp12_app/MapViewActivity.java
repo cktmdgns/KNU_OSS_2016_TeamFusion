@@ -48,10 +48,12 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
     private ImageView imgMapView;
     private ClickableAreasImage clickableAreasImage;
     private TextView textView_wherePixel;
+    private TextView textView_cornergoodsinform;
 
     private String current_location_ID = "";
     private String current_location_LOC = "";
     private String curcorname = "";
+    private String pass_tauch_string = "";
 
     private ConnerPosition whereman;
     private ArrayList<String> arr_cart;
@@ -69,6 +71,7 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
 
         textView_wherePixel = (TextView) findViewById(R.id.textView_where_mapview);
         imgMapView = (ImageView) findViewById(R.id.imageView_mapview);
+        textView_cornergoodsinform = (TextView) findViewById(R.id.textView_MapView_connergoodsinform);
 
 
 
@@ -226,45 +229,62 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
     }
 
 
-
-
-
     // Listen for touches on your images:
     @Override
     public void onClickableAreaTouched(Object item) {
 
-        ArrayList<String> temp_arr = clickableAreasImage.getPixel();
+        //ArrayList<String> temp_arr = clickableAreasImage.getPixel();
+        //if (item instanceof String) {
+            //String text = "Touch Item ( " + (item).toString() + " ) Location :  X = " + temp_arr.get(0) + "  /  Y = " + temp_arr.get(1);
+            //Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+        //} else {
+            //String text = "Touch Location :  X = " + temp_arr.get(0) + "  /  Y = " + temp_arr.get(1);
+            //Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+        //}
+
+        pass_tauch_string = (item).toString();
+
+        String cornerinform = "";
+        cornerinform = pass_tauch_string + " 코너\n";
+
+        ArrayList<String> temp_cart = dbManager.select_Cart_forMap_bycornername(pass_tauch_string);
+        for(int i=0; i<temp_cart.size(); i++){
+            cornerinform = cornerinform + temp_cart.get(i) + "\n";
+        }
+
         if (item instanceof String) {
-            String text = "Touch Item ( " + (item).toString() + " ) Location :  X = " + temp_arr.get(0) + "  /  Y = " + temp_arr.get(1);
-            Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-        } else {
-            String text = "Touch Location :  X = " + temp_arr.get(0) + "  /  Y = " + temp_arr.get(1);
-            Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+            textView_cornergoodsinform.setText(cornerinform);
         }
 
+        Snackbar.make(findViewById(R.id.MapViewActivity_id), pass_tauch_string + " 코너 쇼핑 완료하셨나요? ", Snackbar.LENGTH_LONG)
+                .setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        boolean finish_cart_check = false;
+                        for (int i = 0; i < finish_cart.size(); i++) {
+                            //if (finish_cart.get(i).equals( (item).toString() )) {
+                            if (finish_cart.get(i).equals(pass_tauch_string)) {
+                                finish_cart_check = true;
+                            }
+                        }
+                        finish_cart.add(pass_tauch_string);
 
-        boolean finish_cart_check = false;
-        for(int i=0; i<finish_cart.size();i++) {
-            if (finish_cart.get(i).equals( (item).toString() )) {
-                finish_cart_check = true;
-            }
-        }
-        finish_cart.add( (item).toString() );
 
+                        if (finish_cart_check == false) {
+                            for (int i = 0; i < arr_item_position.size(); i++) {
+                                if (arr_item_position.get(i).conner_name.equals(pass_tauch_string)) {
+                                    //arr_item_position.remove(i);
+                                    finish_cart.add(pass_tauch_string);
+                                    break;
+                                }
+                            }
+                        }
 
-        if (finish_cart_check == false) {
-            for(int i=0; i<arr_item_position.size();i++) {
-                if (arr_item_position.get(i).conner_name.equals( (item).toString()) ) {
-                    //arr_item_position.remove(i);
-                    finish_cart.add( (item).toString() );
-                    break;
-                }
-            }
-        }
-
-        getArr_item_position();
-        setMyDrawable();
-        setMyClickableAreasImage();
+                        getArr_item_position();
+                        setMyDrawable();
+                        setMyClickableAreasImage();
+                    }
+                }).show();
     }
 
 

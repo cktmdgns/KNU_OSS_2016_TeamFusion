@@ -10,18 +10,28 @@
     <!-- 블루투스 기능을 사용하기 위해 필요한 권한입니다. -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-feature android:required="true" android:name="android.hardware.bluetooth_le"/>
 
-    <!-- One of these permissions are required for Android API 23 (marshmallow) or higher.
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
+
+    <!--
+         One of these permissions are required for Android API 23 (marshmallow) or higher.
         If you already use one of them, you do not need to add the other permission.
-        "ACCESS_COARSE_LOCATION" permission is recommended. -->
-    <!-- 안드로이드 API 23 (마시멜로우) 이상의 버전에서 필요한 권한입니다.
+        "ACCESS_COARSE_LOCATION" permission is recommended.
+    -->
+    <!--
+         안드로이드 API 23 (마시멜로우) 이상의 버전에서 필요한 권한입니다.
         ACCESS_COARSE_LOCATION 혹은 ACCESS_FINE_LOCATION 중 1개의 권한만 필요로 합니다.
-        당사에서는 ACCESS_COARSE_LOCATION 권한을 권장합니다. -->
+        당사에서는 ACCESS_COARSE_LOCATION 권한을 권장합니다.
+    -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -45,13 +55,15 @@
             android:name=".UserInformActivity"
             android:label="@string/title_activity_user_inform" >
         </activity>
-
         <activity android:name=".RecoRangingActivity" >
         </activity>
 
         <service android:name="com.perples.recosdk.RECOBeaconService" />
 
-
+        <activity
+            android:name=".GoodsSearchActivity"
+            android:label="@string/title_activity_goods_search" >
+        </activity>
     </application>
 
 </manifest>

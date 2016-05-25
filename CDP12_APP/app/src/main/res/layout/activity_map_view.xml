@@ -5,7 +5,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:background="#FFFFFF"
-    tools:context="mobilelecture.cdp12_app.MapViewActivity">
+    tools:context="mobilelecture.cdp12_app.MapViewActivity"
+    android:id="@+id/MapViewActivity_id">
 
     <LinearLayout
         android:orientation="vertical"
@@ -18,14 +19,26 @@
             android:layout_height="366dp"
             android:id="@+id/imageView_mapview" />
 
-        <TextView
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="14dp"
-            android:id="@+id/textView_where_mapview"
-            android:layout_weight="0.84" />
+            android:layout_weight="0.88"
+            android:weightSum="1">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text=""
+                android:textSize="14dp"
+                android:id="@+id/textView_where_mapview"
+                android:layout_weight="0.93" />
+
+            <TextView
+                android:layout_width="169dp"
+                android:layout_height="match_parent"
+                android:id="@+id/textView_MapView_connergoodsinform" />
+        </LinearLayout>
 
 
     </LinearLayout>

@@ -56,9 +56,6 @@ public class MainActivity extends TabActivity {
     private Socket client;
     private String ip = "211.229.100.109";
     private int port = 9999;
-    private Thread thread;
-    private ClientThread clientThread;
-    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,20 +71,9 @@ public class MainActivity extends TabActivity {
         }
         else {
 
-            //  --------------   server - client ----------
-            handler = new Handler(){
-                public void handleMessage(Message msg) {
-                    super.handleMessage(msg);
-                    Bundle bundle = msg.getData();
-                    Log.i("MainActivity","bundle_getStr : " + bundle.getString("msg"));
-
-                }
-            };
-            connect();
-
             //----------------------------------  hometab spinner 생성 ------------------------------
             //스피너1 설정
-            String spinner1_array[] = {"종류 선택", "해산", "정육", "과일", "채소"};
+            ArrayList<String> spinner1_array = dbManager.select_Corners_forspinner();
             ArrayAdapter<String> spinner_adapter1 = new ArrayAdapter<String>(this, R.layout.spinner_item, spinner1_array);
             spinner_adapter1.setDropDownViewResource(R.layout.spinner_item);
 
@@ -102,20 +88,12 @@ public class MainActivity extends TabActivity {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view,
                                            int position, long id) {
-                    String msg = parent.getItemAtPosition(position).toString();
-                    switch(position) {
-                        case 1:
-                            resetGoodsListView(position);
-                            break;
-                        case 2:
-                            resetGoodsListView(position);
-                            break;
-                        case 3:
-                            resetGoodsListView(position);
-                            break;
-                        case 4:
-                            resetGoodsListView(position);
-                            break;
+                    if(position > 0) {
+                        Intent intent_search_corner = new Intent(getApplicationContext(),GoodsSearchActivity.class);
+                        intent_search_corner.putExtra("CornerName", "" + position);
+                        intent_search_corner.putExtra("GoodsName", "");
+                        intent_search_corner.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent_search_corner);
                     }
                 }
 
@@ -127,8 +105,14 @@ public class MainActivity extends TabActivity {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view,
                                            int position, long id) {
-                    String msg = parent.getItemAtPosition(position).toString();
-                    //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    if(position > 0) {
+                        //resetGoodsListView(position);
+                        Intent intent_search_corner = new Intent(getApplicationContext(),GoodsSearchActivity.class);
+                        intent_search_corner.putExtra("CornerName", "" + position);
+                        intent_search_corner.putExtra("GoodsName", "");
+                        intent_search_corner.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent_search_corner);
+                    }
                 }
 
                 @Override
@@ -137,8 +121,7 @@ public class MainActivity extends TabActivity {
             });
 
 
-            //물품검색
-
+            //물품검색1
             ImageButton search_item = (ImageButton)findViewById(R.id.imageButton_hometab1);
             search_item.setOnClickListener(new View.OnClickListener() {
                 EditText item_name = (EditText) findViewById(R.id.editText_hometab1);
@@ -147,13 +130,34 @@ public class MainActivity extends TabActivity {
                 public void onClick(View v) {
                     tab.setText("검색 결과");
                     String Cname = item_name.getText().toString();
-                    resetCartSearchView(Cname);
+                    Intent intent_search_corner = new Intent(getApplicationContext(), GoodsSearchActivity.class);
+                    intent_search_corner.putExtra("CornerName", "");
+                    intent_search_corner.putExtra("GoodsName", "" + Cname);
+                    intent_search_corner.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent_search_corner);
                     Toast.makeText(v.getContext(), Cname, Toast.LENGTH_SHORT).show();
 
                 }
             });
 
+            //물품검색2
+            ImageButton search_item2 = (ImageButton)findViewById(R.id.imageButton_carttab1);
+            search_item2.setOnClickListener(new View.OnClickListener() {
+                EditText item_name = (EditText) findViewById(R.id.editText_carttab1);
+                TextView tab = (TextView) findViewById(R.id.textView_carttab1);
 
+                public void onClick(View v) {
+                    tab.setText("검색 결과");
+                    String Cname = item_name.getText().toString();
+                    Intent intent_search_corner = new Intent(getApplicationContext(),GoodsSearchActivity.class);
+                    intent_search_corner.putExtra("CornerName", "");
+                    intent_search_corner.putExtra("GoodsName", "" + Cname);
+                    intent_search_corner.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent_search_corner);
+                    Toast.makeText(v.getContext(), Cname, Toast.LENGTH_SHORT).show();
+
+                }
+            });
 
             //----------------------------------  hometab listview 생성 ------------------------------
             resetEventListView();
@@ -224,7 +228,7 @@ public class MainActivity extends TabActivity {
                 @Override
                 public void onClick(View v) {
 
-                    clientThread.send("message send !!");
+                    //clientThread.send("message send !!");
                 }
             });
 
@@ -285,10 +289,9 @@ public class MainActivity extends TabActivity {
                 }
             });
 
-
             //----------------------------------  tabmenu and icon 생성 ------------------------------
             //탭 메뉴
-            TabHost tabHost = getTabHost();
+            final TabHost tabHost = getTabHost();
 
             //TabSpec tabSpecTab1 = tabHost.newTabSpec("TAB1").setIndicator("",getResources().getDrawable(R.drawable.android_con));
             TabSpec tabSpecTab1 = tabHost.newTabSpec("TAB1").setIndicator("", getResources().getDrawable(R.drawable.home_con));
@@ -311,6 +314,14 @@ public class MainActivity extends TabActivity {
             for (int i = 0; i < 4; i++) {
                 tabHost.getTabWidget().getChildAt(i).setPadding(30, 30, 30, 30);
             }
+
+
+            tabHost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    resetCartListView();
+                }
+            });
 
         }
     }
@@ -339,8 +350,6 @@ public class MainActivity extends TabActivity {
         // Data가 변경 되있음을 알려준다.
         adapter_home.notifyDataSetChanged();
     }
-
-
 
     public void resetCartListView() {
         adapter_cart = new CustomAdapter_listview_cart(getApplicationContext());
@@ -372,7 +381,7 @@ public class MainActivity extends TabActivity {
             adapter_cart.setCheckCount();
         }
         // Data가 변경 되있음을 알려준다.
-        adapter_home.notifyDataSetChanged();
+        adapter_cart.notifyDataSetChanged();
 
         //장바구니에 있는 상품들 갯수 텍스트뷰
         textView_count_cart = (TextView) findViewById(R.id.textView_cartcount);
@@ -380,59 +389,6 @@ public class MainActivity extends TabActivity {
         //textView_count_cart.setText("총 " + listView_carttab.getCount() + "개 상품");
         //Log.i("MainActivity","총 개 상품 : " + adapter_cart.getCount());
     }
-
-    //상품 스피너 출력
-    public void resetGoodsListView(int Cid) {
-        adapter_home2 = new CustomAdapter_listview_goods(getApplicationContext());
-        // 리스트뷰 참조 및 Adapter달기
-        listView_hometab = (ListView) findViewById(R.id.listView_hometab1);
-        listView_hometab.setAdapter(adapter_home2);
-
-        arraylist_goods = dbManager.select_Classcification(Cid);
-
-        ArrayList<String> temp_goods;
-
-        for (int i = 0; i < arraylist_goods.size(); i++) {
-            String event_goods_name = arraylist_goods.get(i);
-
-            temp_goods = dbManager.select_Goods_byname(event_goods_name);
-            String gid = dbManager.select_GoodsID_byname(event_goods_name);
-            String icon_name = "goods" + gid;
-
-            Listview_item_goods u1 = new Listview_item_goods(icon_name, event_goods_name, temp_goods.get(0) + "g", temp_goods.get(1) + "원");
-            adapter_home2.add(u1);
-        }
-        // Data가 변경 되있음을 알려준다.
-        adapter_home.notifyDataSetChanged();
-    }
-
-
-    //물품 검색
-    public void resetCartSearchView(String Cname) {
-        adapter_home2 = new CustomAdapter_listview_goods(getApplicationContext());
-        // 리스트뷰 참조 및 Adapter달기
-        listView_hometab = (ListView) findViewById(R.id.listView_hometab1);
-        listView_hometab.setAdapter(adapter_home2);
-
-        arraylist_search = dbManager.select_Search(Cname);
-
-        ArrayList<String> temp_search;
-
-        for (int i = 0; i < arraylist_search.size(); i++) {
-            String event_goods_name = arraylist_search.get(i);
-            String gid = dbManager.select_GoodsID_byname(event_goods_name);
-            String icon_name = "goods" + gid;
-
-            temp_search = dbManager.select_Goods_byname(event_goods_name);
-
-            Listview_item_goods u1 = new Listview_item_goods(icon_name, event_goods_name, temp_search.get(0) + "g", temp_search.get(1) + "원");
-            adapter_home2.add(u1);
-        }
-        // Data가 변경 되있음을 알려준다.
-        adapter_home2.notifyDataSetChanged();
-    }
-
-
 
 
     @Override
@@ -462,31 +418,6 @@ public class MainActivity extends TabActivity {
         }
     }
 
-
-
-
-
-
     // ------------------------------- server-client  -------------------------------
-    public void connect(){
 
-        thread = new Thread(){
-            public void run() {
-                super.run();
-                try {
-                    client = new Socket(ip, port);
-
-                    clientThread = new ClientThread(client, handler);
-                    clientThread.start();
-                } catch (UnknownHostException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        };
-
-        thread.start();
-    }
 }
