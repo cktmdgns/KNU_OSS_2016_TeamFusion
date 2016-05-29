@@ -1143,7 +1143,7 @@ public class DBManager extends SQLiteOpenHelper {
     public String select_GoodsID_byname(String goodsName) {
         SQLiteDatabase db = getWritableDatabase();
         String str = "";
-        Cursor c = db.rawQuery("SELECT id FROM GOODS where name like '%" + goodsName + "%';", null);
+        Cursor c = db.rawQuery("SELECT id FROM GOODS where name = '" + goodsName + "';", null);
 
         while(c.moveToNext()) {
             str = String.valueOf(c.getInt(0));
