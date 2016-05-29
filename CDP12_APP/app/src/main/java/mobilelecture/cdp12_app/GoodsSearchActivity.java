@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -65,7 +68,7 @@ public class GoodsSearchActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
-                if(position > 0) {
+                if (position > 0) {
                     resetGoodsListView(position);
                 }
             }
@@ -91,9 +94,42 @@ public class GoodsSearchActivity extends AppCompatActivity {
             }
         });
 
+
+        HorizontalListView listview_horizon = (HorizontalListView) findViewById(R.id.listView_horizon);
+        listview_horizon.setAdapter(mAdapter);
+
     }
 
+    private String[] data = new String[] {
+            "t1", "t2", "t3"
+    };
 
+    private BaseAdapter mAdapter = new BaseAdapter() {
+        @Override
+        public int getCount() {
+            return data.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            View retval = LayoutInflater.from(parent.getContext()).inflate(R.layout.horizon_listitem, parent, false);
+            //TextView title = (TextView) retval.findViewById(R.id.)
+
+
+            return retval;
+        }
+    };
 
 
 

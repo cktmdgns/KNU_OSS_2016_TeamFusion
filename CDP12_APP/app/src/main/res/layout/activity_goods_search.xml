@@ -85,9 +85,13 @@
 
             <ListView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="286dp"
                 android:id="@+id/listView_goodsSearch" />
 
+            <mobilelecture.cdp12_app.HorizontalListView
+                android:id="@+id/listView_horizon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
