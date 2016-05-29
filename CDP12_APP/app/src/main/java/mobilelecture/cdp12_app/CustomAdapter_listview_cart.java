@@ -169,7 +169,10 @@ public class CustomAdapter_listview_cart extends BaseAdapter implements OnClickL
         return v;
     }
 
-
+    public String getEA(int position) {
+        mUser = getItem(position);
+        return mUser.getCount();
+    }
 
     public class PersonViewHolder {
         // ListView 내부 View들을 가르킬 변수들

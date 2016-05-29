@@ -34,7 +34,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -43,6 +45,8 @@ import java.util.List;
 public class MapViewActivity extends AppCompatActivity implements OnClickableAreaClickedListener {
 
     //private String default_drawable_path = "android.resource://mobilelecture.cdp12_app/drawable/";
+
+    private String strCurDate = "";
 
     private DBManager dbManager = null;
     private ImageView imgMapView;
@@ -68,6 +72,11 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
         setContentView(R.layout.activity_map_view);
 
         dbManager = new DBManager(getApplicationContext(), "test.db", null, 1);
+
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat CurDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+        strCurDate = CurDateFormat.format(date);
 
         textView_wherePixel = (TextView) findViewById(R.id.textView_where_mapview);
         imgMapView = (ImageView) findViewById(R.id.imageView_mapview);
@@ -247,7 +256,7 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
         String cornerinform = "";
         cornerinform = pass_tauch_string + " 코너\n";
 
-        ArrayList<String> temp_cart = dbManager.select_Cart_forMap_bycornername(pass_tauch_string);
+        final ArrayList<String> temp_cart = dbManager.select_Cart_forMap_bycornername(pass_tauch_string);
         for(int i=0; i<temp_cart.size(); i++){
             cornerinform = cornerinform + temp_cart.get(i) + "\n";
         }
@@ -269,6 +278,15 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
                         }
                         finish_cart.add(pass_tauch_string);
 
+
+                        for(int i=0; i<temp_cart.size(); i++){
+                            int temp_EA = Integer.valueOf( dbManager.select_CartEA_byname(temp_cart.get(i)).substring(dbManager.select_CartEA_byname(temp_cart.get(i)).length() -1) );
+                            dbManager.insert_shopingList(strCurDate,
+                                    temp_cart.get(i),
+                                    Integer.valueOf( dbManager.select_cartPrice_byname(temp_cart.get(i)).substring(0, dbManager.select_cartPrice_byname(temp_cart.get(i)).length() -1) ) * temp_EA + "원",
+                                    temp_EA + "개");
+                            dbManager.delete_cart_byname(temp_cart.get(i));
+                        }
 
                         if (finish_cart_check == false) {
                             for (int i = 0; i < arr_item_position.size(); i++) {

@@ -52,7 +52,17 @@ public class DBManager extends SQLiteOpenHelper {
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT ," +
                 "id INTEGER, x1 INTEGER, y1 INTEGER );");
 
+        db.execSQL("CREATE TABLE IF NOT EXISTS SHOPING_LIST " +
+                "(_id INTEGER PRIMARY KEY AUTOINCREMENT ," +
+                "date TEXT, name TEXT, price TEXT, EA TEXT );");
+
         db.execSQL( "INSERT INTO SHOP (id, name, location) VALUES (1,'홈플러스','황금')" );
+
+        // 가계부 용 DB
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, name, price, EA) VALUES ('2016년 05월 29일','오렌지', 990, '1')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, name, price, EA) VALUES ('2016년 05월 29일','딸기', 4190, '2')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, name, price, EA) VALUES ('2016년 05월 30일','돼지 목살', 5000, '4')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, name, price, EA) VALUES ('2016년 05월 31일','블루베리', 990, '1')" );
 
 
 
@@ -1207,6 +1217,18 @@ public class DBManager extends SQLiteOpenHelper {
         return arrlist;
     }
 
+    public String select_cartPrice_byname(String goodsName) {
+        SQLiteDatabase db = getWritableDatabase();
+        String str = "";
+
+        Cursor c = db.rawQuery("SELECT price FROM GOODS where name = '" + goodsName + "';", null);
+        while(c.moveToNext()) {
+            str = c.getString(0);
+        }
+        db.close();
+        return str;
+    }
+
     public String select_CartEA_byname(String goodsName) {
         SQLiteDatabase db = getWritableDatabase();
         String str = "";
@@ -1310,4 +1332,16 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL(sql);
         db.close();
     }
+
+
+    //db.execSQL( "INSERT INTO SHOPING_LIST (date, name, price, EA) VALUES ('2016년 05월 31일','블루베리', 990, '1')" );
+    public void insert_shopingList(String date, String name, String price, String EA) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        sql = "INSERT INTO SHOPING_LIST (date, name, price, EA) VALUES ('" + date + "' , '" + name + "', '" + price + "', '" + EA + "' );";
+
+        db.execSQL(sql);
+        db.close();
+    }
+
 }

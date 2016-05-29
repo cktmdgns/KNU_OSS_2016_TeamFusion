@@ -31,11 +31,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends TabActivity {
 
     private DBManager dbManager = null;
+    private String strCurDate = "";
 
     //home tab
     private CustomAdapter_listview_event adapter_home;
@@ -63,6 +66,12 @@ public class MainActivity extends TabActivity {
         setContentView(R.layout.activity_main);
 
         dbManager = new DBManager(getApplicationContext(), "test.db", null, 1);
+
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat CurDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+        strCurDate = CurDateFormat.format(date);
+        Log.i("MainActivity","current date : " + strCurDate);
 
 
         if( dbManager.select_IsThereInform().equals("0")) {
@@ -174,7 +183,20 @@ public class MainActivity extends TabActivity {
                 public void onClick(View v) {
                     new AlertDialog.Builder(MainActivity.this)
                             .setTitle("확인").setMessage("장바구니 전체 삭제 하실래요?")
-                            .setNegativeButton("예", new DialogInterface.OnClickListener() {
+                            .setNegativeButton("가계부에 넣고 삭제", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    for (int i = 0; i < listView_carttab.getCount(); i++) {
+                                        dbManager.insert_shopingList(strCurDate,
+                                                adapter_cart.getItem(i).getMenuName(),
+                                                adapter_cart.getItem(i).getPrice(),
+                                                adapter_cart.getEA(i));
+                                        dbManager.delete_cart_byname(adapter_cart.getItem(i).getMenuName());
+                                    }
+                                    resetCartListView();
+                                }
+                            })
+                            .setNeutralButton("전체 삭제", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     for (int i = 0; i < listView_carttab.getCount(); i++) {
@@ -183,7 +205,7 @@ public class MainActivity extends TabActivity {
                                     resetCartListView();
                                 }
                             })
-                            .setPositiveButton("아니오", null).show();
+                            .setPositiveButton("취소", null).show();
                 }
             });
 
@@ -206,18 +228,38 @@ public class MainActivity extends TabActivity {
                 public void onClick(View v) {
                     new AlertDialog.Builder(MainActivity.this)
                             .setTitle("확인").setMessage("선택 항목 삭제 할래요?")
-                            .setNegativeButton("예", new DialogInterface.OnClickListener() {
+                            .setNegativeButton("가계부에 넣고 삭제", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     for (int i = 0; i < listView_carttab.getCount(); i++) {
                                         if (adapter_cart.getChecked(i) == true) {
-                                            dbManager.delete_cart_byname(adapter_cart.getItem(i).getMenuName());
+                                            dbManager.insert_shopingList(strCurDate,
+                                                    adapter_cart.getItem(i).getMenuName(),
+                                                    adapter_cart.getItem(i).getPrice(),
+                                                adapter_cart.getEA(i));
+                                        dbManager.delete_cart_byname(adapter_cart.getItem(i).getMenuName());
+                                    }
+                                }
+
+                                resetCartListView();
+                            }
+                }
+
+                )
+                        .
+
+                setNeutralButton("선택항목 삭제",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick (DialogInterface dialog,int which){
+                        for (int i = 0; i < listView_carttab.getCount(); i++) {
+                            if (adapter_cart.getChecked(i) == true) {
+                                dbManager.delete_cart_byname(adapter_cart.getItem(i).getMenuName());
                                         }
                                     }
                                     resetCartListView();
                                 }
                             })
-                            .setPositiveButton("아니오", null).show();
+                            .setPositiveButton("취소", null).show();
                 }
             });
 
