@@ -54,15 +54,15 @@ public class DBManager extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE IF NOT EXISTS SHOPING_LIST " +
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT ," +
-                "date TEXT, name TEXT, price TEXT, EA TEXT );");
+                "date DATE, year TEXT, month TEXT, day TEXT, name TEXT, price TEXT, EA TEXT );");
 
         db.execSQL( "INSERT INTO SHOP (id, name, location) VALUES (1,'홈플러스','황금')" );
 
         // 가계부 용 DB
-        db.execSQL( "INSERT INTO SHOPING_LIST (date, name, price, EA) VALUES ('2016년 05월 29일','오렌지', 990, '1')" );
-        db.execSQL( "INSERT INTO SHOPING_LIST (date, name, price, EA) VALUES ('2016년 05월 29일','딸기', 4190, '2')" );
-        db.execSQL( "INSERT INTO SHOPING_LIST (date, name, price, EA) VALUES ('2016년 05월 30일','돼지 목살', 5000, '4')" );
-        db.execSQL( "INSERT INTO SHOPING_LIST (date, name, price, EA) VALUES ('2016년 05월 31일','블루베리', 990, '1')" );
+        //db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 29일', '2016', '05', '29','오렌지', 990, '1')" );
+        //db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 29일', '2016', '05', '29','딸기', 4190, '2')" );
+        //db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 30일', '2016', '05', '30','돼지 목살', 5000, '4')" );
+        //db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 31일', '2016', '05', '31','블루베리', 990, '1')" );
 
 
 
@@ -1335,13 +1335,38 @@ public class DBManager extends SQLiteOpenHelper {
 
 
     //db.execSQL( "INSERT INTO SHOPING_LIST (date, name, price, EA) VALUES ('2016년 05월 31일','블루베리', 990, '1')" );
-    public void insert_shopingList(String date, String name, String price, String EA) {
+    public void insert_shopingList(String date, String year, String month, String day, String name, String price, String EA) {
         SQLiteDatabase db = getWritableDatabase();
 
-        sql = "INSERT INTO SHOPING_LIST (date, name, price, EA) VALUES ('" + date + "' , '" + name + "', '" + price + "', '" + EA + "' );";
+        sql = "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ( '" + date + "', '" + year + "', '" + month + "', '" + day + "' , '" + name + "', '" + price + "', '" + EA + "' );";
 
         db.execSQL(sql);
         db.close();
+    }
+
+    public ArrayList<Listview_item_tab3> select_shoping_list(String year, String month) {
+        SQLiteDatabase db = getWritableDatabase();
+        ArrayList<Listview_item_tab3> arrlist = new ArrayList<Listview_item_tab3>();
+
+        Cursor c = db.rawQuery("SELECT DATE, NAME, EA, PRICE FROM SHOPING_LIST WHERE year = '" +  year + "' AND month = '" + month + "' order by DATE", null);
+        while(c.moveToNext()) {
+            Listview_item_tab3 temp = new Listview_item_tab3(c.getString(0), c.getString(1), c.getString(2), c.getString(3));
+            arrlist.add(temp);
+        }
+        db.close();
+        return arrlist;
+    }
+
+    public ArrayList<String> select_shoping_list_all() {
+        SQLiteDatabase db = getWritableDatabase();
+        ArrayList<String> arrlist = new ArrayList<String>();
+
+        Cursor c = db.rawQuery("SELECT DATE, NAME FROM SHOPING_LIST;", null);
+        while(c.moveToNext()) {
+            arrlist.add(c.getString(0) + c.getString(1));
+        }
+        db.close();
+        return arrlist;
     }
 
 }

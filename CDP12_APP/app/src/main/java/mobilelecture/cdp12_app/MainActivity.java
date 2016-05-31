@@ -38,21 +38,29 @@ import java.util.Date;
 public class MainActivity extends TabActivity {
 
     private DBManager dbManager = null;
-    private String strCurDate = "";
+
+    private String curdate = "";
+    private String curyear = "";
+    private String curmonth = "";
+    private String curday = "";
+    private int tempyear = 0;
+    private int tempmonth = 0;
 
     //home tab
     private CustomAdapter_listview_event adapter_home;
-    private CustomAdapter_listview_goods adapter_home2;
     private ListView listView_hometab;
     private ArrayList<String> arraylist_event;
-    private ArrayList<String> arraylist_search;
-    private ArrayList<String> arraylist_goods;
 
     //cart tab
     private CustomAdapter_listview_cart adapter_cart;
     private ListView listView_carttab;
     private ArrayList<String> arraylist_cart;
     private TextView textView_count_cart;
+
+    //tab3
+    private CustomAdapter_listview_tab3 adapter_tab3;
+    private ListView listView_tab3;
+    private ArrayList<Listview_item_tab3> arraylist_shoping_list;
 
 
     //server-client
@@ -70,8 +78,14 @@ public class MainActivity extends TabActivity {
         long now = System.currentTimeMillis();
         Date date = new Date(now);
         SimpleDateFormat CurDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
-        strCurDate = CurDateFormat.format(date);
-        Log.i("MainActivity","current date : " + strCurDate);
+        //SimpleDateFormat CurDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        curdate = CurDateFormat.format(date);
+        SimpleDateFormat CurYearFormat = new SimpleDateFormat("yyyy");
+        curyear = CurYearFormat.format(date);
+        SimpleDateFormat CurMonthFormat = new SimpleDateFormat("MM");
+        curmonth = CurMonthFormat.format(date);
+        SimpleDateFormat CurDayFormat = new SimpleDateFormat("dd");
+        curday = CurDayFormat.format(date);
 
 
         if( dbManager.select_IsThereInform().equals("0")) {
@@ -114,9 +128,9 @@ public class MainActivity extends TabActivity {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view,
                                            int position, long id) {
-                    if(position > 0) {
+                    if (position > 0) {
                         //resetGoodsListView(position);
-                        Intent intent_search_corner = new Intent(getApplicationContext(),GoodsSearchActivity.class);
+                        Intent intent_search_corner = new Intent(getApplicationContext(), GoodsSearchActivity.class);
                         intent_search_corner.putExtra("CornerName", "" + position);
                         intent_search_corner.putExtra("GoodsName", "");
                         intent_search_corner.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -158,7 +172,7 @@ public class MainActivity extends TabActivity {
                 public void onClick(View v) {
                     tab.setText("검색 결과");
                     String Cname = item_name.getText().toString();
-                    Intent intent_search_corner = new Intent(getApplicationContext(),GoodsSearchActivity.class);
+                    Intent intent_search_corner = new Intent(getApplicationContext(), GoodsSearchActivity.class);
                     intent_search_corner.putExtra("CornerName", "");
                     intent_search_corner.putExtra("GoodsName", "" + Cname);
                     intent_search_corner.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -187,7 +201,7 @@ public class MainActivity extends TabActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     for (int i = 0; i < listView_carttab.getCount(); i++) {
-                                        dbManager.insert_shopingList(strCurDate,
+                                        dbManager.insert_shopingList(curdate, curyear, curmonth, curday,
                                                 adapter_cart.getItem(i).getMenuName(),
                                                 adapter_cart.getItem(i).getPrice(),
                                                 adapter_cart.getEA(i));
@@ -233,7 +247,7 @@ public class MainActivity extends TabActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     for (int i = 0; i < listView_carttab.getCount(); i++) {
                                         if (adapter_cart.getChecked(i) == true) {
-                                            dbManager.insert_shopingList(strCurDate,
+                                            dbManager.insert_shopingList(curdate,curyear,curmonth,curday,
                                                     adapter_cart.getItem(i).getMenuName(),
                                                     adapter_cart.getItem(i).getPrice(),
                                                 adapter_cart.getEA(i));
@@ -248,35 +262,71 @@ public class MainActivity extends TabActivity {
                 )
                         .
 
-                setNeutralButton("선택항목 삭제",new DialogInterface.OnClickListener() {
+                setNeutralButton("선택항목 삭제", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick (DialogInterface dialog,int which){
+                    public void onClick(DialogInterface dialog, int which) {
                         for (int i = 0; i < listView_carttab.getCount(); i++) {
                             if (adapter_cart.getChecked(i) == true) {
                                 dbManager.delete_cart_byname(adapter_cart.getItem(i).getMenuName());
-                                        }
-                                    }
-                                    resetCartListView();
-                                }
-                            })
+                            }
+                        }
+                        resetCartListView();
+                    }
+                })
                             .setPositiveButton("취소", null).show();
                 }
             });
 
-            //-------------------------------  ---  tab3 통계 -------------------  -----------
-            // 서버에 메세지 보내기
-            Button button_sendtest= (Button) findViewById(R.id.button_sendtest_tab3);
-            button_sendtest.setOnClickListener(new View.OnClickListener() {
+            //----------------------------------  tab3 -------------------  -----------
+            final TextView textView_date = (TextView) findViewById(R.id.textview_date_tab3);
+            tempyear = Integer.valueOf(curyear);
+            tempmonth = Integer.valueOf(curmonth);
+            textView_date.setText(tempyear + "년 " + tempmonth + "월");
+
+            ////////////
+            resetShopingList();
+
+            Button button_prev_tab3 = (Button) findViewById(R.id.button_prev_tab3);
+            button_prev_tab3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (tempmonth > 1) {
+                        tempmonth--;
+                    } else {
+                        tempyear--;
+                        tempmonth = 12;
+                    }
+                    textView_date.setText(tempyear + "년 " + tempmonth + "월");
 
-                    //clientThread.send("message send !!");
+                    resetShopingList();
                 }
             });
 
+            Button button_next_tab3 = (Button) findViewById(R.id.button_next_tab3);
+            button_next_tab3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (tempmonth < 12) {
+                        tempmonth++;
+                    } else {
+                        tempyear++;
+                        tempmonth = 1;
+                    }
+                    textView_date.setText(tempyear + "년 " + tempmonth + "월");
+
+                    resetShopingList();
+                }
+            });
+
+
+
+
+
+
+
             //-------------------------------  ---  ETC tab 리스트뷰 생성 -------------------  -----------
 
-            ArrayList<String> mGroupList = new ArrayList<String>();
+            ArrayList < String > mGroupList = new ArrayList<String>();
             ArrayList<ArrayList<String>> mChildList = new ArrayList<ArrayList<String>>();
             ArrayList<String> mChildListContent = new ArrayList<String>();
 
@@ -432,6 +482,41 @@ public class MainActivity extends TabActivity {
         //Log.i("MainActivity","총 개 상품 : " + adapter_cart.getCount());
     }
 
+    public void resetShopingList() {
+        String input_month = "";
+        if(tempmonth < 10) {
+            input_month = "0" + tempmonth;
+        }
+        else {
+            input_month = "" + tempmonth;
+        }
+
+        int totalprice = 0;
+
+        adapter_tab3 = new CustomAdapter_listview_tab3(getApplicationContext());
+        // 리스트뷰 참조 및 Adapter달기
+        listView_tab3 = (ListView) findViewById(R.id.listView_tab3);
+        listView_tab3.setAdapter(adapter_tab3);
+
+        Log.i("", "Date :" + String.valueOf(tempyear) + input_month);
+        arraylist_shoping_list = dbManager.select_shoping_list(String.valueOf(tempyear), input_month);
+        //arraylist_shoping_list = dbManager.select_shoping_list_all();
+
+        for (int i=0; i<arraylist_shoping_list.size(); i++) {
+            Log.i("","Shop List :" + arraylist_shoping_list.get(i));
+            Listview_item_tab3 u1 = new Listview_item_tab3(arraylist_shoping_list.get(i).getDate().substring(10,13),
+                    arraylist_shoping_list.get(i).getBody(),
+                    arraylist_shoping_list.get(i).getEA(),
+                    arraylist_shoping_list.get(i).getPrice());
+            adapter_tab3.add(u1);
+
+            totalprice = totalprice + Integer.valueOf(arraylist_shoping_list.get(i).getPrice().substring(0,arraylist_shoping_list.get(i).getPrice().length() -1));
+        }
+        adapter_tab3.notifyDataSetChanged();
+
+        TextView totalprice_tab3 = (TextView) findViewById(R.id.textview_totalprice_tab3);
+        totalprice_tab3.setText("이번달 합계 :  " + totalprice + "원");
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){

@@ -232,9 +232,7 @@
                                 android:id="@+id/button_delete_cart"
                                 android:background="@drawable/shape_circle_color"
                                 android:textColor="#FFFFFF"
-                                android:text="선택항목삭제"
-                                />
-
+                                android:text="선택항목삭제" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -244,26 +242,59 @@
                     android:id="@+id/tab3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#ff0000"
+                    android:background="#FFFFFF"
                     android:orientation="vertical" >
 
                     <TextView
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="3" />
-
-
-                    <Button
-                        android:layout_width="100dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="20dp"
-                        android:id="@+id/button_sendtest_tab3"
-                        android:text="서버에 메세지 보내기"
-                        android:background="@drawable/shape_circle_color"
+                        android:layout_width="match_parent"
+                        android:textSize="20dp"
+                        android:text="쇼핑목록"
                         android:textColor="#FFFFFF"
+                        android:background="#FF5000"
+                        android:id="@+id/textview_title_tab3" />
 
-                        />
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp">
 
+                        <Button
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:text="last"
+                            android:layout_marginLeft="50dp"
+                            android:id="@+id/button_prev_tab3" />
+
+
+                        <TextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:text="0000년 00월"
+                            android:id="@+id/textview_date_tab3" />
+
+
+                        <Button
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:text="next"
+                            android:id="@+id/button_next_tab3" />
+                    </LinearLayout>
+
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:id="@+id/listView_tab3" />
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="20dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="이번달 합계 :  0원"
+                        android:id="@+id/textview_totalprice_tab3" />
 
                 </LinearLayout>
 
@@ -278,9 +309,7 @@
                         android:id="@+id/listView_etctab1"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:groupIndicator="@null"
-                        />
-
+                        android:groupIndicator="@null" />
 
                 </LinearLayout>
 

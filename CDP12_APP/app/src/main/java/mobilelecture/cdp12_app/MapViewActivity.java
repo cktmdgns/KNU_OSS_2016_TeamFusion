@@ -46,7 +46,10 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
 
     //private String default_drawable_path = "android.resource://mobilelecture.cdp12_app/drawable/";
 
-    private String strCurDate = "";
+    private String curdate = "";
+    private String curyear = "";
+    private String curmonth = "";
+    private String curday = "";
 
     private DBManager dbManager = null;
     private ImageView imgMapView;
@@ -76,7 +79,14 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
         long now = System.currentTimeMillis();
         Date date = new Date(now);
         SimpleDateFormat CurDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
-        strCurDate = CurDateFormat.format(date);
+        //SimpleDateFormat CurDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        curdate = CurDateFormat.format(date);
+        SimpleDateFormat CurYearFormat = new SimpleDateFormat("yyyy");
+        curyear = CurYearFormat.format(date);
+        SimpleDateFormat CurMonthFormat = new SimpleDateFormat("MM");
+        curmonth = CurMonthFormat.format(date);
+        SimpleDateFormat CurDayFormat = new SimpleDateFormat("dd");
+        curday = CurDayFormat.format(date);
 
         textView_wherePixel = (TextView) findViewById(R.id.textView_where_mapview);
         imgMapView = (ImageView) findViewById(R.id.imageView_mapview);
@@ -281,7 +291,7 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
 
                         for(int i=0; i<temp_cart.size(); i++){
                             int temp_EA = Integer.valueOf( dbManager.select_CartEA_byname(temp_cart.get(i)).substring(dbManager.select_CartEA_byname(temp_cart.get(i)).length() -1) );
-                            dbManager.insert_shopingList(strCurDate,
+                            dbManager.insert_shopingList(curdate,curyear,curmonth,curday,
                                     temp_cart.get(i),
                                     Integer.valueOf( dbManager.select_cartPrice_byname(temp_cart.get(i)).substring(0, dbManager.select_cartPrice_byname(temp_cart.get(i)).length() -1) ) * temp_EA + "원",
                                     temp_EA + "개");
