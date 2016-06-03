@@ -143,11 +143,25 @@
                             android:layout_gravity="center_horizontal"
                             android:weightSum="1">
 
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_marginLeft="2dp"
+                                android:layout_marginTop="10dp"
+                                android:background="#FF5000"
+                                android:src="@drawable/reset_con"
+                                android:scaleType="centerCrop"
+                                android:padding="0sp"
+                                android:adjustViewBounds="true"
+                                android:id="@+id/imageButton_reset_carttab1"
+                                />
+
                             <EditText
                                 android:layout_width="285dp"
                                 android:layout_height="28dp"
                                 android:layout_marginTop="10dp"
-                                android:layout_marginLeft="40dp"
+                                android:layout_marginLeft="10dp"
                                 android:id="@+id/editText_carttab1"
                                 android:textSize="13dp"
                                 android:textColor="#AAAAAA"
@@ -246,8 +260,8 @@
                     android:orientation="vertical" >
 
                     <TextView
-                        android:layout_height="wrap_content"
                         android:layout_width="match_parent"
+                        android:layout_height="30dp"
                         android:textSize="20dp"
                         android:text="쇼핑목록"
                         android:textColor="#FFFFFF"

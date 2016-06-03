@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -99,6 +100,7 @@ public class CustomAdapter_listview_goods extends BaseAdapter implements OnClick
             viewHolder.weight = (TextView) v.findViewById(R.id.textView_weight_goods);
             viewHolder.price = (TextView) v.findViewById(R.id.textView_price_goods);
             viewHolder.addcart = (ImageView) v.findViewById(R.id.imageButton_addcart_goods);
+            viewHolder.searchcart = (ImageView) v.findViewById(R.id.imageButton_search_goods);
             v.setTag(viewHolder);
         }
         else {
@@ -124,6 +126,40 @@ public class CustomAdapter_listview_goods extends BaseAdapter implements OnClick
 
         });
 
+        viewHolder.searchcart.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                new AlertDialog.Builder(v.getRootView().getContext()).setTitle("확인").setMessage("상품 위치 검색")
+                        .setNegativeButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dbManager = new DBManager(mContext, "test.db", null, 1);
+                                String corner_name = dbManager.select_CName_byInt(Integer.valueOf(dbManager.select_Goods_byname(viewHolder.menu_name.getText().toString()).get(2)));
+
+                                /*
+                                Intent intent_search_corner = new Intent(mContext,GoodsMapSearch.class);
+                                intent_search_corner.putExtra("GoodsName", "" + viewHolder.menu_name.getText().toString());
+                                intent_search_corner.putExtra("ConerName", "" + corner_name);
+                                intent_search_corner.putExtra("TYPE", "" + 1);
+                                //Log.i("","Custom_goods_test : " + viewHolder.menu_name.getText().toString() + corner_name );
+                                intent_search_corner.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                mContext.startActivity(intent_search_corner);
+                                */
+                                Intent intent_search_corner = new Intent(mContext, RecoRangingActivity.class);
+                                intent_search_corner.putExtra("GoodsName", "" + viewHolder.menu_name.getText().toString());
+                                intent_search_corner.putExtra("ConerName", "" + corner_name);
+                                intent_search_corner.putExtra("TYPE", "" + 1);
+                                //Log.i("","Custom_goods_test : " + viewHolder.menu_name.getText().toString() + corner_name );
+                                intent_search_corner.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                intent_search_corner.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                mContext.startActivity(intent_search_corner);
+                            }
+                        }).setPositiveButton("취소",null).show();
+
+            }
+
+        });
+
         // 받아온 position 값을 이용하여 배열에서 아이템을 가져온다.
         mUser = getItem(position);
 
@@ -135,6 +171,7 @@ public class CustomAdapter_listview_goods extends BaseAdapter implements OnClick
             if (mUser.getMenuIcon() != null) {
                 Glide.with(mContext).load(Uri.parse( default_drawable_path + mUser.getMenuIcon() )).into(viewHolder.imgMenuIcon);
                 Glide.with(mContext).load(Uri.parse( default_drawable_path + "cart_con")).into(viewHolder.addcart);
+                Glide.with(mContext).load(Uri.parse( default_drawable_path + "glass_con")).into(viewHolder.searchcart);
             }
             viewHolder. menu_name.setText(mUser.getMenuName());
             viewHolder.price.setText(mUser.getWeight());
@@ -151,6 +188,7 @@ public class CustomAdapter_listview_goods extends BaseAdapter implements OnClick
         private TextView weight;
         private TextView price;
         private ImageView addcart;
+        private ImageView searchcart;
     }
 
 

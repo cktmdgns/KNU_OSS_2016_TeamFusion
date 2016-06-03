@@ -56,13 +56,37 @@ public class DBManager extends SQLiteOpenHelper {
                 "(_id INTEGER PRIMARY KEY AUTOINCREMENT ," +
                 "date DATE, year TEXT, month TEXT, day TEXT, name TEXT, price TEXT, EA TEXT );");
 
+        db.execSQL("CREATE TABLE IF NOT EXISTS BEACON_LIST " +
+                "(_id INTEGER PRIMARY KEY AUTOINCREMENT ," +
+                "SSN TEXT, MINOR TEXT, NAME TEXT);");
+
         db.execSQL( "INSERT INTO SHOP (id, name, location) VALUES (1,'홈플러스','황금')" );
 
         // 가계부 용 DB
-        //db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 29일', '2016', '05', '29','오렌지', 990, '1')" );
-        //db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 29일', '2016', '05', '29','딸기', 4190, '2')" );
-        //db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 30일', '2016', '05', '30','돼지 목살', 5000, '4')" );
-        //db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 31일', '2016', '05', '31','블루베리', 990, '1')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 04월 17일', '2016', '04', '17','동원미니돈가스', '4580원', '1개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 04월 17일', '2016', '04', '17','롯데햄떡갈비', '4980원', '1개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 04월 17일', '2016', '04', '17','칠성사이다', '3470원', '2개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 04월 17일', '2016', '04', '17','알로에농장', '3450원', '1개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 04월 17일', '2016', '04', '17','오렌지', '1970원', '2개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 14일', '2016', '05', '14','동원미니돈가스', '4580원', '1개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 14일', '2016', '05', '14','스카시포도', '2240원', '1개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 14일', '2016', '05', '14','초코송이', '1920원', '2개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 14일', '2016', '05', '14','새우깡', '1700원', '2개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 22일', '2016', '05', '22','진짬뽕', '5480원', '4개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 22일', '2016', '05', '22','동원미니돈가스', '4580원', '1개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 22일', '2016', '05', '22','포도쨈', '4600원', '1개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 29일', '2016', '05', '22','롯데햄떡갈비', '4980원', '1개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 29일', '2016', '05', '29','위생백', '1000원', '1개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 29일', '2016', '05', '29','동원미니돈가스', '4580원', '1개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 29일', '2016', '05', '29','오렌지', '990원', '1개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 29일', '2016', '05', '29','딸기', '4190원', '2개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 30일', '2016', '05', '30','돼지 목살', '5000원', '4개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 05월 31일', '2016', '05', '31','블루베리원', '990원', '1개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 06월 01일', '2016', '06', '01','남양맛있는우유', '2140원', '1개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 06월 01일', '2016', '06', '01','요거트딸기', '2500원', '1개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 06월 02일', '2016', '06', '02','배', '2990원', '2개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 06월 02일', '2016', '06', '02','오뚜기중화볶음밥', '4480원', '4개')" );
+        db.execSQL( "INSERT INTO SHOPING_LIST (date, year, month, day, name, price, EA) VALUES ('2016년 06월 02일', '2016', '06', '02','고향김치손만두', '6980원', '2개')" );
 
 
 
@@ -114,10 +138,12 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (6,'채소/건나물', 1001, 1, 55, 30, 105 )" );
         db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (7,'쌀/잡곡', 1001, 185, 150, 40, 30)" );
         db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (8,'김/미역/건어', 1001, 55, 150, 80, 10)" );
-        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (9,'유제품/냉장음료', 1001, 175, 95, 25, 35)" );
+        //db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (9,'유제품', 1001, 175, 95, 25, 35)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (9,'유제품', 1001, 175, 95, 25, 35)" );
         db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (10,'두부/김치', 1001, 50, 55, 80, 30)" );
         db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (11,'냉동식품', 1001, 265, 50, 42, 40)" );
-        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (12,'음료/생수', 1001, 135, 95, 25, 35)" );
+        //db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (12,'음료', 1001, 135, 95, 25, 35)" );
+        db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (12,'음료', 1001, 135, 95, 25, 35)" );
         db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (13,'커피/차', 1001, 316, 50, 40, 40)" );
         db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (14,'과자', 1001, 365, 50, 45, 40)" );
         db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (15,'라면', 1001, 290, 150, 40, 30)" );
@@ -139,23 +165,6 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (30,'행사6', 1001, 265, 125, 50, 12)" );
         db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (31,'행사7', 1001, 325, 125, 50, 12)" );
         db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (32,'행사8', 1001, 380, 125, 50, 12)" );
-
-
-
-        //db.execSQL("INSERT INTO GOODS (id, name, weight, price,c_id) VALUES (1,'해동고등어','400','1590', 1)" );
-        //db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (2,'해동오징어', '250', '1590', 1)" );
-        //db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (22,'돼지삼겹살', '100', '1090', 2)" );
-        //db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (23,'돼지목심', '100', '1090', 2)" );
-        //db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (24,'돼지앞다리', '100', '2290', 2)" );
-        //db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (25,'냉동닭가슴살', '1000', '5990', 2)" );
-        //db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (42,'고당도오렌지', '110', '890', 5)" );
-        //db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (43,'자몽', '110', '990', 5)" );
-        //db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (44,'냉동블루베리', '500', '6000', 5)" );
-        //db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (45,'딸기', '500', '4990', 5)" );
-        //db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (63,'햇감자', '100', '590', 6)" );
-        //db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (64,'애호박', '260', '1990', 6)" );
-        //db.execSQL( "INSERT INTO GOODS (id, name, weight, price, c_id) VALUES (65,'제주무', '1500', '1490', 6)" );
-        //db.execSQL("INSERT INTO GOODS (id, name, weight, price,c_id) VALUES (66,'파프리카', '50', '1290', 6)" );
 
         db.execSQL("INSERT INTO GOODS (id, name, weight, price,c_id) VALUES (1,'해동고등어','400','1590',1)");
         db.execSQL("INSERT INTO GOODS (id, name, weight, price,c_id) VALUES (2,'해동오징어','250','1590',1)");
@@ -745,11 +754,27 @@ public class DBManager extends SQLiteOpenHelper {
 
 
         db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (1,'파프리카', 3, '채소/건나물', 1)");
-        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (2,'고당도오렌지', 2, '과일', 2)");
+        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (2,'고당도오렌지', 2, '과일', 1)");
         db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (3,'딸기', 1, '과일', 1)");
-        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (4,'햇감자', 2, '채소/건나물', 5)");
-        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (5,'자몽', 4, '과일', 3)");
-        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (6,'돼지목심', 5, '정육/계란1', 4)");
+        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (4,'햇감자', 2, '채소/건나물', 1)");
+        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (5,'자몽', 4, '과일', 1)");
+        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (6,'돼지목심', 5, '정육/계란1', 1)");
+
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116640', '16640', '생선/해산1')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116641', '16641', '정육/계란1')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116642', '16642', '생선/해산2')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116643', '16643', '정육/계란2')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116644', '16644', '과일')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116645', '16645', '채소/건나물')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116646', '16646', '쌀/잡곡')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116647', '16647', '유제품')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116648', '16648', '아이스크림')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116649', '16649', '음료')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116650', '16650', '과자')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116651', '16651', '라면')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50114915', '14915', '장류/케찹/소스')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50114916', '14916', '세제/화장지')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50114917', '14917', '헤어/세안/바디')");
 
 
 
@@ -1217,6 +1242,18 @@ public class DBManager extends SQLiteOpenHelper {
         return arrlist;
     }
 
+    public ArrayList<String> select_Corners() {
+        SQLiteDatabase db = getWritableDatabase();
+        ArrayList<String> arrlist = new ArrayList<String>();
+
+        Cursor c = db.rawQuery("SELECT NAME FROM CORNER;", null);
+        while(c.moveToNext()) {
+            arrlist.add(c.getString(0));
+        }
+        db.close();
+        return arrlist;
+    }
+
     public String select_cartPrice_byname(String goodsName) {
         SQLiteDatabase db = getWritableDatabase();
         String str = "";
@@ -1246,6 +1283,18 @@ public class DBManager extends SQLiteOpenHelper {
         String str = "";
 
         Cursor c = db.rawQuery("SELECT NAME FROM CORNER where id = '" + CName_int + "';", null);
+        while(c.moveToNext()) {
+            str = c.getString(0);
+        }
+        db.close();
+        return str;
+    }
+
+    public String select_BeaconList(String minor) {
+        SQLiteDatabase db = getWritableDatabase();
+        String str = "";
+
+        Cursor c = db.rawQuery("SELECT NAME FROM BEACON_LIST where MINOR = '" + minor + "';", null);
         while(c.moveToNext()) {
             str = c.getString(0);
         }

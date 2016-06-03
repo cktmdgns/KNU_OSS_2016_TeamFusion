@@ -97,42 +97,22 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
         Intent intent_getLoc = getIntent();
         current_location_ID = intent_getLoc.getStringExtra("current_location_ID");
         current_location_LOC = intent_getLoc.getStringExtra("current_location_LOC");
-        if(current_location_ID.equals("16646")) {
-            curcorname = "정육1";
-        }
-        else if (current_location_ID.equals("16647")) {
-            curcorname = "과일";
-        }
-        else if (current_location_ID.equals("16648")) {
-            curcorname = "채소";
-        }
 
-        if (curcorname.equals("")) {
+        String whereman_name = dbManager.select_BeaconList(current_location_ID);
+
+        if (whereman_name.equals("")) {
             textView_wherePixel.setText("블루투스 연결 상태를 확인해주세요.");
         }
         else {
-            textView_wherePixel.setText("가장 가까운 비콘위치\n코너이름 :  " + curcorname + "\n거리 :  " + current_location_LOC + "meter");
-            Log.i("MapViewActivity", "비콘 연동 테스트  " + current_location_ID + "  " + current_location_LOC + "meter");
+            textView_wherePixel.setText("코너이름 :  " + whereman_name + "\n거리 :  " + current_location_LOC + "meter");
+            //Log.i("MapViewActivity", "비콘 연동 테스트  " + current_location_ID + " :  " + whereman_name + current_location_LOC + "meter");
         }
 
-
+        ArrayList<Integer> arr_Corner_position_dest_whereman = dbManager.select_CornerPosition_byConnerName(whereman_name);
         whereman = new ConnerPosition();
-        if (curcorname.equals("정육1")) {
-            whereman.pic_x = 145;
-            whereman.pic_y = 20;
-        }
-        else if (curcorname.equals("과일")) {
-            whereman.pic_x = 105;
-            whereman.pic_y = 120;
-        }
-        else if (curcorname.equals("채소")) {
-            whereman.pic_x = 35;
-            whereman.pic_y = 120;
-        }
-        else {
-            whereman.pic_x = 160;
-            whereman.pic_y = 200;
-        }
+        whereman.pic_x = arr_Corner_position_dest_whereman.get(0);
+        whereman.pic_y = arr_Corner_position_dest_whereman.get(1);
+
 
 
         finish_cart = new ArrayList<String>();
@@ -209,15 +189,28 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
 
         // Define your clickable areas
         // parameter values (pixels): (x coordinate, y coordinate, width, height) and assign an object to it
-        clickableAreas.add(new ClickableArea(200, 90, 40, 30, "행사3"));
-        clickableAreas.add(new ClickableArea(220, 115, 30, 20, "라면"));
-        clickableAreas.add(new ClickableArea(110, 5, 70, 20, "정육/계란1"));
-        clickableAreas.add(new ClickableArea(2, 50, 25, 70, "채소/건나물"));
-        clickableAreas.add(new ClickableArea(40, 75, 55, 25, "과일"));
+        ArrayList<String> corners = dbManager.select_Corners();
+        for(int i=0; i<corners.size();i++) {
+            ArrayList<Integer> Corner_Location = dbManager.select_CornerPosition_byConnerName(corners.get(i));
+            if(corners.get(i).equals("생선/해산1") ) {
+                clickableAreas.add(new ClickableArea(20, 0, 50, 20, "생선/해산1"));
+            }
+            else if(corners.get(i).equals("정육/계란1") ) {
+                clickableAreas.add(new ClickableArea(75, 0, 50, 20, "정육/계란1"));
+            }
+            else {
+                clickableAreas.add(new ClickableArea((int) (Corner_Location.get(0) * 0.5), (int) (Corner_Location.get(1) * 0.5), Corner_Location.get(2) - 5, Corner_Location.get(3) - 5, corners.get(i)));
+            }
+            //clickableAreas.add(new ClickableArea(200, 90, 40, 30, "행사3"));
+            //clickableAreas.add(new ClickableArea(220, 115, 30, 20, "라면"));
+            //clickableAreas.add(new ClickableArea(110, 5, 70, 20, "정육/계란1"));
+            //clickableAreas.add(new ClickableArea(2, 50, 25, 70, "채소/건나물"));
+            //clickableAreas.add(new ClickableArea(40, 75, 55, 25, "과일"));
+        }
     }
 
     public void setMyDrawable() {
-        Bitmap src1 = BitmapFactory.decodeResource(this.getResources(), R.drawable.mapview1);
+        Bitmap src1 = BitmapFactory.decodeResource(this.getResources(), R.drawable.mapview_0604);
         Bitmap resized1 = Bitmap.createScaledBitmap(src1, 1000, 500, true);
 
         Bitmap src2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.map_pin_red);
@@ -288,12 +281,11 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
                         }
                         finish_cart.add(pass_tauch_string);
 
-
                         for(int i=0; i<temp_cart.size(); i++){
                             int temp_EA = Integer.valueOf( dbManager.select_CartEA_byname(temp_cart.get(i)).substring(dbManager.select_CartEA_byname(temp_cart.get(i)).length() -1) );
                             dbManager.insert_shopingList(curdate,curyear,curmonth,curday,
                                     temp_cart.get(i),
-                                    Integer.valueOf( dbManager.select_cartPrice_byname(temp_cart.get(i)).substring(0, dbManager.select_cartPrice_byname(temp_cart.get(i)).length() -1) ) * temp_EA + "원",
+                                    Integer.valueOf( dbManager.select_cartPrice_byname(temp_cart.get(i)).substring(0, dbManager.select_cartPrice_byname(temp_cart.get(i)).length()) ) * temp_EA + "원",
                                     temp_EA + "개");
                             dbManager.delete_cart_byname(temp_cart.get(i));
                         }

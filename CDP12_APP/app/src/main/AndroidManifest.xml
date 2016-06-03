@@ -64,6 +64,10 @@
             android:name=".GoodsSearchActivity"
             android:label="@string/title_activity_goods_search" >
         </activity>
+        <activity
+            android:name=".GoodsMapSearch"
+            android:label="@string/title_activity_goods_map_search" >
+        </activity>
     </application>
 
 </manifest>

@@ -46,10 +46,9 @@ public class GoodsSearchActivity extends AppCompatActivity {
         Intent intent_getLoc = getIntent();
         cornername = intent_getLoc.getStringExtra("CornerName");
         goodsname = intent_getLoc.getStringExtra("GoodsName");
-        if( !cornername.equals("")) {
+        if (!cornername.equals("")) {
             resetGoodsListView(Integer.valueOf(cornername));
-        }
-        else {
+        } else {
             resetCartSearchView(goodsname);
         }
 
@@ -80,7 +79,7 @@ public class GoodsSearchActivity extends AppCompatActivity {
 
 
         //물품검색
-        ImageButton search_item = (ImageButton)findViewById(R.id.imageButton_goodsSearch);
+        ImageButton search_item = (ImageButton) findViewById(R.id.imageButton_goodsSearch);
         search_item.setOnClickListener(new View.OnClickListener() {
             EditText item_name = (EditText) findViewById(R.id.editText_goodsSearch);
             TextView tab = (TextView) findViewById(R.id.textView_goodsSearch);
@@ -93,8 +92,10 @@ public class GoodsSearchActivity extends AppCompatActivity {
 
             }
         });
+    }
 
 
+/*
         HorizontalListView listview_horizon = (HorizontalListView) findViewById(R.id.listView_horizon);
         listview_horizon.setAdapter(mAdapter);
 
@@ -131,14 +132,7 @@ public class GoodsSearchActivity extends AppCompatActivity {
         }
     };
 
-
-
-
-
-
-
-
-
+*/
 
     //상품 스피너 출력
     public void resetGoodsListView(int Cid) {

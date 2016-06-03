@@ -16,8 +16,33 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="366dp"
+            android:layout_height="350dp"
             android:id="@+id/imageView_mapview" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="현재 위치"
+                android:textSize="20dp"
+                android:textColor="#000000"
+                android:id="@+id/textView_title_where_mapview"
+                android:layout_weight="0.93" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textColor="#000000"
+                android:id="@+id/textView_title_meter_mapview"
+                android:text="선택된 위치의 물건" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"

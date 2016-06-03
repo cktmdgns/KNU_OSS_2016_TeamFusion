@@ -180,14 +180,38 @@ public class RecoRangingActivity extends RecoActivity implements RECORangingList
     @Override
      protected void onDestroy() {
 
-        Intent intent_out_location = new Intent(getApplicationContext(),MapViewActivity.class);
-        intent_out_location.putExtra("current_location_ID", return_location_ID);
-        intent_out_location.putExtra("current_location_LOC", temp_location + "");
-        Log.i("RECORangingActivity", "" + return_location_ID + "  " + temp_location);
-        intent_out_location.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(intent_out_location);
+        Intent intent_getType = getIntent();
+        String activity_TYPE = intent_getType.getStringExtra("TYPE");
 
+        Intent intent_out_location;
 
+        Log.i("","activity_TYPE : " + activity_TYPE);
+        if (activity_TYPE != null && activity_TYPE.equals("0")) {
+        //if (activity_TYPE.equalsIgnoreCase("0")) {
+            intent_out_location = new Intent(getApplicationContext(),MapViewActivity.class);
+            intent_out_location.putExtra("current_location_ID", return_location_ID);
+            intent_out_location.putExtra("current_location_LOC", temp_location + "");
+            Log.i("RECORangingActivity", "" + return_location_ID + "  " + temp_location);
+            intent_out_location.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent_out_location);
+        }
+        else {
+            Intent intent_out_inform = getIntent();
+            String menuname = intent_out_inform.getStringExtra("GoodsName");
+            String cornername = intent_out_inform.getStringExtra("ConerName");
+
+            Log.i("RECORangingActivity","menu + coner : " + menuname + " " + cornername);
+
+            intent_out_location = new Intent(getApplicationContext(),GoodsMapSearch.class);
+            intent_out_location.putExtra("current_location_ID", return_location_ID);
+            intent_out_location.putExtra("current_location_LOC", temp_location + "");
+            intent_out_location.putExtra("GoodsName", menuname);
+            intent_out_location.putExtra("ConerName", cornername);
+
+            intent_out_location.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent_out_location);
+            //setResult(RESULT_OK, intent_out_inform);
+        }
 
         super.onDestroy();
         this.stop(mRegions);

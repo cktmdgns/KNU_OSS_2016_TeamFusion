@@ -32,5 +32,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="title_activity_goods_search">GoodsSearchActivity</string>
+    <string name="title_activity_goods_map_search">GoodsMapSearch</string>
 
 </resources>

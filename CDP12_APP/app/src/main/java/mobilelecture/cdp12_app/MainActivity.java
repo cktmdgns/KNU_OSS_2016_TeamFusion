@@ -190,6 +190,15 @@ public class MainActivity extends TabActivity {
 
 
             //----------------------------------- cart tab 버튼 이벤트 ----------------------------
+            // 화면갱신
+            ImageButton reset_cart = (ImageButton)findViewById(R.id.imageButton_reset_carttab1);
+            reset_cart.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    resetCartListView();
+                    resetShopingList();
+                }
+            });
+
             // 전체삭제
             Button button_deleteall_cart = (Button) findViewById(R.id.button_deleteall_cart);
             button_deleteall_cart.setOnClickListener(new View.OnClickListener() {
@@ -208,6 +217,7 @@ public class MainActivity extends TabActivity {
                                         dbManager.delete_cart_byname(adapter_cart.getItem(i).getMenuName());
                                     }
                                     resetCartListView();
+                                    resetShopingList();
                                 }
                             })
                             .setNeutralButton("전체 삭제", new DialogInterface.OnClickListener() {
@@ -217,6 +227,7 @@ public class MainActivity extends TabActivity {
                                         dbManager.delete_cart_byname(adapter_cart.getItem(i).getMenuName());
                                     }
                                     resetCartListView();
+                                    resetShopingList();
                                 }
                             })
                             .setPositiveButton("취소", null).show();
@@ -230,6 +241,7 @@ public class MainActivity extends TabActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent_mapview = new Intent(MainActivity.this, RecoRangingActivity.class);
+                    intent_mapview.putExtra("TYPE", "" + 0);
                     intent_mapview.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     startActivity(intent_mapview);
                 }
