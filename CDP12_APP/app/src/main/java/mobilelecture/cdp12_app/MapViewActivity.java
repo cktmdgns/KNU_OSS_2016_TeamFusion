@@ -108,10 +108,25 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
             //Log.i("MapViewActivity", "비콘 연동 테스트  " + current_location_ID + " :  " + whereman_name + current_location_LOC + "meter");
         }
 
-        ArrayList<Integer> arr_Corner_position_dest_whereman = dbManager.select_CornerPosition_byConnerName(whereman_name);
         whereman = new ConnerPosition();
-        whereman.pic_x = arr_Corner_position_dest_whereman.get(0);
-        whereman.pic_y = arr_Corner_position_dest_whereman.get(1);
+
+        /*
+        if(whereman_name.equals("헤어/세안/바디")) {
+            textView_wherePixel.setText("코너이름 :  " + "Start" + "\n거리 :  " + 0 + "meter");
+            whereman.pic_x = 150;
+            whereman.pic_y = 200;
+        }
+        */
+        if ( !whereman_name.equals("")) {
+            ArrayList<Integer> arr_Corner_position_dest_whereman = dbManager.select_CornerPosition_byConnerName(whereman_name);
+            whereman.pic_x = arr_Corner_position_dest_whereman.get(0);
+            whereman.pic_y = arr_Corner_position_dest_whereman.get(1);
+        }
+        else {
+            whereman.pic_x = 150;
+            whereman.pic_y = 200;
+        }
+
 
 
 
@@ -342,7 +357,7 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
             if(pre_conner.equals("Start") || pre_conner.equals("Counter")) {
                 continue;
             }
-            canvas.drawBitmap(bm_pin, Integer.valueOf(String.format("%.0f", (arr_item_position.get(i).loc_x + arr_item_position.get(i).lenth_x * goods_where) * 1.85)),
+            canvas.drawBitmap(bm_pin, Integer.valueOf(String.format("%.0f", (arr_item_position.get(i).loc_x + arr_item_position.get(i).lenth_x * goods_where) * 1.9)),
                     Integer.valueOf(String.format("%.0f", (arr_item_position.get(i).loc_y + (arr_item_position.get(i).lenth_y / 2)) * 1.7 - 30)), null);
 
         }
@@ -464,7 +479,7 @@ public class MapViewActivity extends AppCompatActivity implements OnClickableAre
         }
 
 
-        for (int k = 0; k < 30; k++) {
+        for (int k = 0; k < 15; k++) {
             Tsp tsp = new Tsp();
             tsp.readStringPath(result_path);
             for (int i = 0; i < 10; i++) {
