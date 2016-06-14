@@ -28,12 +28,14 @@ public class DBDAO {
 	}
 
 	// select¹®
-	public void selecting(DBDTO dto){
+	public void selecting(int cornerid){
 		try {
 			conn.setAutoCommit(false);
 			Statement stmt = conn.createStatement();
-			query = "select * from test";
-			ResultSet rs = stmt.executeQuery(query);
+			sql = "select * from test where c_id=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,cornerid);
+			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				int id = rs.getInt(1);
 				String name = rs.getString("name");
@@ -41,10 +43,9 @@ public class DBDAO {
 				int price = rs.getInt(4);
 				int location = rs.getInt(5);
 				int c_id = rs.getInt(6);
-				if (c_id == dto.getcorner()) {
-					System.out.println(" ID= " + id + ", NAME= " + name + ", HEAVY= " + heavy + ", PRICE= " + price
-							+ " LOCATION= " + location + ", C_ID= " + c_id);
-				}
+				System.out.println(" ID= " + id + ", NAME= " + name + ", HEAVY= " + heavy + ", PRICE= " + price
+						+ " LOCATION= " + location + ", C_ID= " + c_id);
+				
 			}
 			rs.close();
 			conn.commit();
