@@ -5,6 +5,7 @@ import android.app.TabActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -24,6 +25,15 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -34,6 +44,7 @@ import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends TabActivity {
 
@@ -94,339 +105,352 @@ public class MainActivity extends TabActivity {
         }
         else {
 
-            //----------------------------------  hometab spinner 생성 ------------------------------
-            //스피너1 설정
-            ArrayList<String> spinner1_array = dbManager.select_Corners_forspinner();
-            ArrayAdapter<String> spinner_adapter1 = new ArrayAdapter<String>(this, R.layout.spinner_item, spinner1_array);
-            spinner_adapter1.setDropDownViewResource(R.layout.spinner_item);
+            if(dbManager.select_Goods().size() == 0) {
+                new HttpGetTask_Item_event().execute();
+                new HttpGetTask_Item_goods().execute();
+                Log.i("MainActivity","Http Test1");
+            }
+            else {
+                //if(dbManager.select_Goods().size() == 0) {
+                //    dbManager.insert_init_event();
+                //    dbManager.insert_init_goods();
+                //    Log.i("MainActivity", "Http Test2");
+                //}
 
-            Spinner spinner1 = (Spinner) findViewById(R.id.spinner_hometab1);
-            Spinner spinner1_2 = (Spinner) findViewById(R.id.spinner_carttab1);
+                //----------------------------------  hometab spinner 생성 ------------------------------
+                //스피너1 설정
+                ArrayList<String> spinner1_array = dbManager.select_Corners_forspinner();
+                ArrayAdapter<String> spinner_adapter1 = new ArrayAdapter<String>(this, R.layout.spinner_item, spinner1_array);
+                spinner_adapter1.setDropDownViewResource(R.layout.spinner_item);
+
+                Spinner spinner1 = (Spinner) findViewById(R.id.spinner_hometab1);
+                Spinner spinner1_2 = (Spinner) findViewById(R.id.spinner_carttab1);
 
 
-            spinner1.setAdapter(spinner_adapter1);
-            spinner1_2.setAdapter(spinner_adapter1);
+                spinner1.setAdapter(spinner_adapter1);
+                spinner1_2.setAdapter(spinner_adapter1);
 
-            spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view,
-                                           int position, long id) {
-                    if(position > 0) {
-                        Intent intent_search_corner = new Intent(getApplicationContext(),GoodsSearchActivity.class);
-                        intent_search_corner.putExtra("CornerName", "" + position);
-                        intent_search_corner.putExtra("GoodsName", "");
-                        intent_search_corner.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                        startActivity(intent_search_corner);
+                spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view,
+                                               int position, long id) {
+                        if(position > 0) {
+                            Intent intent_search_corner = new Intent(getApplicationContext(),GoodsSearchActivity.class);
+                            intent_search_corner.putExtra("CornerName", "" + position);
+                            intent_search_corner.putExtra("GoodsName", "");
+                            intent_search_corner.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            startActivity(intent_search_corner);
+                        }
                     }
-                }
 
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                }
-            });
-            spinner1_2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view,
-                                           int position, long id) {
-                    if (position > 0) {
-                        //resetGoodsListView(position);
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+                spinner1_2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view,
+                                               int position, long id) {
+                        if (position > 0) {
+                            //resetGoodsListView(position);
+                            Intent intent_search_corner = new Intent(getApplicationContext(), GoodsSearchActivity.class);
+                            intent_search_corner.putExtra("CornerName", "" + position);
+                            intent_search_corner.putExtra("GoodsName", "");
+                            intent_search_corner.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            startActivity(intent_search_corner);
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+
+
+                //물품검색1
+                ImageButton search_item = (ImageButton)findViewById(R.id.imageButton_hometab1);
+                search_item.setOnClickListener(new View.OnClickListener() {
+                    EditText item_name = (EditText) findViewById(R.id.editText_hometab1);
+                    TextView tab = (TextView) findViewById(R.id.textView_hometab1);
+
+                    public void onClick(View v) {
+                        tab.setText("검색 결과");
+                        String Cname = item_name.getText().toString();
                         Intent intent_search_corner = new Intent(getApplicationContext(), GoodsSearchActivity.class);
-                        intent_search_corner.putExtra("CornerName", "" + position);
-                        intent_search_corner.putExtra("GoodsName", "");
+                        intent_search_corner.putExtra("CornerName", "");
+                        intent_search_corner.putExtra("GoodsName", "" + Cname);
                         intent_search_corner.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         startActivity(intent_search_corner);
+                        Toast.makeText(v.getContext(), Cname, Toast.LENGTH_SHORT).show();
+
                     }
-                }
+                });
 
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                }
-            });
+                //물품검색2
+                ImageButton search_item2 = (ImageButton)findViewById(R.id.imageButton_carttab1);
+                search_item2.setOnClickListener(new View.OnClickListener() {
+                    EditText item_name = (EditText) findViewById(R.id.editText_carttab1);
+                    TextView tab = (TextView) findViewById(R.id.textView_carttab1);
 
+                    public void onClick(View v) {
+                        tab.setText("검색 결과");
+                        String Cname = item_name.getText().toString();
+                        Intent intent_search_corner = new Intent(getApplicationContext(), GoodsSearchActivity.class);
+                        intent_search_corner.putExtra("CornerName", "");
+                        intent_search_corner.putExtra("GoodsName", "" + Cname);
+                        intent_search_corner.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent_search_corner);
+                        Toast.makeText(v.getContext(), Cname, Toast.LENGTH_SHORT).show();
 
-            //물품검색1
-            ImageButton search_item = (ImageButton)findViewById(R.id.imageButton_hometab1);
-            search_item.setOnClickListener(new View.OnClickListener() {
-                EditText item_name = (EditText) findViewById(R.id.editText_hometab1);
-                TextView tab = (TextView) findViewById(R.id.textView_hometab1);
+                    }
+                });
 
-                public void onClick(View v) {
-                    tab.setText("검색 결과");
-                    String Cname = item_name.getText().toString();
-                    Intent intent_search_corner = new Intent(getApplicationContext(), GoodsSearchActivity.class);
-                    intent_search_corner.putExtra("CornerName", "");
-                    intent_search_corner.putExtra("GoodsName", "" + Cname);
-                    intent_search_corner.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    startActivity(intent_search_corner);
-                    Toast.makeText(v.getContext(), Cname, Toast.LENGTH_SHORT).show();
+                //----------------------------------  hometab listview 생성 ------------------------------
+                resetEventListView();
 
-                }
-            });
-
-            //물품검색2
-            ImageButton search_item2 = (ImageButton)findViewById(R.id.imageButton_carttab1);
-            search_item2.setOnClickListener(new View.OnClickListener() {
-                EditText item_name = (EditText) findViewById(R.id.editText_carttab1);
-                TextView tab = (TextView) findViewById(R.id.textView_carttab1);
-
-                public void onClick(View v) {
-                    tab.setText("검색 결과");
-                    String Cname = item_name.getText().toString();
-                    Intent intent_search_corner = new Intent(getApplicationContext(), GoodsSearchActivity.class);
-                    intent_search_corner.putExtra("CornerName", "");
-                    intent_search_corner.putExtra("GoodsName", "" + Cname);
-                    intent_search_corner.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    startActivity(intent_search_corner);
-                    Toast.makeText(v.getContext(), Cname, Toast.LENGTH_SHORT).show();
-
-                }
-            });
-
-            //----------------------------------  hometab listview 생성 ------------------------------
-            resetEventListView();
-
-            //----------  carttab listview 생성 ---------
-            resetCartListView();
+                //----------  carttab listview 생성 ---------
+                resetCartListView();
 
 
-            //----------------------------------- cart tab 버튼 이벤트 ----------------------------
-            // 화면갱신
-            ImageButton reset_cart = (ImageButton)findViewById(R.id.imageButton_reset_carttab1);
-            reset_cart.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    resetCartListView();
-                    resetShopingList();
-                }
-            });
+                //----------------------------------- cart tab 버튼 이벤트 ----------------------------
+                // 화면갱신
+                ImageButton reset_cart = (ImageButton)findViewById(R.id.imageButton_reset_carttab1);
+                reset_cart.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        resetCartListView();
+                        resetShopingList();
+                    }
+                });
 
-            // 전체삭제
-            Button button_deleteall_cart = (Button) findViewById(R.id.button_deleteall_cart);
-            button_deleteall_cart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new AlertDialog.Builder(MainActivity.this)
-                            .setTitle("확인").setMessage("장바구니 전체 삭제 하실래요?")
-                            .setNegativeButton("가계부에 넣고 삭제", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    for (int i = 0; i < listView_carttab.getCount(); i++) {
-                                        dbManager.insert_shopingList(curdate, curyear, curmonth, curday,
-                                                adapter_cart.getItem(i).getMenuName(),
-                                                adapter_cart.getItem(i).getPrice(),
-                                                adapter_cart.getEA(i));
-                                        dbManager.delete_cart_byname(adapter_cart.getItem(i).getMenuName());
-                                    }
-                                    resetCartListView();
-                                    resetShopingList();
-                                }
-                            })
-                            .setNeutralButton("전체 삭제", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    for (int i = 0; i < listView_carttab.getCount(); i++) {
-                                        dbManager.delete_cart_byname(adapter_cart.getItem(i).getMenuName());
-                                    }
-                                    resetCartListView();
-                                    resetShopingList();
-                                }
-                            })
-                            .setPositiveButton("취소", null).show();
-                }
-            });
-
-
-            // 길찾기
-            Button button_searchMap_cart = (Button) findViewById(R.id.button_start_cart);
-            button_searchMap_cart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent_mapview = new Intent(MainActivity.this, RecoRangingActivity.class);
-                    intent_mapview.putExtra("TYPE", "" + 0);
-                    intent_mapview.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    startActivity(intent_mapview);
-                }
-            });
-
-            // 선택 삭제
-            Button button_delete_cart = (Button) findViewById(R.id.button_delete_cart);
-            button_delete_cart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new AlertDialog.Builder(MainActivity.this)
-                            .setTitle("확인").setMessage("선택 항목 삭제 할래요?")
-                            .setNegativeButton("가계부에 넣고 삭제", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    for (int i = 0; i < listView_carttab.getCount(); i++) {
-                                        if (adapter_cart.getChecked(i) == true) {
-                                            dbManager.insert_shopingList(curdate,curyear,curmonth,curday,
+                // 전체삭제
+                Button button_deleteall_cart = (Button) findViewById(R.id.button_deleteall_cart);
+                button_deleteall_cart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle("확인").setMessage("장바구니 전체 삭제 하실래요?")
+                                .setNegativeButton("가계부에 넣고 삭제", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        for (int i = 0; i < listView_carttab.getCount(); i++) {
+                                            dbManager.insert_shopingList(curdate, curyear, curmonth, curday,
                                                     adapter_cart.getItem(i).getMenuName(),
                                                     adapter_cart.getItem(i).getPrice(),
-                                                adapter_cart.getEA(i));
-                                        dbManager.delete_cart_byname(adapter_cart.getItem(i).getMenuName());
+                                                    adapter_cart.getEA(i));
+                                            dbManager.delete_cart_byname(adapter_cart.getItem(i).getMenuName());
+                                        }
+                                        resetCartListView();
+                                        resetShopingList();
                                     }
-                                }
+                                })
+                                .setNeutralButton("전체 삭제", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        for (int i = 0; i < listView_carttab.getCount(); i++) {
+                                            dbManager.delete_cart_byname(adapter_cart.getItem(i).getMenuName());
+                                        }
+                                        resetCartListView();
+                                        resetShopingList();
+                                    }
+                                })
+                                .setPositiveButton("취소", null).show();
+                    }
+                });
 
-                                resetCartListView();
-                            }
+
+                // 길찾기
+                Button button_searchMap_cart = (Button) findViewById(R.id.button_start_cart);
+                button_searchMap_cart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent_mapview = new Intent(MainActivity.this, RecoRangingActivity.class);
+                        intent_mapview.putExtra("TYPE", "" + 0);
+                        intent_mapview.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        startActivity(intent_mapview);
+                    }
+                });
+
+                // 선택 삭제
+                Button button_delete_cart = (Button) findViewById(R.id.button_delete_cart);
+                button_delete_cart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle("확인").setMessage("선택 항목 삭제 할래요?")
+                                .setNegativeButton("가계부에 넣고 삭제", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                for (int i = 0; i < listView_carttab.getCount(); i++) {
+                                                    if (adapter_cart.getChecked(i) == true) {
+                                                        dbManager.insert_shopingList(curdate,curyear,curmonth,curday,
+                                                                adapter_cart.getItem(i).getMenuName(),
+                                                                adapter_cart.getItem(i).getPrice(),
+                                                                adapter_cart.getEA(i));
+                                                        dbManager.delete_cart_byname(adapter_cart.getItem(i).getMenuName());
+                                                    }
+                                                }
+
+                                                resetCartListView();
+                                            }
+                                        }
+
+                                )
+                                .
+
+                                        setNeutralButton("선택항목 삭제", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                for (int i = 0; i < listView_carttab.getCount(); i++) {
+                                                    if (adapter_cart.getChecked(i) == true) {
+                                                        dbManager.delete_cart_byname(adapter_cart.getItem(i).getMenuName());
+                                                    }
+                                                }
+                                                resetCartListView();
+                                            }
+                                        })
+                                .setPositiveButton("취소", null).show();
+                    }
+                });
+
+                //----------------------------------  tab3 -------------------  -----------
+                final TextView textView_date = (TextView) findViewById(R.id.textview_date_tab3);
+                tempyear = Integer.valueOf(curyear);
+                tempmonth = Integer.valueOf(curmonth);
+                textView_date.setText(tempyear + "년 " + tempmonth + "월");
+
+                ////////////
+                resetShopingList();
+
+                Button button_prev_tab3 = (Button) findViewById(R.id.button_prev_tab3);
+                button_prev_tab3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (tempmonth > 1) {
+                            tempmonth--;
+                        } else {
+                            tempyear--;
+                            tempmonth = 12;
+                        }
+                        textView_date.setText(tempyear + "년 " + tempmonth + "월");
+
+                        resetShopingList();
+                    }
+                });
+
+                Button button_next_tab3 = (Button) findViewById(R.id.button_next_tab3);
+                button_next_tab3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (tempmonth < 12) {
+                            tempmonth++;
+                        } else {
+                            tempyear++;
+                            tempmonth = 1;
+                        }
+                        textView_date.setText(tempyear + "년 " + tempmonth + "월");
+
+                        resetShopingList();
+                    }
+                });
+
+
+
+
+
+
+
+                //-------------------------------  ---  ETC tab 리스트뷰 생성 -------------------  -----------
+
+                ArrayList < String > mGroupList = new ArrayList<String>();
+                ArrayList<ArrayList<String>> mChildList = new ArrayList<ArrayList<String>>();
+                ArrayList<String> mChildListContent = new ArrayList<String>();
+
+                mGroupList.add("공지 사항");
+                mGroupList.add("이용 안내");
+                mGroupList.add("문의하기");
+                mGroupList.add("개발자");
+
+                mChildListContent.add("4월 2일");
+                mChildListContent.add("3월 29일");
+                mChildListContent.add("3월 2일");
+
+                mChildList.add(mChildListContent);
+                mChildList.add(mChildListContent);
+                mChildList.add(mChildListContent);
+                mChildList.add(mChildListContent);
+
+                ExpandableListView mListView = (ExpandableListView) findViewById(R.id.listView_etctab1);
+                mListView.setAdapter(new CustomAdapter_listview_etc(this, mGroupList, mChildList));
+
+                // 그룹 클릭 했을 경우 이벤트
+                mListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+                    @Override
+                    public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                        //Toast.makeText(getApplicationContext(), "g click = " + groupPosition, Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                });
+
+                // 차일드 클릭 했을 경우 이벤트
+                mListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                    @Override
+                    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                        //Toast.makeText(getApplicationContext(), "c click = " + childPosition, Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                });
+
+                // 그룹이 닫힐 경우 이벤트
+                mListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+                    @Override
+                    public void onGroupCollapse(int groupPosition) {
+                        //Toast.makeText(getApplicationContext(), "g Collapse = " + groupPosition, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                // 그룹이 열릴 경우 이벤트
+                mListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+                    @Override
+                    public void onGroupExpand(int groupPosition) {
+                        //Toast.makeText(getApplicationContext(), "g Expand = " + groupPosition, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                //----------------------------------  tabmenu and icon 생성 ------------------------------
+                //탭 메뉴
+                final TabHost tabHost = getTabHost();
+
+                //TabSpec tabSpecTab1 = tabHost.newTabSpec("TAB1").setIndicator("",getResources().getDrawable(R.drawable.android_con));
+                TabSpec tabSpecTab1 = tabHost.newTabSpec("TAB1").setIndicator("", getResources().getDrawable(R.drawable.home_con));
+                tabSpecTab1.setContent(R.id.tab1);
+                tabHost.addTab(tabSpecTab1);
+
+                TabSpec tabSpecTab2 = tabHost.newTabSpec("TAB2").setIndicator("", getResources().getDrawable(R.drawable.cart_con));
+                tabSpecTab2.setContent(R.id.tab2);
+                tabHost.addTab(tabSpecTab2);
+
+                TabSpec tabSpecTab3 = tabHost.newTabSpec("TAB3").setIndicator("", getResources().getDrawable(R.drawable.graph_con));
+                tabSpecTab3.setContent(R.id.tab3);
+                tabHost.addTab(tabSpecTab3);
+
+                TabSpec tabSpecTab4 = tabHost.newTabSpec("TAB4").setIndicator("", getResources().getDrawable(R.drawable.menu_con));
+                tabSpecTab4.setContent(R.id.tab4);
+                tabHost.addTab(tabSpecTab4);
+
+                tabHost.setCurrentTab(0);
+                for (int i = 0; i < 4; i++) {
+                    tabHost.getTabWidget().getChildAt(i).setPadding(30, 30, 30, 30);
                 }
 
-                )
-                        .
 
-                setNeutralButton("선택항목 삭제", new DialogInterface.OnClickListener() {
+                tabHost.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        for (int i = 0; i < listView_carttab.getCount(); i++) {
-                            if (adapter_cart.getChecked(i) == true) {
-                                dbManager.delete_cart_byname(adapter_cart.getItem(i).getMenuName());
-                            }
-                        }
+                    public void onClick(View v) {
                         resetCartListView();
                     }
-                })
-                            .setPositiveButton("취소", null).show();
-                }
-            });
+                });
 
-            //----------------------------------  tab3 -------------------  -----------
-            final TextView textView_date = (TextView) findViewById(R.id.textview_date_tab3);
-            tempyear = Integer.valueOf(curyear);
-            tempmonth = Integer.valueOf(curmonth);
-            textView_date.setText(tempyear + "년 " + tempmonth + "월");
-
-            ////////////
-            resetShopingList();
-
-            Button button_prev_tab3 = (Button) findViewById(R.id.button_prev_tab3);
-            button_prev_tab3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (tempmonth > 1) {
-                        tempmonth--;
-                    } else {
-                        tempyear--;
-                        tempmonth = 12;
-                    }
-                    textView_date.setText(tempyear + "년 " + tempmonth + "월");
-
-                    resetShopingList();
-                }
-            });
-
-            Button button_next_tab3 = (Button) findViewById(R.id.button_next_tab3);
-            button_next_tab3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (tempmonth < 12) {
-                        tempmonth++;
-                    } else {
-                        tempyear++;
-                        tempmonth = 1;
-                    }
-                    textView_date.setText(tempyear + "년 " + tempmonth + "월");
-
-                    resetShopingList();
-                }
-            });
-
-
-
-
-
-
-
-            //-------------------------------  ---  ETC tab 리스트뷰 생성 -------------------  -----------
-
-            ArrayList < String > mGroupList = new ArrayList<String>();
-            ArrayList<ArrayList<String>> mChildList = new ArrayList<ArrayList<String>>();
-            ArrayList<String> mChildListContent = new ArrayList<String>();
-
-            mGroupList.add("공지 사항");
-            mGroupList.add("이용 안내");
-            mGroupList.add("문의하기");
-            mGroupList.add("개발자");
-
-            mChildListContent.add("4월 2일");
-            mChildListContent.add("3월 29일");
-            mChildListContent.add("3월 2일");
-
-            mChildList.add(mChildListContent);
-            mChildList.add(mChildListContent);
-            mChildList.add(mChildListContent);
-            mChildList.add(mChildListContent);
-
-            ExpandableListView mListView = (ExpandableListView) findViewById(R.id.listView_etctab1);
-            mListView.setAdapter(new CustomAdapter_listview_etc(this, mGroupList, mChildList));
-
-            // 그룹 클릭 했을 경우 이벤트
-            mListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-                @Override
-                public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                    //Toast.makeText(getApplicationContext(), "g click = " + groupPosition, Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            });
-
-            // 차일드 클릭 했을 경우 이벤트
-            mListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-                @Override
-                public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                    //Toast.makeText(getApplicationContext(), "c click = " + childPosition, Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            });
-
-            // 그룹이 닫힐 경우 이벤트
-            mListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-                @Override
-                public void onGroupCollapse(int groupPosition) {
-                    //Toast.makeText(getApplicationContext(), "g Collapse = " + groupPosition, Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            // 그룹이 열릴 경우 이벤트
-            mListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-                @Override
-                public void onGroupExpand(int groupPosition) {
-                    //Toast.makeText(getApplicationContext(), "g Expand = " + groupPosition, Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            //----------------------------------  tabmenu and icon 생성 ------------------------------
-            //탭 메뉴
-            final TabHost tabHost = getTabHost();
-
-            //TabSpec tabSpecTab1 = tabHost.newTabSpec("TAB1").setIndicator("",getResources().getDrawable(R.drawable.android_con));
-            TabSpec tabSpecTab1 = tabHost.newTabSpec("TAB1").setIndicator("", getResources().getDrawable(R.drawable.home_con));
-            tabSpecTab1.setContent(R.id.tab1);
-            tabHost.addTab(tabSpecTab1);
-
-            TabSpec tabSpecTab2 = tabHost.newTabSpec("TAB2").setIndicator("", getResources().getDrawable(R.drawable.cart_con));
-            tabSpecTab2.setContent(R.id.tab2);
-            tabHost.addTab(tabSpecTab2);
-
-            TabSpec tabSpecTab3 = tabHost.newTabSpec("TAB3").setIndicator("", getResources().getDrawable(R.drawable.graph_con));
-            tabSpecTab3.setContent(R.id.tab3);
-            tabHost.addTab(tabSpecTab3);
-
-            TabSpec tabSpecTab4 = tabHost.newTabSpec("TAB4").setIndicator("", getResources().getDrawable(R.drawable.menu_con));
-            tabSpecTab4.setContent(R.id.tab4);
-            tabHost.addTab(tabSpecTab4);
-
-            tabHost.setCurrentTab(0);
-            for (int i = 0; i < 4; i++) {
-                tabHost.getTabWidget().getChildAt(i).setPadding(30, 30, 30, 30);
             }
-
-
-            tabHost.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    resetCartListView();
-                }
-            });
-
         }
     }
 
@@ -558,5 +582,122 @@ public class MainActivity extends TabActivity {
     }
 
     // ------------------------------- server-client  -------------------------------
+    class HttpGetTask_Item_event extends AsyncTask<Integer, Void, Item_event[]> {
+        @Override
+        protected Item_event[] doInBackground(Integer... params) {
+            final String url = "http://211.229.100.53:8080" + "/event";
+
+            // Accept header "application/json" 을 명시하여 JSON 데이터를 리턴받길 원한다고 설정해 줍니다.
+            HttpHeaders requestHeaders = new HttpHeaders();
+            List<MediaType> acceptableMediaTypes = new ArrayList<MediaType>();
+            acceptableMediaTypes.add(MediaType.APPLICATION_JSON);
+            requestHeaders.setAccept(acceptableMediaTypes);
+
+            // Rest Template 객체에서 사용할 reqeustEntity 를 위에서 정의한 request Header 를 사용해서 생성합니다.
+            HttpEntity<?> requestEntity = new HttpEntity<Object>(requestHeaders);
+
+
+            // 서버와의 통신을 담당할 RestTemplate 객체를 생성합니다.
+            RestTemplate restTemplate = new RestTemplate();
+            // MappingJacksonHttpMessageConverter 를 통해서 결과값인 JSON 데이터를 Message 데이터로 변환할 수 있습니다.
+            MappingJacksonHttpMessageConverter converter = new MappingJacksonHttpMessageConverter();
+            restTemplate.getMessageConverters().add(converter);
+
+            // HTTP GET 요청을 수행합니다.
+            ResponseEntity<Item_event[]> responseEntity = null;
+            try {
+                responseEntity  = restTemplate.exchange(url, HttpMethod.GET, requestEntity, Item_event[].class);
+            }
+            catch (RestClientException restException) {
+                // examine the restException
+            }
+
+            // 결과값을 받아옵니다.
+            return responseEntity.getBody();
+        }
+
+        @Override
+        protected void onPostExecute(Item_event[] result) {
+
+            // 결과값을 찍어줍니다.
+            showResult(result);
+        }
+
+        public void showResult( Item_event[] model){
+            //
+
+            if(model.length==0) {
+                dbManager.insert_init_event();
+            }
+            else {
+                for(int i=0; i<model.length; i++) {
+                    dbManager.insert_add_event(model[i].getMid(),model[i].getMname(),model[i].getMf_price(),model[i].getMl_price());
+                    Log.i("", "HTTP_TEST1 : " + model[i].getMid() + " " + model[i].getMname() + " " + model[i].getMf_price() + " " + model[i].getMl_price() + model.length );
+                }
+            }
+
+        }
+    }
+
+    class HttpGetTask_Item_goods extends AsyncTask<Integer, Void, Item_goods[]> {
+        @Override
+        protected Item_goods[] doInBackground(Integer... params) {
+            final String url = "http://211.229.100.53:8080" + "/goods";
+
+            // Accept header "application/json" 을 명시하여 JSON 데이터를 리턴받길 원한다고 설정해 줍니다.
+            HttpHeaders requestHeaders = new HttpHeaders();
+            List<MediaType> acceptableMediaTypes = new ArrayList<MediaType>();
+            acceptableMediaTypes.add(MediaType.APPLICATION_JSON);
+            requestHeaders.setAccept(acceptableMediaTypes);
+
+            // Rest Template 객체에서 사용할 reqeustEntity 를 위에서 정의한 request Header 를 사용해서 생성합니다.
+            HttpEntity<?> requestEntity = new HttpEntity<Object>(requestHeaders);
+
+
+            // 서버와의 통신을 담당할 RestTemplate 객체를 생성합니다.
+            RestTemplate restTemplate = new RestTemplate();
+            // MappingJacksonHttpMessageConverter 를 통해서 결과값인 JSON 데이터를 Message 데이터로 변환할 수 있습니다.
+            MappingJacksonHttpMessageConverter converter = new MappingJacksonHttpMessageConverter();
+            restTemplate.getMessageConverters().add(converter);
+
+            // HTTP GET 요청을 수행합니다.
+            ResponseEntity<Item_goods[]> responseEntity = null;
+            try {
+                responseEntity  = restTemplate.exchange(url, HttpMethod.GET, requestEntity, Item_goods[].class);
+            }
+            catch (RestClientException restException) {
+                // examine the restException
+            }
+
+            // 결과값을 받아옵니다.
+            return responseEntity.getBody();
+        }
+
+        @Override
+        protected void onPostExecute(Item_goods[] result) {
+
+            // 결과값을 찍어줍니다.
+            showResult(result);
+        }
+
+        public void showResult( Item_goods[] model){
+
+            if(model.length==0) {
+                dbManager.insert_init_goods();
+            }
+            else {
+                for(int i=0; i<model.length; i++) {
+                    dbManager.insert_add_goods(model[i].getMid(),model[i].getMname(),model[i].getmWeight(),model[i].getmPrice(),model[i].getMc_id());
+
+                    Log.i("", "HTTP_TEST2 : " + model[i].getMid() + " " +  model[i].getMname() + " " +  model[i].getmWeight() + " " +  model[i].getmPrice() + " " +  model[i].getMc_id() + model.length);
+                }
+
+                Intent intent_main = new Intent(MainActivity.this, MainActivity.class);
+                intent_main.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent_main);
+            }
+
+        }
+    }
 
 }

@@ -73,7 +73,19 @@ public class GoodsMapSearch extends AppCompatActivity {
         Log.i("GoodsMapSearch", " 비콘 값 전달1 : " + current_location_ID + " " + whereman_name + " " + current_location_LOC + "meter ");
         Log.i("GoodsMapSearch", " 비콘 값 전달2 : " + menuname + " " + cornername);
 
-        ArrayList<Integer> arr_Corner_position_dest_whereman = dbManager.select_CornerPosition_byConnerName(whereman_name);
+
+
+        ArrayList<Integer> arr_Corner_position_dest_whereman = new ArrayList<Integer>();
+        if ( !whereman_name.equals("")) {
+            arr_Corner_position_dest_whereman = dbManager.select_CornerPosition_byConnerName(whereman_name);
+        }
+        else {
+            arr_Corner_position_dest_whereman.add(150);
+            arr_Corner_position_dest_whereman.add(200);
+            arr_Corner_position_dest_whereman.add(1);
+            arr_Corner_position_dest_whereman.add(1);
+        }
+
 
         ArrayList<Integer> arr_Corner_position_dest = dbManager.select_CornerPosition_byConnerName(cornername);
         Log.i("","");
@@ -116,7 +128,7 @@ public class GoodsMapSearch extends AppCompatActivity {
         canvas.drawBitmap(bm_pin, Integer.valueOf(String.format("%.0f", (arr_item_position.get(0) + arr_item_position.get(2) * 1/5 ) * 1.85)),
                 Integer.valueOf(String.format("%.0f", (arr_item_position.get(1) + (arr_item_position.get(3) / 2)) * 1.7 - 30)), null);
 
-        canvas.drawBitmap(bm_man, whereman.get(0), whereman.get(1), null);
+        canvas.drawBitmap(bm_man, Integer.valueOf(String.format("%.0f", (whereman.get(0) * 1.8)))  , Integer.valueOf(String.format("%.0f", (whereman.get(1) * 1.7 - 30))), null);
 
         return bmOverlay;
     }

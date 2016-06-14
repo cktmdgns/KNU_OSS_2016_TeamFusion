@@ -166,6 +166,316 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (31,'행사7', 1001, 325, 125, 50, 12)" );
         db.execSQL( "INSERT INTO CORNER (id, name, location, x1, y1, xlen, ylen) VALUES (32,'행사8', 1001, 380, 125, 50, 12)" );
 
+
+        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (1,'파프리카', 3, '채소/건나물', 1)");
+        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (2,'고당도오렌지', 2, '과일', 1)");
+        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (3,'딸기', 1, '과일', 1)");
+        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (4,'햇감자', 2, '채소/건나물', 1)");
+        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (5,'자몽', 4, '과일', 1)");
+        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (6,'돼지목심', 5, '정육/계란1', 1)");
+
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116640', '16640', '생선/해산1')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116641', '16641', '정육/계란1')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116642', '16642', '생선/해산2')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116643', '16643', '정육/계란2')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116644', '16644', '과일')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116645', '16645', '채소/건나물')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116646', '16646', '쌀/잡곡')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116647', '16647', '유제품')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116648', '16648', '아이스크림')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116649', '16649', '음료')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116650', '16650', '과자')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116651', '16651', '라면')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50114915', '14915', '장류/케찹/소스')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50114916', '14916', '세제/화장지')");
+        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50114917', '14917', '헤어/세안/바디')");
+
+
+
+        //vertex
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (1, 30, 22)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (2, 60, 22)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (3, 95, 22)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (4, 128, 22)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (5, 169, 22)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (6, 212, 22)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (7, 255, 22)");
+
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (8, 30, 38)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (9, 60, 38)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (10, 95, 38)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (11, 128, 38)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (12, 169, 36)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (13, 210, 35)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (14, 240, 35)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (15, 253, 35)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (16, 273, 35)");
+
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (17, 30, 60)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (18, 60, 60)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (19, 87, 60)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (20, 97, 60)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (21, 113, 60)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (22, 128, 60)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (23, 139, 60)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (24, 166, 60)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (25, 190, 66)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (26, 208, 66)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (27, 223, 66)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (28, 240, 66)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (29, 248, 66)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (30, 275, 66)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (31, 294, 66)");
+
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (32, 30, 95)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (33, 60, 95)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (34, 85, 95)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (35, 100, 95)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (36, 115, 95)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (37, 128, 95)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (38, 139, 95)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (39, 152, 95)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (40, 169, 95)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (41, 187, 95)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (42, 212, 95)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (43, 222, 95)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (44, 233, 95)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (45, 252, 95)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (46, 270, 95)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (47, 294, 95)");
+
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (48, 170, 80)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (49, 192, 80)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (50, 212, 80)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (51, 231, 80)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (52, 250, 80)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (53, 270, 80)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (54, 294, 80)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (55, 307, 83)");
+
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (56, 103, 115)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (57, 118, 124)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (58, 138, 124)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (59, 153, 124)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (60, 170, 124)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (61, 188, 124)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (62, 206, 124)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (63, 222, 124)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (64, 239, 124)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (65, 255, 124)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (66, 272, 124)");
+        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (67, 298, 124)");
+
+
+        // vertex
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('생선/해산1', 1)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('생선/해산1', 2)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('생선/해산1', 3)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('정육/계란1', 3)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('정육/계란1', 4)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('정육/계란1', 5)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('헤어/세안/바디', 5)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('헤어/세안/바디', 6)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('랩/호일/고무장갑', 7)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('생선/해산2', 1)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('생선/해산2', 2)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('생선/해산2', 3)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('생선/해산2', 8)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('생선/해산2', 9)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('생선/해산2', 10)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('정육/계란2', 3)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('정육/계란2', 4)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('정육/계란2', 5)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('정육/계란2', 8)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('정육/계란2', 9)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('정육/계란2', 10)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사1', 5)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사1', 6)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사1', 12)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사1', 13)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사2', 6)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사2', 7)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사2', 13)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사2', 14)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사2', 15)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('세제/화장지', 16)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('두부/김치', 8)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('두부/김치', 9)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('두부/김치', 17)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('두부/김치', 18)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('두부/김치', 19)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('두부/김치', 20)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('반찬', 10)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('반찬', 11)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('반찬', 12)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('반찬', 20)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('반찬', 21)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('반찬', 22)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('반찬', 23)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('반찬', 24)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('냉동식품/아이스크림', 12)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('냉동식품/아이스크림', 13)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('냉동식품/아이스크림', 24)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('냉동식품/아이스크림', 25)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('냉동식품/아이스크림', 26)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('커피/차', 13)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('커피/차', 14)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('커피/차', 26)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('커피/차', 27)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('커피/차', 28)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과자', 14)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과자', 15)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과자', 16)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과자', 28)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과자', 29)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과자', 30)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과자', 31)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과자', 32)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과일', 17)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과일', 18)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과일', 19)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과일', 32)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과일', 33)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과일', 34)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('음료/생수', 19)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('음료/생수', 20)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('음료/생수', 21)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('음료/생수', 34)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('음료/생수', 35)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('음료/생수', 36)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('유제품/냉장음료', 21)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('유제품/냉장음료', 22)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('유제품/냉장음료', 23)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('유제품/냉장음료', 36)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('유제품/냉장음료', 37)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('유제품/냉장음료', 38)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('주류', 23)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('주류', 24)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('주류', 38)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('주류', 39)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('주류', 40)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사3', 24)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사3', 25)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사3', 26)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사3', 48)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사3', 49)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사3', 50)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사4', 26)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사4', 27)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사4', 28)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사4', 29)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사4', 50)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사4', 51)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사4', 52)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사5', 29)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사5', 30)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사5', 31)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사5', 52)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사5', 53)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사5', 54)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사6', 48)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사6', 49)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사6', 50)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사6', 40)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사6', 41)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사6', 42)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사7', 50)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사7', 51)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사7', 52)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사7', 42)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사7', 43)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사7', 44)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사7', 45)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사8', 52)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사8', 53)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사8', 54)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사8', 45)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사8', 46)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사8', 47)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('채소/건나물', 8)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('채소/건나물', 17)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('채소/건나물', 32)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('김/미역/건어', 32)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('김/미역/건어', 33)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('김/미역/건어', 34)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('김/미역/건어', 35)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('김/미역/건어', 56)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('쌀/잡곡', 36)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('쌀/잡곡', 37)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('쌀/잡곡', 38)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('쌀/잡곡', 39)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('쌀/잡곡', 57)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('쌀/잡곡', 58)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('쌀/잡곡', 59)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('식용유/조미료/밀가루', 39)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('식용유/조미료/밀가루', 40)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('식용유/조미료/밀가루', 41)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('식용유/조미료/밀가루', 59)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('식용유/조미료/밀가루', 60)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('식용유/조미료/밀가루', 61)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('라면', 41)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('라면', 42)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('라면', 43)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('라면', 61)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('라면', 62)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('라면', 63)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('통조림/캔', 43)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('통조림/캔', 44)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('통조림/캔', 45)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('통조림/캔', 63)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('통조림/캔', 64)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('통조림/캔', 65)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('장류/케찹/소스', 45)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('장류/케찹/소스', 46)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('장류/케찹/소스', 47)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('장류/케찹/소스', 65)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('장류/케찹/소스', 66)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('장류/케찹/소스', 67)");
+
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('조리/주방용품/그릇', 31)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('조리/주방용품/그릇', 47)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('조리/주방용품/그릇', 54)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('조리/주방용품/그릇', 55)");
+        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('조리/주방용품/그릇', 67)");
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
+
+    public void insert_init_goods() {
+        SQLiteDatabase db = getWritableDatabase();
+
         db.execSQL("INSERT INTO GOODS (id, name, weight, price,c_id) VALUES (1,'해동고등어','400','1590',1)");
         db.execSQL("INSERT INTO GOODS (id, name, weight, price,c_id) VALUES (2,'해동오징어','250','1590',1)");
         db.execSQL("INSERT INTO GOODS (id, name, weight, price,c_id) VALUES (3,'해동꽁치','120','390',1)");
@@ -740,8 +1050,23 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO GOODS (id, name, weight, price,c_id) VALUES (572,'더위사냥','140','500',23)");
         db.execSQL("INSERT INTO GOODS (id, name, weight, price,c_id) VALUES (573,'뽕따소다','130','500',23)");
 
+        db.close();
+    }
 
+    public void insert_add_goods(String id, String name, String weight, String price, String c_id) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL( "INSERT INTO GOODS (id, name, weight, price,c_id) VALUES ( " + id + ", '" + name + "', '" + weight + "', '" + price + "', " + c_id + " )" );
+        db.close();
+    }
 
+    public void insert_add_event(String id, String name, String f_price, String l_price) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL( "INSERT INTO EVENT (id, name, f_price, l_price) VALUES ( " + id + ", '" + name + "', '" + f_price + "', '" + l_price + "')" );
+        db.close();
+    }
+
+    public void insert_init_event() {
+        SQLiteDatabase db = getWritableDatabase();
 
         db.execSQL( "INSERT INTO EVENT (id, name, f_price, l_price) VALUES (1,'해동고등어', '1590', '1000')" );
         db.execSQL( "INSERT INTO EVENT (id, name, f_price, l_price) VALUES (2,'해동오징어', '1090', '700')" );
@@ -752,312 +1077,9 @@ public class DBManager extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (11,'햇감자', '590', '400')");
         db.execSQL("INSERT INTO EVENT (id, name, f_price, l_price) VALUES (14,'파프리카', '1290', '800')");
 
-
-        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (1,'파프리카', 3, '채소/건나물', 1)");
-        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (2,'고당도오렌지', 2, '과일', 1)");
-        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (3,'딸기', 1, '과일', 1)");
-        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (4,'햇감자', 2, '채소/건나물', 1)");
-        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (5,'자몽', 4, '과일', 1)");
-        db.execSQL("INSERT INTO CART (id,name, EA, C_NAME, G_LOC) VALUES (6,'돼지목심', 5, '정육/계란1', 1)");
-
-        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116640', '16640', '생선/해산1')");
-        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116641', '16641', '정육/계란1')");
-        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116642', '16642', '생선/해산2')");
-        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116643', '16643', '정육/계란2')");
-        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116644', '16644', '과일')");
-        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116645', '16645', '채소/건나물')");
-        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116646', '16646', '쌀/잡곡')");
-        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116647', '16647', '유제품')");
-        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116648', '16648', '아이스크림')");
-        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116649', '16649', '음료')");
-        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116650', '16650', '과자')");
-        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50116651', '16651', '라면')");
-        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50114915', '14915', '장류/케찹/소스')");
-        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50114916', '14916', '세제/화장지')");
-        db.execSQL("INSERT INTO BEACON_LIST (SSN, MINOR, NAME) VALUES ('50114917', '14917', '헤어/세안/바디')");
-
-
-
-        //vertex
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (1, 30, 22)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (2, 60, 22)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (3, 95, 22)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (4, 128, 22)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (5, 169, 22)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (6, 212, 22)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (7, 255, 22)");
-
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (8, 30, 38)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (9, 60, 38)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (10, 95, 38)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (11, 128, 38)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (12, 169, 36)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (13, 210, 35)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (14, 240, 35)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (15, 253, 35)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (16, 273, 35)");
-
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (17, 30, 60)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (18, 60, 60)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (19, 87, 60)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (20, 97, 60)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (21, 113, 60)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (22, 128, 60)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (23, 139, 60)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (24, 166, 60)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (25, 190, 66)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (26, 208, 66)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (27, 223, 66)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (28, 240, 66)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (29, 248, 66)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (30, 275, 66)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (31, 294, 66)");
-
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (32, 30, 95)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (33, 60, 95)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (34, 85, 95)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (35, 100, 95)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (36, 115, 95)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (37, 128, 95)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (38, 139, 95)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (39, 152, 95)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (40, 169, 95)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (41, 187, 95)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (42, 212, 95)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (43, 222, 95)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (44, 233, 95)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (45, 252, 95)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (46, 270, 95)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (47, 294, 95)");
-
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (48, 170, 80)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (49, 192, 80)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (50, 212, 80)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (51, 231, 80)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (52, 250, 80)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (53, 270, 80)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (54, 294, 80)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (55, 307, 83)");
-
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (56, 103, 115)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (57, 118, 124)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (58, 138, 124)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (59, 153, 124)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (60, 170, 124)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (61, 188, 124)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (62, 206, 124)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (63, 222, 124)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (64, 239, 124)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (65, 255, 124)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (66, 272, 124)");
-        db.execSQL("INSERT INTO VERTEX (id, x1, y1) VALUES (67, 298, 124)");
-
-
-        // vertex
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('생선/해산1', 1)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('생선/해산1', 2)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('생선/해산1', 3)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('정육/계란1', 3)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('정육/계란1', 4)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('정육/계란1', 5)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('헤어/세안/바디', 5)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('헤어/세안/바디', 6)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('랩/호일/고무장갑', 7)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('생선/해산2', 1)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('생선/해산2', 2)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('생선/해산2', 3)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('생선/해산2', 8)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('생선/해산2', 9)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('생선/해산2', 10)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('정육/계란2', 3)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('정육/계란2', 4)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('정육/계란2', 5)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('정육/계란2', 8)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('정육/계란2', 9)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('정육/계란2', 10)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사1', 5)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사1', 6)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사1', 12)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사1', 13)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사2', 6)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사2', 7)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사2', 13)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사2', 14)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사2', 15)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('세제/화장지', 16)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('두부/김치', 8)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('두부/김치', 9)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('두부/김치', 17)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('두부/김치', 18)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('두부/김치', 19)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('두부/김치', 20)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('반찬', 10)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('반찬', 11)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('반찬', 12)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('반찬', 20)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('반찬', 21)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('반찬', 22)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('반찬', 23)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('반찬', 24)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('냉동식품/아이스크림', 12)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('냉동식품/아이스크림', 13)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('냉동식품/아이스크림', 24)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('냉동식품/아이스크림', 25)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('냉동식품/아이스크림', 26)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('커피/차', 13)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('커피/차', 14)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('커피/차', 26)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('커피/차', 27)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('커피/차', 28)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과자', 14)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과자', 15)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과자', 16)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과자', 28)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과자', 29)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과자', 30)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과자', 31)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과자', 32)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과일', 17)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과일', 18)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과일', 19)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과일', 32)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과일', 33)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('과일', 34)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('음료/생수', 19)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('음료/생수', 20)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('음료/생수', 21)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('음료/생수', 34)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('음료/생수', 35)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('음료/생수', 36)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('유제품/냉장음료', 21)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('유제품/냉장음료', 22)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('유제품/냉장음료', 23)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('유제품/냉장음료', 36)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('유제품/냉장음료', 37)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('유제품/냉장음료', 38)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('주류', 23)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('주류', 24)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('주류', 38)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('주류', 39)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('주류', 40)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사3', 24)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사3', 25)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사3', 26)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사3', 48)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사3', 49)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사3', 50)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사4', 26)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사4', 27)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사4', 28)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사4', 29)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사4', 50)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사4', 51)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사4', 52)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사5', 29)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사5', 30)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사5', 31)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사5', 52)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사5', 53)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사5', 54)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사6', 48)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사6', 49)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사6', 50)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사6', 40)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사6', 41)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사6', 42)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사7', 50)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사7', 51)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사7', 52)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사7', 42)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사7', 43)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사7', 44)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사7', 45)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사8', 52)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사8', 53)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사8', 54)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사8', 45)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사8', 46)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('행사8', 47)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('채소/건나물', 8)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('채소/건나물', 17)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('채소/건나물', 32)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('김/미역/건어', 32)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('김/미역/건어', 33)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('김/미역/건어', 34)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('김/미역/건어', 35)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('김/미역/건어', 56)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('쌀/잡곡', 36)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('쌀/잡곡', 37)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('쌀/잡곡', 38)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('쌀/잡곡', 39)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('쌀/잡곡', 57)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('쌀/잡곡', 58)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('쌀/잡곡', 59)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('식용유/조미료/밀가루', 39)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('식용유/조미료/밀가루', 40)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('식용유/조미료/밀가루', 41)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('식용유/조미료/밀가루', 59)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('식용유/조미료/밀가루', 60)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('식용유/조미료/밀가루', 61)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('라면', 41)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('라면', 42)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('라면', 43)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('라면', 61)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('라면', 62)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('라면', 63)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('통조림/캔', 43)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('통조림/캔', 44)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('통조림/캔', 45)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('통조림/캔', 63)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('통조림/캔', 64)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('통조림/캔', 65)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('장류/케찹/소스', 45)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('장류/케찹/소스', 46)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('장류/케찹/소스', 47)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('장류/케찹/소스', 65)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('장류/케찹/소스', 66)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('장류/케찹/소스', 67)");
-
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('조리/주방용품/그릇', 31)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('조리/주방용품/그릇', 47)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('조리/주방용품/그릇', 54)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('조리/주방용품/그릇', 55)");
-        db.execSQL("INSERT INTO PATHVERTEX (C_NAME, V_ID) VALUES ('조리/주방용품/그릇', 67)");
-
+        db.close();
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
 
     public ArrayList<String> select_Goods() {
         SQLiteDatabase db = getWritableDatabase();
