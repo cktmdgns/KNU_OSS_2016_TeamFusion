@@ -1,5 +1,5 @@
-# CDP12
-Capstone Design Project team12
+#   Team Fusion
+  Team Fusion
 
 Use library list -                        
 
